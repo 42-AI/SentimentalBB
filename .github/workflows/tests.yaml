@@ -1,0 +1,18 @@
+name: Tests
+
+on: [push]
+
+jobs:
+  hello-world:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Hello world
+        run: echo Hello World
+      - name: checkout repo
+        uses: actions/checkout@v2
+      - name: Setup
+        run: sh .42AI/init.sh
+      - name: Linting
+        run: autopep8 -r --diff src
+      - name: unit-tests
+        run: pytest src
