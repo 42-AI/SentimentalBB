@@ -89,3 +89,4 @@ Project Organization
 # Contributors
 
 * [Matthieu David](https://github.com/madvid) - mdavid@student.42.fr
+* [Alexandre Gilmet](https://github.com/goldimet) - agilmet@student.42.fr
