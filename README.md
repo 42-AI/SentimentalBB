@@ -90,3 +90,4 @@ Project Organization
 
 * [Matthieu David](https://github.com/madvid) - mdavid@student.42.fr
 * [Alexandre Gilmet](https://github.com/goldimet) - agilmet@student.42.fr
+* [Guillaume Sallé](https://github.com/guillaume-salle) - gusalle@student.42.fr
