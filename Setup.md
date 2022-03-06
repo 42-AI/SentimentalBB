@@ -1,14 +1,31 @@
-# Install
+# Setup
 
-## Verify your python version
+- [Install](#install)
+  - [Verify your python version](#verify-your-python-version)
+  - [Install pip](#install-pip)
+  - [Install virtualenv](#install-virtualenv)
+  - [Create a virtualenv](#create-a-virtualenv)
+  - [Install direnv for not having to think about your virtualenv anymore](#install-direnv-for-not-having-to-think-about-your-virtualenv-anymore)
+  - [Initialize direnv](#initialize-direnv)
+- [Initialize your repository:](#initialize-your-repository-)
+- [Verify you can launch the project:](#verify-you-can-launch-the-project-)
 
+<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
+
+
+# Tools to Install
+
+All these steps install tools to your computer, you will use them for this project, but you will also use them for your futur data-science projects !
+
+## Python
 
 ```sh
-python --version
+python3 --version
 Python 3.8.12
 ```
 
-It should be 3.8.X
+It should be 3.8.XX
+
 
 If it's not follow these instructions:
 
@@ -49,30 +66,46 @@ If it's not follow these instructions:
 </details>
 
 
-## Install pip
+## pip
 
 Install pip first
 
 ```
-sudo apt-get install python3-pip
+curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+python3.8 get-pip.py
 ```
+
+If you want to learn more about pip, here is a great place: <https://realpython.com/what-is-pip/>
 
 ## Install virtualenv
 
 Then install virtualenv using pip3
 ```
-sudo pip3 install virtualenv 
+python3.8 -m pip install --user virtualenv
 ```
+
+For more explanation on this tool you should read this page <https://virtualenv.pypa.io/en/latest/>
+
+## Install direnv for not having to think about your virtualenv anymore
+
+See this link: https://direnv.net/docs/installation.html
+
+It should be something like `curl -sfL https://direnv.net/install.sh | bash` depending on your OS.
+
+For more explanation on this tool you should read this page: <https://direnv.net/>.
+
+
+# Initialize your repository:
+
+Now all these steps are specifics to this project, and this project only !
+
+You should first `git clone` this project, and then `cd` to it's top directory for running all the following commands.
 
 ## Create a virtualenv
 
 ```sh
 python3.8 -m venv venv
 ```
-
-## Install direnv for not having to think about your virtualenv anymore
-
-See this link: https://direnv.net/docs/installation.html
 
 ## Initialize direnv
 
@@ -81,13 +114,21 @@ echo "source venv/bin/activate" > .envrc
 direnv allow .
 ```
 
-# Initialize your repository:
+Now everytime you use `python` in this project it will call the binary in `venv/bin/python3.8`.
 
+## Launch the script to initialize your project 
+
+If it's not with execute rights, you should add them
 ```sh
-sh .42AI/init.sh
+chmod +x .42AI/init.sh
 ```
 
-# Verify you can launch the project:
+Then you can run the script
+```sh
+.42AI/init.sh
+```
+
+## Launch the project:
 
 with this command
 
