@@ -1,6 +1,6 @@
 # Install
 
-## Verify you python version
+## Verify your python version
 
 
 ```sh
@@ -79,4 +79,24 @@ See this link: https://direnv.net/docs/installation.html
 ```sh
 echo "source venv/bin/activate" > .envrc
 direnv allow .
+```
+
+# Initialize your repository:
+
+```sh
+sh .42AI/init.sh
+```
+
+# Verify you can launch the project:
+
+with this command
+
+```sh
+python -m src
+```
+
+and this one:
+
+```sh
+uvicorn app:app --host 0.0.0.0 --port 8000
 ```
