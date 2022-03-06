@@ -5,7 +5,7 @@
   - [Python](#python)
   - [pip](#pip)
   - [virtualenv](#virtualenv)
-  - [direnv](#direnv)
+  - [AWS CLI](#aws-cli)
 - [Initialize your repository](#initialize-your-repository)
   - [Create a virtualenv](#create-a-virtualenv)
   - [Initialize direnv](#initialize-direnv)
@@ -96,6 +96,12 @@ See this link: <https://direnv.net/docs/installation.html>
 It should be something like `curl -sfL https://direnv.net/install.sh | bash` depending on your OS.
 
 For more explanation on this tool you should read this page: <https://direnv.net/>.
+
+## AWS CLI
+
+The AWS Command Line Interface will be necessary to push your data to the remote s3 storage.
+
+Here are the steps you should follow for this: <https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html>
 
 # Initialize your repository
 
