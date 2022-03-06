@@ -10,6 +10,8 @@ jobs:
         run: echo Hello World
       - name: checkout repo
         uses: actions/checkout@v2
+      - name: envrc
+        run: touch .envrc
       - name: Setup
         run: sh .42AI/init.sh
       - name: Linting
