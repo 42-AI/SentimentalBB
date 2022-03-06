@@ -14,6 +14,7 @@ hydra
 hydra-core
 hydra_colorlog
 omegaconf
+searchtweets-v2
 
 #inference
 fastapi
