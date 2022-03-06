@@ -2,6 +2,7 @@ import searchtweets
 from searchtweets import ResultStream, gen_request_parameters, load_credentials
 from searchtweets import collect_results
 import pandas as pd
+import os
 
 user = "macron"
 MAX_TWEET = 100
