@@ -1,6 +1,5 @@
 #! /bin/bash -
 
-
 ############################################################
 # Default variables                                        #
 ############################################################
@@ -91,24 +90,33 @@ else
 fi
 
 
-
 ############################################################
 # git hook                                                 #
 ############################################################
-echo -e $COLOR_YELLOW "INIT: " $COLOR_RESET "creating hook commit..."
+echo -e $COLOR_YELLOW "INIT: " $COLOR_RESET "Creating hook commit..."
 mkdir -p .git/hooks/
 cp .42AI/pre-commit.git .git/hooks/pre-commit
 
-# echo $RED "INIT: " $END "Creating data directories..."
-# mkdir -p data/raw
-# mkdir -p data/processed
-# mkdir -p data/external
-# mkdir -p data/interim
-# mkdir -p models
 
-# echo $RED "INIT: " $END "Upgrading pip..."
-# pip install --upgrade pip
+############################################################
+# Creating directories                                     #
+############################################################
+echo -e $COLOR_YELLOW "INIT: " $COLOR_RESET "Creating data directories..."
+mkdir -p data/raw
+mkdir -p data/processed
+mkdir -p data/external
+mkdir -p data/interim
 
-# echo $RED "INIT: " $END "Installing python dependancies..."
-# pip install -r requirements.txt
+echo -e $COLOR_YELLOW "INIT: " $COLOR_RESET "Creating models directory..."
+mkdir -p models
+
+
+############################################################
+# Installing dependencies                                  #
+############################################################
+echo $RED "INIT: " $END "Upgrading pip..."
+python -m pip install --upgrade pip
+
+echo $RED "INIT: " $END "Installing python dependancies..."
+python -m pip install -r requirements.txt
 
