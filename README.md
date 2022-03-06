@@ -7,6 +7,21 @@ Template_Lab
 python3.8 -m src --argument
 ```
 
+## How to download the datasets:
+
+### AclIMDB
+
+```python
+python -m src data --download aclImdb
+```
+
+
+### Macron
+
+```python
+python -m src data --download macron
+```
+
 # How to launch fast api
 
 ```sh
