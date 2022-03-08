@@ -5,16 +5,18 @@ import pandas as pd
 import os
 
 user = "macron"
-MAX_TWEET = 100
+MAX_TWEET = 10
 SAVE_PATH = f"data/raw/twitter/{user}/"
+KEYS_PATH_YAM = f".twitter_keys.yaml"
 
 
 def make_dataset_macron():
     # Usage can be found here:
-    #   https://github.com/twitterdev/search-tweets-python/blob/46386e0316b79096b5c5369abbc4f361b8153622/searchtweets/credentials.py#L114
-    search_args = load_credentials(env_overwrite=False)
+    #   https://github.com/twitterdev/search-tweets-python/blob/v2/searchtweets/credentials.py
+    search_args = load_credentials(filename=KEYS_PATH_YAM,
+    yaml_key="search_tweet_v2_recent", env_overwrite=False)
     query = gen_request_parameters(
-        "Emmanuel Macron", results_per_call=100, granularity=None)
+        "Emmanuel Macron", results_per_call=MAX_TWEET, granularity=None)
     print(query)
     tweets = collect_results(query, max_tweets=MAX_TWEET,
                              result_stream_args=search_args)
