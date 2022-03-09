@@ -10,7 +10,8 @@ import hydra
 
 # @hydra.main(config_path="./configs", config_name="config")
 # def accessing_hydra_config(cfg):
-#     # Print the config file using `to_yaml` method which prints in a pretty manner
+#     # Print the config file using `to_yaml` method which prints in a
+#       pretty manner
 #     print(OmegaConf.to_yaml(cfg))
 #     print(f"{cfg.training.max_epochs = }")
 
@@ -23,7 +24,8 @@ parser = argparse.ArgumentParser()
 
 # Creation of subparsers Add and Deploy
 subparsers = parser.add_subparsers(
-    help='Differentiate between data, features, models and visualizations commands',
+    help='Differentiate between data, features, models and \
+          visualizations commands',
     dest="subparser"
 )
 
@@ -39,6 +41,21 @@ parser_features = subparsers.add_parser(
 
 parser_models = subparsers.add_parser(
     'models', help='Models related commands')
+parser_models.add_argument('--train',
+                           required=True,
+                           help="Train set on which the model will train",
+                           type=argparse.FileType('r')
+                           )
+parser_models.add_argument('--test',
+                           required=True,
+                           help="Test set on which the model will be tested",
+                           type=argparse.FileType('r')
+                           )
+parser_models.add_argument('--model',
+                           help="Training based on the model entered",
+                           default='random',
+                           choices=['random', 'naive-bayes'],
+                           )
 
 parser_features = subparsers.add_parser(
     'visualization', help='Visualization related commands')
@@ -54,6 +71,6 @@ if args.subparser == "data":
 elif args.subparser == "features":
     features_main()
 elif args.subparser == "models":
-    models_main()
+    models_main(args.train, args.test, args.model)
 elif args.subparser == "visualization":
     visualization_main()
