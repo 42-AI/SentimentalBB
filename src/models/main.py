@@ -23,7 +23,7 @@ def models_main(train_csv, test_csv, model_name):
         nb.train(X_train, y_train)
         y_pred = nb.predict(X_test)
         y_pred = pd.DataFrame(data=y_pred, columns=['y_pred'])
-        y_pred.reset_index(drop=True, inplace=True)
+        y_test.reset_index(drop=True, inplace=True)
         y_test.columns = ['y_true']
         res = pd.concat([y_pred, y_test], axis=1)
         os.mkdir("data/processed/aclImdb/results")
