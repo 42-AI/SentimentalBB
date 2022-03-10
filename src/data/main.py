@@ -54,7 +54,7 @@ TAGS = {"Pécresse": "@avecValerie",
         "Arthaud": "@n_arthaud",
         "Poutou": "@PhilippePoutou"}
 
-CREDENTIAL_FILE = '.twitter_keys.yaml '
+CREDENTIAL_FILE = '../../.twitter_keys.yaml '
 # maybe later we would be able to use all, then we could change with search_tweets_v2_all
 TWITTER_KEY = 'search_tweets_v2_recent'
 RES_PER_CALL = 40  # Max number of tweets per query to Twitter API
@@ -116,15 +116,61 @@ def twiterAPI_credentials():
         raise EnvironmentError(s)
 
 
+def make_twitter_query(txt: str, mention: str, start_time: str, end_time: str):
+    """
+    Args:
+    -----
+        txt [str]: text one is looking for within the tweets.
+        mention [str]: mention of a candidat in the forged request.
+        start_time [str]: starting date from which tweets will be download.
+        end_time [str]: ending date until which tweets will be download.
+    Return:
+    -------
+        tweets [..]: ...
+    """
+    # Checking the argument mention:
+    if mention not in NOMS:
+        s = 'mention arguments must be within: ' + ' '.join(NOMS)
+        raise ValueError(s)
+    # Checking the argument mention:
+    # Testing the arguments start_time and end_time
+
+    # Checking the start_time is before end_time:
+    # Testing start_time < end_time
+
+    # Checking the credentials and trying to retrieve them if necessary
+    # twiterAPI_credentials()
+    search_args = load_credentials(filename=CREDENTIAL_FILE,
+                                    yaml_key=TWITTER_KEY,
+                                    env_overwrite=False)
+    if mention is None:
+        raise ValueError("One needs to mention a candidat.")
+    s_query = ""
+    if txt is not None:
+        s_query += txt + ' '
+    if mention in NOMS:
+        s_query += mention + ' '
+    query = gen_request_parameters(s_query,
+                                   results_per_call=RES_PER_CALL,
+                                   granularity=None,
+                                   start_time=start_time,
+                                   end_time=end_time)
+    tweets = collect_results(query,
+                             max_tweets=NB_MAX_TWWETS,
+                             result_stream_args=search_args)
+    return tweets
+
+
 def data_main(dataset: str, txt: str, mention: str, start_time: str, end_time: str):
     """ Main function to interact with the Twitter API or with aclImdb.
     It downloads and save the dataset/result into a file.
     Args:
     -----
-        dataset [str]: type of dataset/API one wish to interact with
-        mention [str]: mention of a candidat in the forged request
-        start_time [str]: starting date from which tweets will be download
-        end_time [str]: ending date until which tweets will be download
+        dataset [str]: type of dataset/API one wish to interact with.
+        txt [str]: text one is looking for within the tweets.
+        mention [str]: mention of a candidat in the forged request.
+        start_time [str]: starting date from which tweets will be download.
+        end_time [str]: ending date until which tweets will be download.
     Return:
     -------
         None
@@ -137,37 +183,8 @@ def data_main(dataset: str, txt: str, mention: str, start_time: str, end_time: s
     if dataset == "aclImdb":
         make_dataset_aclImdb()
     elif dataset == "twitter":
-        # Checking the argument mention:
-        if mention not in NOMS:
-            s = 'mention arguments must be within: ' + ' '.join(NOMS)
-            raise ValueError(s)
-        # Checking the argument mention:
-        # Testing the arguments start_time and end_time
-
-        # Checking the start_time is before end_time:
-        # Testing start_time < end_time
-
-        # Checking the credentials and trying to retrieve them if necessary
-        # twiterAPI_credentials()
-        search_args = load_credentials(filename=CREDENTIAL_FILE,
-                                       yaml_key=TWITTER_KEY,
-                                       env_overwrite=False)
-        if mention is None:
-            raise ValueError("One needs to mention a candidat.")
-        s_request = ""
-        if txt is not None:
-            s_request += txt + ' '
-        if mention in NOMS:
-            s_query += mention + ' '
-        query = gen_request_parameters(s_query,
-                                       results_per_call=RES_PER_CALL,
-                                       granularity=None,
-                                       start_time=start_time,
-                                       end_time=end_time)
-        tweets = collect_results(query,
-                                 max_tweets=NB_MAX_TWWETS,
-                                 result_stream_args=search_args)
-
+        query = make_twitter_query(txt, mention, start_time, end_time)
+    
         # make_dataset_macron()
 
 

@@ -60,6 +60,11 @@ parser_add.add_argument('--download',
                         choices=['twitter', 'aclImdb'],
                         help="Download the specified dataset")
 
+# Specify to the data collector to download tweets mentionning this text
+parser_add.add_argument('--text',
+                        choices=None,
+                        help="Download the tweets containing this text")
+
 # Specify to the data collector to download tweets mentionning this user
 parser_add.add_argument('--mention',
                         choices=lst_candidats,
@@ -100,7 +105,7 @@ print(args)
 
 
 if args.subparser == "data":
-    data_main(args.download, args.mention, args.start_time, args.end_time)
+    data_main(args.download, args.text, args.mention, args.start_time, args.end_time)
 elif args.subparser == "features":
     features_main()
 elif args.subparser == "models":
