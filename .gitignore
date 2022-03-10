@@ -98,6 +98,7 @@ venv
 .pytest_cache
 .env
 .envrc
+.twitter_keys.yaml
 
 outputs
 models
