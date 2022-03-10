@@ -11,6 +11,9 @@ then
     exit 1
 fi
 
+# set up data for test naive_bayes on dataset aclImdb
+sh scripts/setup_test_aclImdb.sh
+
 # Testing
 pytest src 1>/dev/null
 if [ $? != 0 ]

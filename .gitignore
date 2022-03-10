@@ -101,4 +101,4 @@ venv
 .twitter_keys.yaml
 
 outputs
-models
+/models
