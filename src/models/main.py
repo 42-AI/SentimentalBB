@@ -4,7 +4,7 @@ import pandas as pd
 import os
 
 
-def models_main(train_csv, test_csv, model_name):
+def models_main(train_csv: str, test_csv: str, model_name: str):
     """As of now, export a csv composed of two columns 'y_pred' and 'y_true'
        where y_pred has been found with the model passed as model_name.
 

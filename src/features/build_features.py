@@ -4,7 +4,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfTransformer
 
 
-def build_features_aclImdb(train_csv, test_csv):
+def build_features_aclImdb(train_csv: str, test_csv: str):
     """Summary:
         - Clean csvs
         - Split train and test into X_train/y_train and X_test/y_test

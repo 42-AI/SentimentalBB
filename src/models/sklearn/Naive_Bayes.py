@@ -1,6 +1,7 @@
 import sklearn
 from sklearn.naive_bayes import MultinomialNB
 import numpy as np
+import scipy
 
 
 class Naive_Bayes:
@@ -14,7 +15,8 @@ class Naive_Bayes:
     def __init__(self):
         self.__clf = None
 
-    def train(self, X_train, y_train):
+    def train(self, X_train: scipy.sparse._csr.csr_matrix,
+              y_train: np.ndarray):
         """
         X_train: {array-like, sparse matrix} of shape (n_samples, n_features)
         y_train: array-like of shape (n_samples,)
@@ -22,6 +24,6 @@ class Naive_Bayes:
         clf = MultinomialNB().fit(X_train, y_train)
         self.__clf = clf
 
-    def predict(self, X_test):
+    def predict(self, X_test: scipy.sparse._csr.csr_matrix):
         predicted = self.__clf.predict(X_test)
         return predicted
