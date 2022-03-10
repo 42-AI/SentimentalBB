@@ -26,8 +26,9 @@ def models_main(train_csv, test_csv, model_name):
         y_test.reset_index(drop=True, inplace=True)
         y_test.columns = ['y_true']
         res = pd.concat([y_pred, y_test], axis=1)
-        os.mkdir("data/processed/aclImdb/results")
-        res.to_csv('data/processed/aclImdb/results/naivebayes.csv')
+        os.makedirs("data/processed/aclImdb/results", exist_ok=True)
+        res.to_csv('data/processed/aclImdb/results/naivebayes.csv',
+                   header=['y_pred', 'y_true'])
         print("\n\ncsv 'naivebayes.csv' created at data/processed/aclImdb"
               "/results/.\n\nThe csv file contains two columns:\n"
               "- y_pred with all the predicted sentiments\n"
