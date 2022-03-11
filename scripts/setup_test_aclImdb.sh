@@ -7,9 +7,9 @@ then
 echo "Dataset already exist, lets train !"
 else
     echo "Dataset do not exist yet lets make dataset !"
-    python -m src data --download aclImdb
+    poetry run python -m src data --download aclImdb
 fi
 
 
 
-python -m src models --train data/processed/aclImdb/aclImdb_train.csv --test data/processed/aclImdb/aclImdb_test.csv --model "naive-bayes"
+poetry run  python -m src models --train data/processed/aclImdb/aclImdb_train.csv --test data/processed/aclImdb/aclImdb_test.csv --model "naive-bayes"

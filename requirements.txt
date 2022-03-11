@@ -2,10 +2,10 @@
 # -e .
 
 # external requirements
-awscli
 autopep8
 pytest
 dvc
+awscli
 
 # project dependencies
 numpy

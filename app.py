@@ -2,7 +2,7 @@
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 
-from src.models.predict_model import random_predict
+from src.models.random.predict_model_random import random_predict
 # from inference_onnx import ColaONNXPredictor
 app = FastAPI(title="MLOps Basics App")
 
