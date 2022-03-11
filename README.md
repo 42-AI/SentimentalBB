@@ -16,11 +16,20 @@ python -m src data --download aclImdb
 ```
 
 
-### Macron
+### Twitter
+One can download tweets from twitter, a candidat must be mention:
 
 ```python
-python -m src data --download macron
+python -m src data --download twitter --mention [candidat]
 ```
+[candidat] must be within ["Pecresse", "Zemmour", "Dupont-Aignan", "Melenchon", "Le Pen", "Lassalle", "Hidalgo", "Macron", "Jadot", "Roussel", "Arthaud", "Poutou"]
+
+You have several more parameters accessible:
+* `--text`: text you wish to find in the tweet: `--text retraite`
+* `--start_time`: date from which you want to start to collect the tweets (need to follow the format: `YYYY-mm-DD HH:MM`, `HH` and `MM` are optional)
+* `--end_time`: date until which you want to collect the tweets (need to follow the format: `YYYY-mm-DD HH:MM`, `HH` and `MM` are optional)
+
+The dataset collected from twitter are saved into file: `data/raw/[candidat]/twitter_{mention}_{start_time}_{end_time}.csv`
 
 # How to launch fast api
 
