@@ -24,4 +24,6 @@ jobs:
       - name: set up test aclImdb
         run: sh scripts/setup_test_aclImdb.sh
       - name: unit-tests
-        run: poetry run pytest src
+        run: |
+        source $HOME/.poetry/env \
+        && poetry run pytest src
