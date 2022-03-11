@@ -12,6 +12,8 @@ jobs:
         uses: actions/checkout@v2
       - name: envrc
         run: touch .envrc
+      - name: Poetry install
+        run: curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
       - name: Setup
         run: sh .42AI/init.sh
       - name: Linting
@@ -19,4 +21,4 @@ jobs:
       - name: set up test aclImdb
         run: sh scripts/setup_test_aclImdb.sh
       - name: unit-tests
-        run: pytest src
+        run: poetry run pytest src
