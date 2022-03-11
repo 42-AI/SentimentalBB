@@ -237,7 +237,7 @@ def data_main(dataset: str, txt: str, mention: str, start_time: str, end_time: s
         df_data = make_dataset_twitter(
             txt, TAGS[mention], start_time, end_time)
 
-        filename = f"{mention.lower().replace(' ', '')}/{dataset}_{mention}_{start_time}_{end_time}.csv"
+        filename = f"{mention.lower().replace(' ', '')}/{dataset}_{mention}_{start_time}_{end_time}"
     dataset_to_csv(df_data, filename)
 
 
