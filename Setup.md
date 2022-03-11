@@ -2,17 +2,17 @@
 
 - [Setup](#setup)
 - [Tools to Install](#tools-to-install)
-  - [Python](#python)
-  - [pip](#pip)
-  - [virtualenv](#virtualenv)
-  - [AWS CLI](#aws-cli)
+  * [Python](#python)
+  * [Poetry](#poetry)
+  * [direnv](#direnv)
+  * [AWS CLI](#aws-cli)
 - [Initialize your repository](#initialize-your-repository)
-  - [Create a virtualenv](#create-a-virtualenv)
-  - [Initialize direnv](#initialize-direnv)
-  - [Launch the script to initialize your project](#launch-the-script-to-initialize-your-project)
-  - [Verify you can launch the project](#verify-you-can-launch-the-project)
+  * [Initialize direnv](#initialize-direnv)
+  * [Launch the script to initialize your project](#launch-the-script-to-initialize-your-project)
+  * [Verify you can launch the project](#verify-you-can-launch-the-project)
 
 <small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
+
 
 # Tools to Install
 
@@ -65,26 +65,21 @@ If it's not follow these instructions:
 	```
 </details>
 
-## pip
 
-Install pip first
+## Poetry
 
-```
-curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-python3.8 get-pip.py
-```
+Install poetry, wich will help us manage python depedencies. 
 
-If you want to learn more about pip, here is a great place: <https://realpython.com/what-is-pip/>
+This command should work:
 
-## virtualenv
-
-Then install virtualenv using pip3
-
-```
-python3.8 -m pip install --user virtualenv
+```sh
+curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
 ```
 
-For more explanation on this tool you should read this page <https://virtualenv.pypa.io/en/latest/>
+For the installation you can follow detailed steps here: <https://python-poetry.org/docs/#installation>
+
+If you want to learn more about poetry, here is a great place: <https://realpython.com/dependency-management-python-poetry/>
+
 
 ## direnv
 
@@ -102,26 +97,22 @@ The AWS Command Line Interface will be necessary to push your data to the remote
 
 Here are the steps you should follow for this: <https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html>
 
+
 # Initialize your repository
 
 Now all these steps are specifics to this project, and this project only !
 
 You should first `git clone` this project, and then `cd` to it's top directory for running all the following commands.
 
-## Create a virtualenv
-
-```sh
-python3.8 -m venv venv
-```
 
 ## Initialize direnv
 
 ```sh
-echo "source venv/bin/activate" > .envrc
+echo "export MY_VARIABLE=\"MY_SECRET\"" > .envrc
 direnv allow .
 ```
 
-Now everytime you use `python` in this project it will call the binary in `venv/bin/python3.8`.
+<!-- Now everytime you use `python` in this project it will call the binary in `venv/bin/python3.8`. -->
 
 ## Launch the script to initialize your project
 
@@ -137,12 +128,14 @@ Then you can run the script
 .42AI/init.sh
 ```
 
+For Hydra, wich is installed from requirements.txt, java is required,think to install it if you are on a fresh ubuntu.
+
 ## Verify you can launch the project
 
 with this command
 
 ```sh
-python -m src
+poetry run python -m src
 ```
 
 and this one:

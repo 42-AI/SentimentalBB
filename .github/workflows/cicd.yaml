@@ -1,0 +1,35 @@
+name: CI-CD
+
+on: [push]
+
+jobs:
+  hello-world:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Hello world
+        run: echo Hello World
+      - name: checkout repo
+        uses: actions/checkout@v2
+      - name: envrc
+        run: touch .envrc
+      - name: Poetry install
+        run: |
+          curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py \
+          | python - \
+          && source $HOME/.poetry/env
+      - name: Setup
+        run: |
+          source $HOME/.poetry/env && \
+          .42AI/init.sh
+      - name: Linting
+        run: |
+          source $HOME/.poetry/env && \
+          poetry run autopep8 -r --diff src
+      - name: set up test aclImdb
+        run: |
+          source $HOME/.poetry/env && \
+          scripts/setup_test_aclImdb.sh
+      - name: unit-tests
+        run: |
+          source $HOME/.poetry/env && \
+          poetry run pytest src

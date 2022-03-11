@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
-VIRTUALENV_PATH="./venv"
-. $VIRTUALENV_PATH/bin/activate
+# VIRTUALENV_PATH="./venv"
+# . $VIRTUALENV_PATH/bin/activate
 
 # Linting
-if [[ $(autopep8 -r --diff src) ]]
+if [[ $(poetry run autopep8 -r --diff src) ]]
 then
     echo "Error in file linting, can't commit files" 1>&2
 	echo 'Please run `make format`'
@@ -15,7 +15,8 @@ fi
 sh scripts/setup_test_aclImdb.sh
 
 # Testing
-pytest src 1>/dev/null
+poetry run pytest src 1>/dev/null
+# pytest src 1>/dev/null
 if [ $? != 0 ]
 then
     echo "Error in unit testing, can't commit files" 1>&2

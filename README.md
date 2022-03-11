@@ -1,10 +1,10 @@
-Template_Lab
+SentimentalBB
 ==============================
 
 # How to run as a module
 
 ```sh
-python3.8 -m src --argument
+poetry run python -m src --argument
 ```
 
 ## How to download the datasets:
@@ -12,7 +12,7 @@ python3.8 -m src --argument
 ### AclIMDB
 
 ```python
-python -m src data --download aclImdb
+poetry run python -m src data --download aclImdb
 ```
 
 
@@ -20,7 +20,7 @@ python -m src data --download aclImdb
 One can download tweets from twitter, a candidat must be mention:
 
 ```python
-python -m src data --download twitter --mention [candidat]
+poetry run python -m src data --download twitter --mention [candidat]
 ```
 [candidat] must be within ["Pecresse", "Zemmour", "Dupont-Aignan", "Melenchon", "Le Pen", "Lassalle", "Hidalgo", "Macron", "Jadot", "Roussel", "Arthaud", "Poutou"]
 

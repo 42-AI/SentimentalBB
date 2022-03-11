@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "sentimentalbb"
+version = "0.1.0"
+description = ""
+authors = ["Guillaume SALLE <gusalle@student.42.fr>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+numpy = "^1.22.3"
+pandas = "^1.4.1"
+Hydra = "^2.5"
+hydra-core = "^1.1.1"
+hydra-colorlog = "^1.1.0"
+omegaconf = "^2.1.1"
+searchtweets-v2 = "^1.1.1"
+sklearn = "^0.0"
+fastapi = "^0.75.0"
+uvicorn = "^0.17.6"
+boto3 = "^1.19.8"
+
+[tool.poetry.dev-dependencies]
+autopep8 = "^1.6.0"
+pytest = "^7.0.1"
+dvc = {extras = ["s3"], version = "^2.9.5"}
+
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

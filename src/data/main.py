@@ -231,14 +231,13 @@ def data_main(dataset: str, txt: str, mention: str, start_time: str, end_time: s
         start_time cannot be a date before today - 7 days
     """
     if dataset == "aclImdb":
-        df_data = make_dataset_aclImdb()
-        filename = "aclImdb.csv"
+        make_dataset_aclImdb()
     elif dataset == "twitter":
         df_data = make_dataset_twitter(
             txt, TAGS[mention], start_time, end_time)
 
         filename = f"{mention.lower().replace(' ', '')}/{dataset}_{mention}_{start_time}_{end_time}"
-    dataset_to_csv(df_data, filename)
+        dataset_to_csv(df_data, filename)
 
 
 # ########################################################################### #

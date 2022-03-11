@@ -81,7 +81,7 @@ fi
 # python version                                           #
 ############################################################
 echo -e $COLOR_YELLOW "INIT: " $COLOR_RESET "Testing your python version..."
-python .42AI/test_environment.py
+poetry run python .42AI/test_environment.py
 if [ $? == 0 ]
 then
     echo -e $COLOR_GREEN "Good python version" $COLOR_RESET
@@ -114,9 +114,11 @@ mkdir -p models
 ############################################################
 # Installing dependencies                                  #
 ############################################################
-echo $RED "INIT: " $END "Upgrading pip..."
-python -m pip install --upgrade pip
+# echo $RED "INIT: " $END "Upgrading pip..."
+# python -m pip install --upgrade pip
 
 echo $RED "INIT: " $END "Installing python dependancies..."
-python -m pip install -r requirements.txt
+poetry env use $PATH_PYTHON
+poetry install
+# python -m pip install -r requirements.txt
 

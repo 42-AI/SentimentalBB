@@ -38,5 +38,5 @@ def make_set(dir_in: str, set_type: str):
 
 
 def make_dataset_aclImdb():
-    make_set("data/raw/StandfordSentiments/aclImdb/train", "train")
-    make_set("data/raw/StandfordSentiments/aclImdb/test", "test")
+    make_set("data/raw/StandfordSentiments/aclImdb/aclImdb/train", "train")
+    make_set("data/raw/StandfordSentiments/aclImdb/aclImdb/test", "test")

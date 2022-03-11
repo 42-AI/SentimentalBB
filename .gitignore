@@ -76,10 +76,6 @@ target/
 .ipynb_checkpoints/
 
 # exclude data from source control by default
-/data/external
-/data/raw
-/data/interim
-/data/processed
 
 # Mac OS-specific storage files
 .DS_Store
@@ -104,3 +100,7 @@ outputs
 /models
 
 .twitter_keys.yaml
+/data
+
+
+s3::
