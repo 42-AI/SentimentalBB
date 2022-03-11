@@ -118,6 +118,7 @@ mkdir -p models
 # python -m pip install --upgrade pip
 
 echo $RED "INIT: " $END "Installing python dependancies..."
+poetry env use $PATH_PYTHON
 poetry install
 # python -m pip install -r requirements.txt
 

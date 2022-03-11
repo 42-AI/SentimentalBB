@@ -17,6 +17,7 @@ searchtweets-v2 = "^1.1.1"
 sklearn = "^0.0"
 fastapi = "^0.75.0"
 uvicorn = "^0.17.6"
+boto3 = "^1.19.8"
 
 [tool.poetry.dev-dependencies]
 autopep8 = "^1.6.0"
