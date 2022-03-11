@@ -1,3 +1,5 @@
+#! /bin/bash -
+
 bash scripts/download_dataset.sh
 
 PATH_DATASET_TRAIN="data/processed/aclImdb/aclImdb_test.csv"
