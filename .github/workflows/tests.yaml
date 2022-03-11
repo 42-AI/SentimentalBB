@@ -18,7 +18,9 @@ jobs:
           | python - \
           && source $HOME/.poetry/env
       - name: Setup
-        run: sh .42AI/init.sh
+        run: |
+          source $HOME/.poetry/env && \
+          sh .42AI/init.sh
       - name: Linting
         run: autopep8 -r --diff src
       - name: set up test aclImdb
