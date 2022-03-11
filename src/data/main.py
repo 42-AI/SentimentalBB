@@ -55,7 +55,7 @@ TAGS = {"Pecresse": "@avecValerie",
         "Arthaud": "@n_arthaud",
         "Poutou": "@PhilippePoutou"}
 
-CREDENTIAL_FILE = '.twitter_keys.yaml '
+CREDENTIAL_FILE = '../../.twitter_keys.yaml '
 # maybe later we would be able to use all, then we could change with search_tweets_v2_all
 TWITTER_KEY = 'search_tweets_v2_recent'
 NB_MAX_TWEETS = 40  # Max number of tweets one wants
