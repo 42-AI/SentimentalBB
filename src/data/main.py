@@ -197,8 +197,7 @@ def make_dataset_twitter(txt: str, mention: str, start_time: str, end_time: str)
     s_query = ""
     if txt is not None:
         s_query += txt + ' '
-    if mention in NOMS:
-        s_query += mention + ' '
+    s_query += mention + ' '
     query = gen_request_parameters(s_query,
                                    results_per_call=RES_PER_CALL,
                                    granularity=None,
