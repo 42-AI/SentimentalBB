@@ -21,6 +21,7 @@ uvicorn = "^0.17.6"
 [tool.poetry.dev-dependencies]
 autopep8 = "^1.6.0"
 pytest = "^7.0.1"
+dvc = {extras = ["s3"], version = "^2.9.5"}
 
 
 [build-system]
