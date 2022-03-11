@@ -19,4 +19,4 @@ jobs:
       - name: set up test aclImdb
         run: sh scripts/setup_test_aclImdb.sh
       - name: unit-tests
-        run: pytest src
+        run: poetry run pytest src
