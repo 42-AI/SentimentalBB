@@ -100,4 +100,6 @@ venv
 .envrc
 
 outputs
-models
+/models
+
+.twitter_keys.yaml

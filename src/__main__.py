@@ -67,7 +67,6 @@ parser_add.add_argument('--text',
 
 # Specify to the data collector to download tweets mentionning this user
 parser_add.add_argument('--mention',
-                        required=True,
                         choices=lst_candidats,
                         help="Download the tweets from this user")
 
