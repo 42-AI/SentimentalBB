@@ -1,5 +1,5 @@
 # local package
--e .
+# -e .
 
 # external requirements
 awscli
@@ -15,6 +15,7 @@ hydra-core
 hydra_colorlog
 omegaconf
 searchtweets-v2
+sklearn
 
 #inference
 fastapi

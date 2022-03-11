@@ -16,5 +16,7 @@ jobs:
         run: sh .42AI/init.sh
       - name: Linting
         run: autopep8 -r --diff src
+      - name: set up test aclImdb
+        run: sh scripts/setup_test_aclImdb.sh
       - name: unit-tests
         run: pytest src
