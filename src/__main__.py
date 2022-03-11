@@ -60,7 +60,13 @@ parser_add = subparsers.add_parser('data', help='Data related commands')
 # Specify to the data mentioning a specific candidats or aclImdb
 parser_add.add_argument('--download',
                         default='aclImdb',
-                        choices=['twitter', 'aclImdb'],
+                        choices=['twitter', 'aclImdb', "allocine"],
+                        help="Download the specified dataset")
+
+# TODO: pass split arg to allcine dataset
+parser_add.add_argument('--split',
+                        default='train',
+                        choices=['train', 'test', "validation"],
                         help="Download the specified dataset")
 
 # Specify to the data collector to download tweets mentionning this user

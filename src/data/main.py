@@ -7,6 +7,7 @@ from click import MissingParameter
 from searchtweets import gen_request_parameters, load_credentials, collect_results
 
 from src.data.make_dataset.aclImdb import make_dataset_aclImdb
+from src.data.make_dataset.allocine import make_dataset_allocine
 
 # ########################################################################### #
 #                                 Constants                                   #
@@ -232,6 +233,8 @@ def data_main(dataset: str, txt: str, mention: str, start_time: str, end_time: s
     """
     if dataset == "aclImdb":
         make_dataset_aclImdb()
+    elif dataset == "allocine":
+        make_dataset_allocine()
     elif dataset == "twitter":
         df_data = make_dataset_twitter(
             txt, TAGS[mention], start_time, end_time)
