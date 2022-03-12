@@ -212,7 +212,7 @@ def make_dataset_twitter(txt: str, mention: str, start_time: str, end_time: str)
     return tweets
 
 
-def data_main(dataset: str, txt: str, mention: str, start_time: str, end_time: str):
+def data_main(dataset: str, split: str, txt: str, mention: str, start_time: str, end_time: str):
     """ Main function to interact with the Twitter API or with aclImdb.
     It downloads and save the dataset/result into a file.
     Args:
@@ -234,7 +234,8 @@ def data_main(dataset: str, txt: str, mention: str, start_time: str, end_time: s
     if dataset == "aclImdb":
         make_dataset_aclImdb()
     elif dataset == "allocine":
-        make_dataset_allocine()
+        make_dataset_allocine(
+            split)
     elif dataset == "twitter":
         df_data = make_dataset_twitter(
             txt, TAGS[mention], start_time, end_time)
