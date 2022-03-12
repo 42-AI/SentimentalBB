@@ -25,10 +25,6 @@ jobs:
         run: |
           source $HOME/.poetry/env && \
           poetry run autopep8 -r --diff src
-      - name: set up test aclImdb
-        run: |
-          source $HOME/.poetry/env && \
-          scripts/setup_test_aclImdb.sh
       - name: unit-tests
         run: |
           source $HOME/.poetry/env && \
