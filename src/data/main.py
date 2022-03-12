@@ -56,7 +56,7 @@ TAGS = {"Pecresse": "@avecValerie",
         "Arthaud": "@n_arthaud",
         "Poutou": "@PhilippePoutou"}
 
-CREDENTIAL_FILE = '../../.twitter_keys.yaml '
+CREDENTIAL_FILE = f".twitter_keys.yaml"
 # maybe later we would be able to use all, then we could change with search_tweets_v2_all
 TWITTER_KEY = 'search_tweets_v2_recent'
 NB_MAX_TWEETS = 40  # Max number of tweets one wants
@@ -189,7 +189,8 @@ def make_dataset_twitter(txt: str, mention: str, start_time: str, end_time: str)
     # Testing start_time < end_time
 
     # Checking the credentials and trying to retrieve them if necessary
-    twiterAPI_credentials()
+    if not os.path.exists(CREDENTIAL_FILE):
+        twiterAPI_credentials()
     search_args = load_credentials(filename=CREDENTIAL_FILE,
                                    yaml_key=TWITTER_KEY,
                                    env_overwrite=False)
