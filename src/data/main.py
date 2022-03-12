@@ -227,7 +227,7 @@ def data_main(dataset: str, split: str, txt: str, mention: str, start_time: str,
         None
     Remarks:
     --------
-        dataset parameter value must be in ['twitter', 'aclImdb']
+        dataset parameter value must be in ['twitter', 'aclImdb', 'allocine']
         mention parameter value must be in the NOMS
         start_time cannot be a date before today - 7 days
     """

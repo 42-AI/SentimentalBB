@@ -129,7 +129,7 @@ print(args)
 
 
 if args.subparser == "data":
-    data_main(args.download, args.text, args.mention,
+    data_main(args.download, args.split, args.text, args.mention,
               args.start_time, args.end_time)
 elif args.subparser == "features":
     features_main()
