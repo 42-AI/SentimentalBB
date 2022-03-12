@@ -25,7 +25,7 @@ jobs:
         run: |
           source $HOME/.poetry/env && \
           poetry run autopep8 -r --diff src
-      - name: set up test aclImdb
+      - name: set up test allocine
         run: |
           source $HOME/.poetry/env && \
           scripts/setup_test_allocine_naive_bayes.sh
