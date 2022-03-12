@@ -28,7 +28,7 @@ jobs:
       - name: set up test aclImdb
         run: |
           source $HOME/.poetry/env && \
-          scripts/setup_test_aclImdb.sh
+          scripts/setup_test_allocine_naive_bayes.sh
       - name: unit-tests
         run: |
           source $HOME/.poetry/env && \
