@@ -63,7 +63,7 @@ parser_add.add_argument('--download',
                         choices=['twitter', 'aclImdb', "allocine"],
                         help="Download the specified dataset")
 
-# TODO: pass split arg to allcine dataset
+# Specify to the data collector the split of the dataset
 parser_add.add_argument('--split',
                         default='train',
                         choices=['train', 'test', "validation"],
