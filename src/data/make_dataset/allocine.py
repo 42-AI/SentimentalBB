@@ -6,7 +6,7 @@ import os
 csv_dest = "data/processed/allocine/"
 
 
-def make_dataset_allocine(split: str="test"):
+def make_dataset_allocine(split: str = "test"):
     dataset = load_dataset('allocine', split=split)
     print(dataset[0])
 

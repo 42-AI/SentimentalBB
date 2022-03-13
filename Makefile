@@ -40,7 +40,7 @@ lint:
 
 ## Lint using autopep8
 format:
-	autopep8 -r --in-place src
+	poetry run autopep8 -r --in-place src
 
 ## Upload Data to S3
 sync_data_to_s3:
