@@ -166,7 +166,7 @@ def transform_tweets(tweets):
     return df_tweets
 
 
-def make_dataset_twitter(txt: str, mention: str, start_time: str, end_time: str):
+def make_dataset_twitter(txt: str, mention: str, start_time: str, end_time: str, tweet_fields: str):
     """ Handles the forging of the query a collect the request from twitter API.
     Args:
     -----
@@ -174,6 +174,7 @@ def make_dataset_twitter(txt: str, mention: str, start_time: str, end_time: str)
         mention [str]: mention of a candidat in the forged request.
         start_time [str]: starting date from which tweets will be download.
         end_time [str]: ending date until which tweets will be download.
+        tweet_fields[str]: specify the tweet fields. Defaults is 'id,created_at,text'.
     Return:
     -------
         tweets [List[Dict[...]]]: all the tweets collect from the request.
@@ -204,7 +205,8 @@ def make_dataset_twitter(txt: str, mention: str, start_time: str, end_time: str)
                                    results_per_call=RES_PER_CALL,
                                    granularity=None,
                                    start_time=start_time,
-                                   end_time=end_time)
+                                   end_time=end_time,
+                                   tweet_fields=tweet_fields)
     tweets = collect_results(query,
                              max_tweets=NB_MAX_TWEETS,
                              result_stream_args=search_args)
@@ -213,16 +215,18 @@ def make_dataset_twitter(txt: str, mention: str, start_time: str, end_time: str)
     return tweets
 
 
-def data_main(dataset: str, split: str, txt: str, mention: str, start_time: str, end_time: str):
+def data_main(dataset: str, split: str, txt: str, mention: str, start_time: str, end_time: str, tweet_fields: str):
     """ Main function to interact with the Twitter API or with aclImdb.
     It downloads and save the dataset/result into a file.
     Args:
     -----
         dataset [str]: type of dataset/API one wish to interact with.
+        split[str]: specify the configuration (train or test)
         txt [str]: text one wish to be present within the tweets.
         mention [str]: mention of a candidat in the forged request.
         start_time [str]: starting date from which tweets will be download.
         end_time [str]: ending date until which tweets will be download.
+        tweet_fields[str]: specify the tweet fields. Defaults is 'id,created_at,text'.
     Return:
     -------
         None
@@ -239,7 +243,7 @@ def data_main(dataset: str, split: str, txt: str, mention: str, start_time: str,
             split)
     elif dataset == "twitter":
         df_data = make_dataset_twitter(
-            txt, TAGS[mention], start_time, end_time)
+            txt, TAGS[mention], start_time, end_time, tweet_fields)
 
         filename = f"{mention.lower().replace(' ', '')}/{dataset}_{mention}_{start_time}_{end_time}"
         dataset_to_csv(df_data, filename)
