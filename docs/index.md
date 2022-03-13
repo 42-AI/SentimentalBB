@@ -1,41 +1,117 @@
-### TEMP
+# SentimentalBB
 
-[sbb-page](https://clemedon.github.io/sbb-page/)
+## How to run as a module
 
-## Welcome to GitHub Pages
-
-You can use the [editor on GitHub](https://github.com/clemedon/sbb-page/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
-
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
-
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+```sh
+poetry run python -m src --argument
 ```
 
-For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
+### How to download the datasets
 
-### Jekyll Themes
+#### AclIMDB
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/clemedon/sbb-page/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+```python
+poetry run python -m src data --download aclImdb
+```
 
-### Support or Contact
+#### Twitter
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+One can download tweets from twitter, a 'candidat' must be mentioned:
+
+```python
+poetry run python -m src data --download twitter --mention [candidat]
+```
+[candidat] must be within ["Pecresse", "Zemmour", "Dupont-Aignan", "Melenchon", "Le Pen", "Lassalle", "Hidalgo", "Macron", "Jadot", "Roussel", "Arthaud", "Poutou"]
+
+You have several more parameters accessible:
+* `--text`: text you wish to find in the tweet: `--text retraite`
+* `--start_time`: date from which you want to start to collect the tweets (need to follow the format: `YYYY-mm-DD HH:MM`, `HH` and `MM` are optional)
+* `--end_time`: date until which you want to collect the tweets (need to follow the format: `YYYY-mm-DD HH:MM`, `HH` and `MM` are optional)
+
+The dataset collected from twitter are saved into file: `data/raw/[candidat]/twitter_{mention}_{start_time}_{end_time}.csv`
+
+## How to launch fast api
+
+```sh
+uvicorn app:app --host 0.0.0.0 --port 8000
+```
+
+Then visits: <http://localhost:8000/docs>
+
+## With the docker
+
+```sh
+docker build -t inference:latest .
+
+docker run -p 8000:8000 --name inference_container inference:latest
+```
+
+## With Docker Compose
+
+```
+docker-compose up
+```
+
+## Project architecture
+
+Template for all the future project of the Laboratory of 42-AI
+
+Project Organization
+--------------------
+
+    ├── LICENSE
+    ├── Makefile           <- Makefile with commands like `make data` or `make train`
+    ├── README.md          <- The top-level README for developers using this project.
+    ├── data
+    │   ├── external       <- Data from third party sources.
+    │   ├── interim        <- Intermediate data that has been transformed.
+    │   ├── processed      <- The final, canonical data sets for modeling.
+    │   └── raw            <- The original, immutable data dump.
+    │
+    ├── docs               <- A default Sphinx project; see sphinx-doc.org for details
+    │
+    ├── models             <- Trained and serialized models, model predictions, or model summaries
+    │
+    ├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
+    │                         the creator's initials, and a short `-` delimited description, e.g.
+    │                         `1.0-jqp-initial-data-exploration`.
+    │
+    ├── references         <- Data dictionaries, manuals, and all other explanatory materials.
+    │
+    ├── reports            <- Generated analysis as HTML, PDF, LaTeX, etc.
+    │   └── figures        <- Generated graphics and figures to be used in reporting
+    │
+    ├── requirements.txt   <- The requirements file for reproducing the analysis environment, e.g.
+    │                         generated with `pip freeze > requirements.txt`
+    │
+    ├── setup.py           <- makes project pip installable (pip install -e .) so src can be imported
+    ├── src                <- Source code for use in this project.
+    │   ├── __init__.py    <- Makes src a Python module
+    │   │
+    │   ├── data           <- Scripts to download or generate data
+    │   │   └── make_dataset.py
+    │   │
+    │   ├── features       <- Scripts to turn raw data into features for modeling
+    │   │   └── build_features.py
+    │   │
+    │   ├── models         <- Scripts to train models and then use trained models to make
+    │   │   │                 predictions
+    │   │   ├── predict_model.py
+    │   │   └── train_model.py
+    │   │
+    │   └── visualization  <- Scripts to create exploratory and results oriented visualizations
+    │       └── visualize.py
+    │
+    └── tox.ini            <- tox file with settings for running tox; see tox.readthedocs.io
+
+--------------------
+
+<p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
+
+## Contributors
+
+* [Matthieu DAVID](https://github.com/madvid) - mdavid@student.42.fr
+* [Alexandre GILMET](https://github.com/goldimet) - agilmet@student.42.fr
+* [Guillaume SALLÉ](https://github.com/guillaume-salle) - gusalle@student.42.fr
+* [Archibald THIRION](https://github.com/archips) - athirion@student.42.fr
+* [Clément VIDON](https://github.com/clemedon) - cvidon@student.42.fr
