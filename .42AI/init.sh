@@ -11,8 +11,8 @@ COLOR_PURPLE="\e[1;35m"
 COLOR_CYAN="\e[1;36m"
 COLOR_RESET="\e[0m"
 
-PATH_PYTHON=`where python3`
-PATH_ENVRC=`pwd`/.envrc
+PATH_PYTHON=`type -a python3`
+PATH_TWITTER_KEYS=`pwd`/.twitter_keys.yaml
 
 ############################################################
 # Help                                                     #
@@ -66,15 +66,19 @@ done
 ############################################################
 # .envrc                                                   #
 ############################################################
-# echo -e $COLOR_YELLOW "INIT:" $COLOR_RESET "Checking if .envrc exist"
-# if test -f "$PATH_ENVRC"; then
-#     echo -e $COLOR_GREEN "$PATH_ENVRC exists." $COLOR_RESET
-# else
-#     echo -e $COLOR_RED "ERROR: .envrc do not exist at location $PATH_ENVRC" $COLOR_RESET
-# 	echo "It can be created this way:"
-# 	echo "$> echo \"source venv/bin/activate\" > .envrc"
-# 	exit 1
-# fi
+echo -e $COLOR_YELLOW "INIT:" $COLOR_RESET "Checking if .twitter_keys.yaml exist"
+if test -f "$PATH_TWITTER_KEYS"; then
+    echo -e $COLOR_GREEN "$PATH_TWITTER_KEYS exists." $COLOR_RESET
+else
+    echo -e $COLOR_RED "ERROR: .twitter_keys.yaml does not exist at location $PATH_TWITTER_KEYS" $COLOR_RESET
+	echo "It can be created this way:"
+ 	echo "$> echo \"<name_of_key:\n
+  	endpoint: <URL_OF_ENDPOINT>\n
+  	bearer_token: <YOUR_BEARER_TOKEN>\n
+  	consumer_key: <YOUR_CONSUMER_KEY>\n
+  	consumer_secret: <YOUR_CONSUMER_SECRET>\" > .twitter_keys.yaml"
+ 	exit 1
+fi
 
 
 ############################################################
