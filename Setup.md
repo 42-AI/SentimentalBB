@@ -99,6 +99,16 @@ Now all these steps are specifics to this project, and this project only !
 
 You should first `git clone` this project, and then `cd` to it's top directory for running all the following commands.
 
+## Initialize twitter credential key
+
+```sh
+echo "<name_of_key:
+  	endpoint: <URL_OF_ENDPOINT>
+  	bearer_token: <YOUR_BEARER_TOKEN>
+  	consumer_key: <YOUR_CONSUMER_KEY>
+  	consumer_secret: <YOUR_CONSUMER_SECRET>" > .twitter_keys.yaml
+```
+
 
 ## Launch the script to initialize your project
 
