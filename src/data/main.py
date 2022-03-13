@@ -204,7 +204,12 @@ def make_dataset_twitter(txt: str, mention: str, start_time: str, end_time: str)
                                    results_per_call=RES_PER_CALL,
                                    granularity=None,
                                    start_time=start_time,
-                                   end_time=end_time)
+                                   end_time=end_time,
+                                   tweet_fields="id,created_at,text")
+    #must be in [attachments,author_id,context_annotations,conversation_id,created_at,
+    #entities,geo,id,in_reply_to_user_id, lang,non_public_metrics,organic_metrics,
+    #possibly_sensitive,promoted_metrics,public_metrics,referenced_tweets,
+    #reply_settings,source,text,withheld]
     tweets = collect_results(query,
                              max_tweets=NB_MAX_TWEETS,
                              result_stream_args=search_args)
