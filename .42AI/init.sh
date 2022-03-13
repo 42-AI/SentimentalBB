@@ -11,7 +11,7 @@ COLOR_PURPLE="\e[1;35m"
 COLOR_CYAN="\e[1;36m"
 COLOR_RESET="\e[0m"
 
-PATH_PYTHON=`pwd`/venv/bin/python
+PATH_PYTHON=`where python3`
 PATH_ENVRC=`pwd`/.envrc
 
 ############################################################
@@ -70,7 +70,7 @@ echo -e $COLOR_YELLOW "INIT:" $COLOR_RESET "Checking if .envrc exist"
 if test -f "$PATH_ENVRC"; then
     echo -e $COLOR_GREEN "$PATH_ENVRC exists." $COLOR_RESET
 else
-    echo -e $COLOR_RED ".envrc do not exist at location $PATH_ENVRC" $COLOR_RESET
+    echo -e $COLOR_RED "ERROR: .envrc do not exist at location $PATH_ENVRC" $COLOR_RESET
 	echo "It can be created this way:"
 	echo "$> echo \"source venv/bin/activate\" > .envrc"
 	exit 1
@@ -81,12 +81,12 @@ fi
 # python version                                           #
 ############################################################
 echo -e $COLOR_YELLOW "INIT: " $COLOR_RESET "Testing your python version..."
-poetry run python .42AI/test_environment.py
-if [ $? == 0 ]
+
+if poetry run python .42AI/test_environment.py;
 then
     echo -e $COLOR_GREEN "Good python version" $COLOR_RESET
 else
-    echo -e $COLOR_RED "Bad python version" $COLOR_RESET
+    echo -e $COLOR_RED "ERROR: Bad python version" $COLOR_RESET
 fi
 
 
@@ -114,11 +114,49 @@ mkdir -p models
 ############################################################
 # Installing dependencies                                  #
 ############################################################
-# echo $RED "INIT: " $END "Upgrading pip..."
-# python -m pip install --upgrade pip
-
-echo $RED "INIT: " $END "Installing python dependancies..."
+echo -e $COLOR_YELLOW "INIT: " $COLOR_RESET "Installing python dependancies..."
 poetry env use $PATH_PYTHON
 poetry install
-# python -m pip install -r requirements.txt
 
+
+############################################################
+# aws cli                                                  #
+############################################################
+
+echo -e $COLOR_YELLOW "INIT: " $COLOR_RESET "Verifying if aws cli is installed"
+if aws --version;
+then
+    echo -e $COLOR_GREEN "aws is installed !" $COLOR_RESET
+else
+    echo -e $COLOR_RED "ERROR: aws is not installed, please follow the steps in Setup.md" $COLOR_RESET
+fi
+
+
+echo -e $COLOR_YELLOW "INIT: " $COLOR_RESET "Verifying that aws cli is configured"
+if [[ $(aws configure get aws_access_key_id) ]]; then
+    echo -e $COLOR_GREEN "aws is configured !" $COLOR_RESET
+else
+    echo -e $COLOR_RED "ERROR: aws is not configured, please run \`aws configure\`" $COLOR_RESET
+fi
+
+
+############################################################
+# DVC                                                      #
+############################################################
+
+
+
+echo -e $COLOR_YELLOW "INIT: " $COLOR_RESET "Verifying that DVC remote is setup"
+if [[ $(poetry run dvc remote list | grep s3-remote) ]]; then
+    echo -e $COLOR_GREEN "DVC remote is already setup!" $COLOR_RESET
+else
+	echo "DVC remote is not yet setup"
+	echo -e $COLOR_YELLOW "INIT: " $COLOR_RESET "Seting up DVC remote"
+	poetry run dvc remote add -f s3-remote s3://lab-presidentials/storage
+fi
+
+
+echo -e $COLOR_YELLOW "INIT: " $COLOR_RESET "Pulling DVC data !"
+poetry run dvc pull -r s3-remote
+
+echo -e $COLOR_GREEN "PROJECT IS FULLY INITIALIZED <3" $COLOR_RESET
