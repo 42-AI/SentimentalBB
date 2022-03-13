@@ -75,6 +75,11 @@ This command should work:
 ```sh
 curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
 ```
+By default, the installer installs the poetry tool to Poetry’s bin directory. which is located at `$HOME/.poetry/bin` on Unix.
+To specify a location, one only needs to create an environment variable `POETRY_HOME` before to run the command line above:
+```sh
+export POETRY_HOME=/sgoinfre/goinfre/Perso/$USER/.poetry # Or any other desired location
+```
 
 For the installation you can follow detailed steps here: <https://python-poetry.org/docs/#installation>
 
