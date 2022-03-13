@@ -166,7 +166,7 @@ def transform_tweets(tweets):
     return df_tweets
 
 
-def make_dataset_twitter(txt: str, mention: str, start_time: str, end_time: str):
+def make_dataset_twitter(txt: str, mention: str, start_time: str, end_time: str, tweet_fields="id,created_at,text"):
     """ Handles the forging of the query a collect the request from twitter API.
     Args:
     -----
@@ -205,7 +205,7 @@ def make_dataset_twitter(txt: str, mention: str, start_time: str, end_time: str)
                                    granularity=None,
                                    start_time=start_time,
                                    end_time=end_time,
-                                   tweet_fields="id,created_at,text")
+                                   tweet_fields=tweet_fields)
     #must be in [attachments,author_id,context_annotations,conversation_id,created_at,
     #entities,geo,id,in_reply_to_user_id, lang,non_public_metrics,organic_metrics,
     #possibly_sensitive,promoted_metrics,public_metrics,referenced_tweets,
