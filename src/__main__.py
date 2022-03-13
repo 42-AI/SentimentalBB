@@ -89,6 +89,12 @@ parser_add.add_argument('--end_time',
                         default=None,
                         help="Download the tweets to this date")
 
+# Specify the tweet fields of the tweets will be download
+parser_add.add_argument('--tweet_fields',
+                        default='id,created_at,text',
+                        help="Specify the tweet fields")
+
+
 #####
 # Sub parser concerning ...
 ######
@@ -130,7 +136,7 @@ print(args)
 
 if args.subparser == "data":
     data_main(args.download, args.split, args.text, args.mention,
-              args.start_time, args.end_time)
+              args.start_time, args.end_time, args.tweet_fields)
 elif args.subparser == "features":
     features_main()
 elif args.subparser == "models":
