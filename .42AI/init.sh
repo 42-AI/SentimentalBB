@@ -66,27 +66,28 @@ done
 ############################################################
 # .envrc                                                   #
 ############################################################
-echo -e $COLOR_YELLOW "INIT:" $COLOR_RESET "Checking if .envrc exist"
-if test -f "$PATH_ENVRC"; then
-    echo -e $COLOR_GREEN "$PATH_ENVRC exists." $COLOR_RESET
-else
-    echo -e $COLOR_RED "ERROR: .envrc do not exist at location $PATH_ENVRC" $COLOR_RESET
-	echo "It can be created this way:"
-	echo "$> echo \"source venv/bin/activate\" > .envrc"
-	exit 1
-fi
+# echo -e $COLOR_YELLOW "INIT:" $COLOR_RESET "Checking if .envrc exist"
+# if test -f "$PATH_ENVRC"; then
+#     echo -e $COLOR_GREEN "$PATH_ENVRC exists." $COLOR_RESET
+# else
+#     echo -e $COLOR_RED "ERROR: .envrc do not exist at location $PATH_ENVRC" $COLOR_RESET
+# 	echo "It can be created this way:"
+# 	echo "$> echo \"source venv/bin/activate\" > .envrc"
+# 	exit 1
+# fi
 
 
 ############################################################
 # python version                                           #
 ############################################################
 echo -e $COLOR_YELLOW "INIT: " $COLOR_RESET "Testing your python version..."
-
+# poetry env use $PATH_PYTHON
 if poetry run python .42AI/test_environment.py;
 then
     echo -e $COLOR_GREEN "Good python version" $COLOR_RESET
 else
     echo -e $COLOR_RED "ERROR: Bad python version" $COLOR_RESET
+	exit 1
 fi
 
 
@@ -115,7 +116,6 @@ mkdir -p models
 # Installing dependencies                                  #
 ############################################################
 echo -e $COLOR_YELLOW "INIT: " $COLOR_RESET "Installing python dependancies..."
-poetry env use $PATH_PYTHON
 poetry install
 
 
