@@ -12,7 +12,7 @@ then
 fi
 
 # set up data for test naive_bayes on dataset aclImdb
-sh scripts/setup_test_allocine_naive_bayes.sh
+# sh scripts/setup_test_allocine_naive_bayes.sh
 
 # Testing
 poetry run pytest src 1>/dev/null
