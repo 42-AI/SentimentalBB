@@ -7,6 +7,7 @@ from click import MissingParameter
 from searchtweets import gen_request_parameters, load_credentials, collect_results
 
 from src.data.make_dataset.aclImdb import make_dataset_aclImdb
+from src.data.make_dataset.allocine import make_dataset_allocine
 
 # ########################################################################### #
 #                                 Constants                                   #
@@ -55,7 +56,7 @@ TAGS = {"Pecresse": "@avecValerie",
         "Arthaud": "@n_arthaud",
         "Poutou": "@PhilippePoutou"}
 
-CREDENTIAL_FILE = '../../.twitter_keys.yaml '
+CREDENTIAL_FILE = f".twitter_keys.yaml"
 # maybe later we would be able to use all, then we could change with search_tweets_v2_all
 TWITTER_KEY = 'search_tweets_v2_recent'
 NB_MAX_TWEETS = 40  # Max number of tweets one wants
@@ -188,7 +189,8 @@ def make_dataset_twitter(txt: str, mention: str, start_time: str, end_time: str)
     # Testing start_time < end_time
 
     # Checking the credentials and trying to retrieve them if necessary
-    twiterAPI_credentials()
+    if not os.path.exists(CREDENTIAL_FILE):
+        twiterAPI_credentials()
     search_args = load_credentials(filename=CREDENTIAL_FILE,
                                    yaml_key=TWITTER_KEY,
                                    env_overwrite=False)
@@ -211,7 +213,7 @@ def make_dataset_twitter(txt: str, mention: str, start_time: str, end_time: str)
     return tweets
 
 
-def data_main(dataset: str, txt: str, mention: str, start_time: str, end_time: str):
+def data_main(dataset: str, split: str, txt: str, mention: str, start_time: str, end_time: str):
     """ Main function to interact with the Twitter API or with aclImdb.
     It downloads and save the dataset/result into a file.
     Args:
@@ -226,12 +228,15 @@ def data_main(dataset: str, txt: str, mention: str, start_time: str, end_time: s
         None
     Remarks:
     --------
-        dataset parameter value must be in ['twitter', 'aclImdb']
+        dataset parameter value must be in ['twitter', 'aclImdb', 'allocine']
         mention parameter value must be in the NOMS
         start_time cannot be a date before today - 7 days
     """
     if dataset == "aclImdb":
         make_dataset_aclImdb()
+    elif dataset == "allocine":
+        make_dataset_allocine(
+            split)
     elif dataset == "twitter":
         df_data = make_dataset_twitter(
             txt, TAGS[mention], start_time, end_time)
