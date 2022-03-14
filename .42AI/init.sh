@@ -72,7 +72,7 @@ if test -f "$PATH_TWITTER_KEYS"; then
 else
     echo -e $COLOR_RED "ERROR: .twitter_keys.yaml does not exist at location $PATH_TWITTER_KEYS" $COLOR_RESET
 	echo "It can be created this way:"
- 	echo "$> echo \"<name_of_key:\n
+ 	echo "$> echo \"<name_of_key>:\n
   	endpoint: <URL_OF_ENDPOINT>\n
   	bearer_token: <YOUR_BEARER_TOKEN>\n
   	consumer_key: <YOUR_CONSUMER_KEY>\n
