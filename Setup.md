@@ -73,7 +73,7 @@ Install poetry, wich will help us manage python depedencies.
 This command should work:
 
 ```sh
-curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
+curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python3 -
 ```
 By default, the installer installs the poetry tool to Poetry’s bin directory. which is located at `$HOME/.poetry/bin` on Unix.
 To specify a location, one only needs to create an environment variable `POETRY_HOME` before to run the command line above:
@@ -85,16 +85,6 @@ For the installation you can follow detailed steps here: <https://python-poetry.
 
 If you want to learn more about poetry, here is a great place: <https://realpython.com/dependency-management-python-poetry/>
 
-
-## direnv
-
-With direnv you will not have to think about your virtualenv anymore. It will also be easy to manage secrets as environment variables.
-
-See this link: <https://direnv.net/docs/installation.html>
-
-It should be something like `curl -sfL https://direnv.net/install.sh | bash` depending on your OS.
-
-For more explanation on this tool you should read this page: <https://direnv.net/>.
 
 ## AWS CLI
 
@@ -109,15 +99,16 @@ Now all these steps are specifics to this project, and this project only !
 
 You should first `git clone` this project, and then `cd` to it's top directory for running all the following commands.
 
-
-## Initialize direnv
+## Initialize twitter credential key
 
 ```sh
-echo "export MY_VARIABLE=\"MY_SECRET\"" > .envrc
-direnv allow .
+echo "<name_of_key>:
+  	endpoint: <URL_OF_ENDPOINT>
+  	bearer_token: <YOUR_BEARER_TOKEN>
+  	consumer_key: <YOUR_CONSUMER_KEY>
+  	consumer_secret: <YOUR_CONSUMER_SECRET>" > .twitter_keys.yaml
 ```
 
-<!-- Now everytime you use `python` in this project it will call the binary in `venv/bin/python3.8`. -->
 
 ## Launch the script to initialize your project
 
@@ -133,7 +124,11 @@ Then you can run the script
 .42AI/init.sh
 ```
 
-For Hydra, wich is installed from requirements.txt, java is required,think to install it if you are on a fresh ubuntu.
+For Hydra, wich is installed from requirements.txt, you might need some python and openssl packages if you don't have them already:
+
+```sh
+apt install python3.8-dev libssl-dev libssh-dev libidn11-dev libgtk2.0-dev
+```
 
 ## Verify you can launch the project
 
