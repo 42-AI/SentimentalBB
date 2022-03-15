@@ -1,5 +1,21 @@
-SentimentalBB
+# Sentimental Big Brother
+
+<div style="text-align:center"><img src="https://www.42ai.fr/wp-content/uploads/2020/04/White@4x-980x607.png" style="width:40%"/></div>
+
+----
+En 2021 la France a été classée comme démocratie défaillante par le [Democracy Index](https://en.wikipedia.org/wiki/Democracy_Index#:~:text=The%20Democracy%20Index%20is%20an,the%20weekly%20newspaper%20The%20Economist.).
+
+Nos démocraties se numérisent depuis plusieurs années, et une part croissante du débat public se joue dorénavant sur les réseaux sociaux. 
+Alors qu’en période d'élections les [débats télévisées sont encadrées par l’ARCOM](https://www.arcom.fr/presse/larcom-le-regulateur-de-la-communication-audiovisuelle-et-numerique-dossier-de-presse) (ex-CSA), les débats au sein des réseaux sociaux échappent encore à un contrôle clair, et notamment par manque de métriques caractérisant les enjeux qui les traversent.
+
+En tant que citoyens, et en tant qu'étudiants dans l’intelligence artificielle nous ressentons le besoin de mettre au service de notre démocratie des outils permettant de décrypter une partie du débat politique qui se déroule aujourd’hui sur Twitter.
+
+A cet effet, nous étudions aujourd’hui le sentiment de la twittosphère à l’encontre des différents candidats en fonction du temps.
+
+Merci de l’attention que vous portez à notre travail, tout commentaire et toute aide est la bienvenue.
+
 ==============================
+
 
 # How to run as a module
 
@@ -117,3 +133,4 @@ Project Organization
 * [Guillaume Sallé](https://github.com/guillaume-salle) - gusalle@student.42.fr
 * [Archibald Thirion](https://github.com/archips) - athirion@student.42.fr
 * [Clément Vidon](https://github.com/clemedon) - cvidon@student.42.fr
+* [Louis Develle](https://github.com/ezalos) - ldevelle@student.42.fr
