@@ -4,6 +4,8 @@ about: If you have found a problem 🕵️
 title: 'fix (subject): description'
 labels: bug
 assignees: ''
+project: SentimentalBB
+status: Backlog
 ---
 
 
