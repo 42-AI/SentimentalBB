@@ -19,7 +19,11 @@
 
 # Description
 
-En 2021, selon le rapport de la France a été classée comme démocratie défaillante par le [Democracy Index](https://en.wikipedia.org/wiki/Democracy_Index#:~:text=The%20Democracy%20Index%20is%20an,the%20weekly%20newspaper%20The%20Economist.).
+In 2021, according to the Economist Intelligence Unit, France has been rated a flawed democracy in the [Democracy Index](https://en.wikipedia.org/wiki/Democracy_Index#:~:text=The%20Democracy%20Index%20is%20an,the%20weekly%20newspaper%20The%20Economist.).
+
+En 2021, selon le rapport de l'Economist Intelligence Unit, la France a été classée comme démocratie défaillante par le [Democracy Index](https://en.wikipedia.org/wiki/Democracy_Index#:~:text=The%20Democracy%20Index%20is%20an,the%20weekly%20newspaper%20The%20Economist.).
+
+Our democraties 
 
 Nos démocraties se numérisent depuis plusieurs années, et une part croissante du débat public se joue dorénavant sur les réseaux sociaux. 
 Alors qu’en période d'élections les [débats télévisées sont encadrées par l’ARCOM](https://www.arcom.fr/presse/larcom-le-regulateur-de-la-communication-audiovisuelle-et-numerique-dossier-de-presse) (ex-CSA), les débats au sein des réseaux sociaux échappent encore à un contrôle clair, et notamment par manque de métriques caractérisant les enjeux qui les traversent.
