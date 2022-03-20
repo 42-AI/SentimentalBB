@@ -19,11 +19,20 @@
 
 # Description
 
-In 2021, according to the Economist Intelligence Unit, France has been rated a flawed democracy in the [Democracy Index](https://en.wikipedia.org/wiki/Democracy_Index#:~:text=The%20Democracy%20Index%20is%20an,the%20weekly%20newspaper%20The%20Economist.).
+In 2021, according to the [Democracy Index](https://en.wikipedia.org/wiki/Democracy_Index#:~:text=The%20Democracy%20Index%20is%20an,the%20weekly%20newspaper%20The%20Economist.)  published by the [Economist Intelligence Unit](https://en.wikipedia.org/wiki/Economist_Intelligence_Unit), France has been ranked as a flawed democracy.
+
+Our democraties have been going digital for several years, and an increasing part of the public debate is now played on social networks.  Although during election periods televised debates are [supervised by ARCOM](https://en.wikipedia.org/wiki/Regulatory_Authority_for_Audiovisual_and_Digital_Communication) (ex-CSA), debates within social networks still escape clear control, notably due to the lack of metrics characterizing the issues that run through them.
+
+As citizens, and as students in artificial intelligence, we feel the need to put at the service of our democracy some tools allowing to decipher part of the political debate that now takes place on Twitter.
+
+To this end, today we are studying the sentiment of the twittosphere against the different candidates as a function of time.
+
+Thank you for your attention to our work, any comments and help are welcome.
+
+
+==============================
 
 En 2021, selon le rapport de l'Economist Intelligence Unit, la France a été classée comme démocratie défaillante par le [Democracy Index](https://en.wikipedia.org/wiki/Democracy_Index#:~:text=The%20Democracy%20Index%20is%20an,the%20weekly%20newspaper%20The%20Economist.).
-
-Our democraties 
 
 Nos démocraties se numérisent depuis plusieurs années, et une part croissante du débat public se joue dorénavant sur les réseaux sociaux. 
 Alors qu’en période d'élections les [débats télévisées sont encadrées par l’ARCOM](https://www.arcom.fr/presse/larcom-le-regulateur-de-la-communication-audiovisuelle-et-numerique-dossier-de-presse) (ex-CSA), les débats au sein des réseaux sociaux échappent encore à un contrôle clair, et notamment par manque de métriques caractérisant les enjeux qui les traversent.
