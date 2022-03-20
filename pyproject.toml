@@ -19,8 +19,9 @@ fastapi = "^0.75.0"
 uvicorn = "^0.17.6"
 boto3 = "^1.19.8"
 datasets = "^1.18.4"
-transformers = "^4.17.0"
+torch = "^1.11.0"
 jupyterlab = "^3.3.2"
+transformers = "^4.17.0"
 
 [tool.poetry.dev-dependencies]
 autopep8 = "^1.6.0"
