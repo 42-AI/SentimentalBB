@@ -90,8 +90,9 @@ parser_add.add_argument('--end_time',
                         help="Download the tweets to this date")
 
 # Specify the tweet fields of the tweets will be download
+# for a lighter version of dataset, one can used: default='id,created_at,text',
 parser_add.add_argument('--tweet_fields',
-                        default='id,created_at,text',
+                        default="author_id,created_at,id,public_metrics,text",
                         help="Specify the tweet fields")
 
 
