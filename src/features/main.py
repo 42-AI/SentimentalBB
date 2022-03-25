@@ -1,5 +1,7 @@
 import os
 import pandas as pd
+import pathlib
+import json
 
 from src.models.random import predict_model_random as random
 from src.models.sklearn.Naive_Bayes import Naive_Bayes as NB
@@ -29,19 +31,14 @@ def dataset_to_csv(df_dataset: pd.DataFrame, filepath: str):
     df_dataset.to_csv(csv_path)
 
 
-def features_main(model: str, filepath: str):
+def process_file(pipe, model, filepath: str):
+    print(f"Processing {filepath}...")
     if os.path.isfile(f"{SAVE_PATH}/{model}/{filepath}"):
         print("This data is already processed!")
         return
     if not os.path.isfile(f"{RAW_PATH}/{filepath}"):
         print("This data does not exist!")
         return
-    if model == 'random':
-        pipe = random.pipe
-    elif model == 'naive_bayes':
-        pipe = NB.pipe
-    elif model == 'twitter-xlm-roberta-base-sentiment':
-        pipe = xlm.pipe
     df = pd.read_csv(f"{RAW_PATH}/{filepath}")
     predict = df.apply(lambda row: pipe(row['text']), axis=1)
 
@@ -57,4 +54,35 @@ def features_main(model: str, filepath: str):
     df['score'] = predict.apply(lambda row: row[0]['score'])
     df['convert'] = predict.apply(lambda row: convert(row[0]['label']))
 
-    dataset_to_csv(df, f"{SAVE_PATH}/{model}/{filepath}")
+    csv_path = f"{SAVE_PATH}/{model}/{filepath}"
+    dataset_to_csv(df, csv_path)
+    
+    sum = {}
+    sum['Positive'] = df[(df['label'] == 'Positive')].shape[0]
+    sum['Negative'] = df[(df['label'] == 'Negative')].shape[0]
+    sum['Neutral'] = df[(df['label'] == 'Neutral')].shape[0]
+    sum['Total'] = df.shape[0]
+    print(sum)
+    
+    json_path = pathlib.Path(csv_path).with_suffix(".json")
+    with open(json_path, 'w') as fp:
+        json.dump(sum, fp)
+
+
+def features_main(model: str, path: str):
+    if model == 'random':
+        pipe = random.pipe
+    elif model == 'naive_bayes':
+        pipe = NB.pipe
+    elif model == 'twitter-xlm-roberta-base-sentiment':
+        pipe = xlm.pipe
+    if os.path.isdir(f"{RAW_PATH}/{path}"):
+        directory = f"{RAW_PATH}/{path}"
+        for filename in os.listdir(directory):
+            f = os.path.join(directory, filename)
+            if os.path.isfile(f) and filename.endswith('.csv'):
+                process_file(pipe, model, f"{path}/{filename}")
+    elif os.path.isfile(f"{RAW_PATH}/{path}"):
+        process_file(pipe, model, path)
+
+
