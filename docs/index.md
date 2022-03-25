@@ -14,6 +14,14 @@
   * [Project Organization](#project-organization)
 - [Contributors](#contributors)
 
+# Preliminary results
+
+![Macron](macron_pie.png)
+![Zemmour](zemmour_pie.png)
+![Le Pen](lepen_pie.png)
+![Jadot](jadot_pie.png)
+![Pecresse](pecresse_pie.png)
+![Melenchon](melenchon_pie.png)
 
 # Description
 
