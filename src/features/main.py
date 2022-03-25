@@ -31,7 +31,7 @@ def dataset_to_csv(df_dataset: pd.DataFrame, filepath: str):
     df_dataset.to_csv(csv_path)
 
 
-def process_file(pipe, model, filepath: str):
+def process_file(pipe, model: str, filepath: str):
     print(f"Processing {filepath}...")
     if os.path.isfile(f"{SAVE_PATH}/{model}/{filepath}"):
         print("This data is already processed!")
@@ -69,6 +69,17 @@ def process_file(pipe, model, filepath: str):
         json.dump(sum, fp)
 
 
+def process(pipe, model: str, path: str):
+    if os.path.isdir(f"{RAW_PATH}/{path}"):
+        directory = f"{RAW_PATH}/{path}"
+        for filename in os.listdir(directory):
+            process(pipe, model, f"{path}/{filename}")
+    elif os.path.isfile(f"{RAW_PATH}/{path}") & path.endswith('.csv'):
+        process_file(pipe, model, path)
+    else:
+        print(f"{path} : Not a .csv file.")
+
+
 def features_main(model: str, path: str):
     if model == 'random':
         pipe = random.pipe
@@ -76,13 +87,4 @@ def features_main(model: str, path: str):
         pipe = NB.pipe
     elif model == 'twitter-xlm-roberta-base-sentiment':
         pipe = xlm.pipe
-    if os.path.isdir(f"{RAW_PATH}/{path}"):
-        directory = f"{RAW_PATH}/{path}"
-        for filename in os.listdir(directory):
-            f = os.path.join(directory, filename)
-            if os.path.isfile(f) and filename.endswith('.csv'):
-                process_file(pipe, model, f"{path}/{filename}")
-    elif os.path.isfile(f"{RAW_PATH}/{path}"):
-        process_file(pipe, model, path)
-    else:
-        print(f"{path} : No such file or directory.")
+    process(pipe, model, path)
