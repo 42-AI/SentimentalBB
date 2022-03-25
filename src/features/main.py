@@ -56,14 +56,14 @@ def process_file(pipe, model, filepath: str):
 
     csv_path = f"{SAVE_PATH}/{model}/{filepath}"
     dataset_to_csv(df, csv_path)
-    
+
     sum = {}
     sum['Positive'] = df[(df['label'] == 'Positive')].shape[0]
     sum['Negative'] = df[(df['label'] == 'Negative')].shape[0]
     sum['Neutral'] = df[(df['label'] == 'Neutral')].shape[0]
     sum['Total'] = df.shape[0]
     print(sum)
-    
+
     json_path = pathlib.Path(csv_path).with_suffix(".json")
     with open(json_path, 'w') as fp:
         json.dump(sum, fp)
@@ -84,5 +84,5 @@ def features_main(model: str, path: str):
                 process_file(pipe, model, f"{path}/{filename}")
     elif os.path.isfile(f"{RAW_PATH}/{path}"):
         process_file(pipe, model, path)
-
-
+    else:
+        print(f"{path} : No such file or directory.")
