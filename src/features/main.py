@@ -31,10 +31,10 @@ def dataset_to_csv(df_dataset: pd.DataFrame, filepath: str):
 
 def features_main(model: str, filepath: str):
     if os.path.isfile(f"{SAVE_PATH}/{model}/{filepath}"):
-        print ("This data is already processed!")
+        print("This data is already processed!")
         return
     if not os.path.isfile(f"{RAW_PATH}/{filepath}"):
-        print ("This data does not exist!")
+        print("This data does not exist!")
         return
     if model == 'random':
         pipe = random.pipe
@@ -52,10 +52,9 @@ def features_main(model: str, filepath: str):
             return -1
         elif (label == 'Neutral'):
             return 0
-    
-    df['label'] = predict.apply(lambda row: row[0]['label'])
-    df['score']=predict.apply(lambda row: row[0]['score'])
-    df['convert'] = predict.apply(lambda row: convert(row[0]['label']))
-    
-    dataset_to_csv(df, f"{SAVE_PATH}/{model}/{filepath}")
 
+    df['label'] = predict.apply(lambda row: row[0]['label'])
+    df['score'] = predict.apply(lambda row: row[0]['score'])
+    df['convert'] = predict.apply(lambda row: convert(row[0]['label']))
+
+    dataset_to_csv(df, f"{SAVE_PATH}/{model}/{filepath}")
