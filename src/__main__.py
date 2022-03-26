@@ -1,7 +1,7 @@
 import argparse
 from src.data.main import data_main
 from src.features.main import features_main
-from src.models.main import models_main
+from src.models.main import models_main, add_models_args
 from src.visualization.main import visualization_main
 
 from omegaconf import OmegaConf
@@ -106,26 +106,13 @@ parser_features = subparsers.add_parser(
 ######
 parser_models = subparsers.add_parser(
     'models', help='Models related commands')
-parser_models.add_argument('--train',
-                           required=True,
-                           help="Train set on which the model will train",
-                           type=argparse.FileType('r')
-                           )
-parser_models.add_argument('--test',
-                           required=True,
-                           help="Test set on which the model will be tested",
-                           type=argparse.FileType('r')
-                           )
-parser_models.add_argument('--model',
-                           help="Training based on the model entered",
-                           default='random',
-                           choices=['random', 'naive-bayes'],
-                           )
+add_models_args(parser_models)
+
 
 #####
 # Sub parser concerning the visualization
 ######
-parser_features = subparsers.add_parser(
+parser_visualization = subparsers.add_parser(
     'visualization', help='Visualization related commands')
 
 
@@ -140,6 +127,6 @@ if args.subparser == "data":
 elif args.subparser == "features":
     features_main()
 elif args.subparser == "models":
-    models_main(args.train, args.test, args.model)
+    models_main(args)
 elif args.subparser == "visualization":
     visualization_main()
