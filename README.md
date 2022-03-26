@@ -75,7 +75,21 @@ You have several more parameters accessible:
 * `--start_time`: date from which you want to start to collect the tweets (need to follow the format: `YYYY-mm-DD HH:MM`, `HH` and `MM` are optional)
 * `--end_time`: date until which you want to collect the tweets (need to follow the format: `YYYY-mm-DD HH:MM`, `HH` and `MM` are optional)
 
-The dataset collected from twitter are saved into file: `data/raw/[candidat]/twitter_{mention}_{start_time}_{end_time}.csv`
+The dataset collected from twitter are saved into file: `data/raw/[candidat]/twitter_{mention}_{start_time}_{end_time}.csv`.
+
+## How to process raw data with a given model:
+
+The following command applies a model to a given `.csv` file or recursively to all `.csv` files in a directory.
+The path is relative to the `data/raw` directory.
+
+```python
+poetry run python -m src features --model [model_name] --data [path_relative_to_data_raw]
+```
+
+The model name must be within ["random", "naive_bayes", "twitter-xlm-roberta-base-sentiment"] and the default is "twitter-xlm-roberta-base-sentiment".
+
+The output of the model is added in new columns and saved to a `.csv` file with the same path and name but relative to the `data/processed` directory.
+
 
 # How to launch fast api
 
