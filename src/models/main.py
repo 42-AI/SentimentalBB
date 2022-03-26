@@ -1,31 +1,36 @@
 from src.features.build_features import build_features_aclImdb as bf
 from src.models.sklearn.Naive_Bayes import Naive_Bayes as NB
+from src.models.huggingface.twitter_xlm_roberta_base_sentiment import huggin_face_predict
 import pandas as pd
 import argparse
 import os
 
+
 def add_models_args(parser):
     parser.add_argument('--train',
-                            required=True,
-                            help="Train set on which the model will train",
-                            type=argparse.FileType('r')
-                            )
+                        # required=True,
+                        help="Train set on which the model will train",
+                        type=argparse.FileType('r')
+                        )
     parser.add_argument('--test',
-                            required=True,
-                            help="Test set on which the model will be tested",
-                            type=argparse.FileType('r')
-                            )
+                        # required=True,
+                        help="Test set on which the model will be tested",
+                        type=argparse.FileType('r')
+                        )
     parser.add_argument('--predict',
-                            required=True,
-                            help="Test set on which the model will be tested",
-                            type=argparse.FileType('r')
-                            )
+                        required=True,
+                        help="Test set on which the model will be tested",
+                        type=argparse.FileType('r')
+                        )
+    parser.add_argument('--out-csv',
+                        default="data/processed/aclImdb/results/huggingface.csv",
+                        help="Test set on which the model will be tested",
+                        )
     parser.add_argument('--model',
-                            help="Training based on the model entered",
-                            default='random',
-                            choices=['random', 'naive-bayes', 'hugging-face'],
-                            )
-
+                        help="Training based on the model entered",
+                        default='random',
+                        choices=['random', 'naive-bayes', 'hugging-face'],
+                        )
 
 
 def naive_bayes_main(train_csv, test_csv):
@@ -39,11 +44,11 @@ def naive_bayes_main(train_csv, test_csv):
     res = pd.concat([y_pred, y_test], axis=1)
     os.makedirs("data/processed/aclImdb/results", exist_ok=True)
     res.to_csv('data/processed/aclImdb/results/naivebayes.csv',
-                header=['y_pred', 'y_true'])
+               header=['y_pred', 'y_true'])
     print("\n\ncsv 'naivebayes.csv' created at data/processed/aclImdb"
-            "/results/.\n\nThe csv file contains two columns:\n"
-            "- y_pred with all the predicted sentiments\n"
-            "- y_true with all the true sentiments")
+          "/results/.\n\nThe csv file contains two columns:\n"
+          "- y_pred with all the predicted sentiments\n"
+          "- y_true with all the true sentiments")
 
 
 def models_main(args):
@@ -59,9 +64,10 @@ def models_main(args):
     #   - 1st column will be dropped
     #   - 2nd column represents the texts to analyse
     #   - 3rd column represents the sentiment {0,1}
-    if args.model_name == "naive-bayes":
+    if args.model == "naive-bayes":
         naive_bayes_main(args.train_csv, args.test_csv)
-    elif args.model_name == "hugging-face":
-        if 
+    elif args.model == "hugging-face":
+        if args.predict:
+            huggin_face_predict(args.predict, args.out_csv)
     else:
         print("Other models than Naive-Bayes not implemented yet")
