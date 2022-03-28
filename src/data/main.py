@@ -1,5 +1,7 @@
 import os
 import sys
+import shutil
+from unittest.mock import NonCallableMagicMock
 import yaml
 import pandas as pd
 import json
@@ -60,8 +62,8 @@ TAGS = {"Pecresse": "@avecValerie",
 CREDENTIAL_FILE = f".twitter_keys.yaml"
 # maybe later we would be able to use all, then we could change with search_tweets_v2_all
 TWITTER_KEY = 'search_tweets_v2_recent'
-NB_MAX_TWEETS = 500  # Max number of tweets one wants
-RES_PER_CALL = 100  # Max number of tweets per query to Twitter API
+NB_MAX_TWEETS = 50  # Max number of tweets one wants
+RES_PER_CALL = 10  # Max number of tweets per query to Twitter API
 CONFIG_YAML = ".config.yaml"
 SAVE_PATH = "data/raw/twitter"
 # ########################################################################### #
@@ -80,8 +82,46 @@ def dataset_to_csv(df_dataset: pd.DataFrame, filename: str):
         None
     """
     csv_path = f"{SAVE_PATH}/{filename}.csv"
+    print("dataset_to_csv ::: ", csv_path)
     os.makedirs(os.path.dirname(csv_path), exist_ok=True)
+    tmp_path = (f"{SAVE_PATH}/tmp")
+    lst_files = os.listdir(tmp_path)
+    df_dataset = None
+    for tmp_file in lst_files:
+        df_tmp = pd.read_csv(SAVE_PATH + "/tmp/" + tmp_file, index_col=False)
+        if df_dataset is None:
+            df_dataset = df_tmp
+        else:
+            df_dataset = pd.concat((df_dataset, df_tmp), ignore_index=True)
+        print(df_dataset)
+    raise OSError
+    #df_dataset.reset_index(inplace=True, drop=True)
     df_dataset.to_csv(csv_path)
+    shutil.rmtree(SAVE_PATH + "/tmp/")
+
+
+def chunk_to_csv(df_chunk:pd.DataFrame, mention: str,):
+    """ Saves the temporary tweets chunk to a temporary csv file pior to fusion.
+    This is to limit the lost of results in case the request or the saving of the dataset
+    encounter an issue.
+    Args:
+    -----
+        df_dataset [pandas DataFrame]: dataframe containing the dataset.
+        mention [str]: mention of a candidat in the forged request.
+    Return:
+    -------
+        None
+    """
+    print(df_chunk.columns)
+    tmp_last_date = df_chunk['created_at'].iloc[0]
+    tmp_first_date = df_chunk['created_at'].iloc[-1]
+    tmp_last_id = df_chunk['id'].iloc[0]
+    tmp_first_id = df_chunk['id'].iloc[-1]
+    tmp_file = (f"{SAVE_PATH}/tmp/{mention.replace('@', '')}_start_time-"
+    f"{tmp_first_date}_last_time-{tmp_last_date}_firstID-"
+    f"{tmp_first_id}_lastID-{tmp_last_id}")
+    os.makedirs(os.path.dirname(tmp_file), exist_ok=True)
+    df_chunk.to_csv(tmp_file, index=False)
 
 
 def metadata_to_json(metadata: dict, filename: str):
@@ -247,16 +287,8 @@ def make_dataset_twitter(txt: str, mention: str, start_time: str, end_time: str,
         # transforming the chunk into a dataframe
         df_chunk, meta_chunk = transform_tweets(chunk)
         metadata.append(meta_chunk)
-        # # temporary save of the chunk, to avoid to lost the data in case there is an isuue
-        # tmp_last_date = df_chunk['created_at'].iloc[0]
-        # tmp_first_date = df_chunk['created_at'].iloc[-1]
-        # tmp_last_id = df_chunk['id'].iloc[0]
-        # tmp_first_id = df_chunk['id'].iloc[-1]
-        #
-        # tmp_file = (f"/tmp/{mention.replace('@', '')}_start_time-"
-        #             f"{tmp_first_date}_last_time-{tmp_last_date}_firstID-"
-        #             f"{tmp_first_id}_lastID-{tmp_last_id}")
-        # dataset_to_csv(df_chunk, tmp_file)
+        # temporary save of the chunk, to avoid to lost the data in case there is an isuue
+        chunk_to_csv(df_chunk, mention)
 
         if df_tweets is None:
             df_tweets = df_chunk
