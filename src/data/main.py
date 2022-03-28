@@ -94,13 +94,12 @@ def dataset_to_csv(df_dataset: pd.DataFrame, filename: str):
         else:
             df_dataset = pd.concat((df_dataset, df_tmp), ignore_index=True)
         print(df_dataset)
-    raise OSError
     #df_dataset.reset_index(inplace=True, drop=True)
     df_dataset.to_csv(csv_path)
     shutil.rmtree(SAVE_PATH + "/tmp/")
 
 
-def chunk_to_csv(df_chunk:pd.DataFrame, mention: str,):
+def chunk_to_csv(df_chunk: pd.DataFrame, mention: str,):
     """ Saves the temporary tweets chunk to a temporary csv file pior to fusion.
     This is to limit the lost of results in case the request or the saving of the dataset
     encounter an issue.
@@ -118,8 +117,8 @@ def chunk_to_csv(df_chunk:pd.DataFrame, mention: str,):
     tmp_last_id = df_chunk['id'].iloc[0]
     tmp_first_id = df_chunk['id'].iloc[-1]
     tmp_file = (f"{SAVE_PATH}/tmp/{mention.replace('@', '')}_start_time-"
-    f"{tmp_first_date}_last_time-{tmp_last_date}_firstID-"
-    f"{tmp_first_id}_lastID-{tmp_last_id}")
+                f"{tmp_first_date}_last_time-{tmp_last_date}_firstID-"
+                f"{tmp_first_id}_lastID-{tmp_last_id}")
     os.makedirs(os.path.dirname(tmp_file), exist_ok=True)
     df_chunk.to_csv(tmp_file, index=False)
 
