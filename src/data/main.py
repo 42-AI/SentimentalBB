@@ -265,10 +265,10 @@ def make_dataset_twitter(txt: str, mention: str, start_time: str, end_time: str,
                                    env_overwrite=False)
     if mention is None:
         raise ValueError("One needs to mention a candidat.")
-    s_query = ""
+    s_query = mention
     if txt is not None:
-        s_query += txt + ' '
-    s_query += mention + ' ' + "-is:retweet"
+        s_query += ' ' + txt
+    s_query += ' ' + "-is:retweet -has:media"
     query = gen_request_parameters(s_query,
                                    results_per_call=RES_PER_CALL,
                                    granularity=None,

@@ -79,6 +79,7 @@ By default, the installer installs the poetry tool to Poetry’s bin directory. 
 To specify a location, one only needs to create an environment variable `POETRY_HOME` before to run the command line above:
 ```sh
 export POETRY_HOME=/sgoinfre/goinfre/Perso/$USER/.poetry # Or any other desired location
+poetry config virtualenvs.path /path/to/cache/directory/virtualenvs
 ```
 
 For the installation you can follow detailed steps here: <https://python-poetry.org/docs/#installation>

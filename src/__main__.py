@@ -24,6 +24,9 @@ lst_candidats = ["Pecresse",
                  "Arthaud",
                  "Poutou"]
 
+lst_models = ["random",
+              "naive-bayes",
+              "twitter-xlm-roberta-base-sentiment"]
 
 # ########################################################################### #
 #                                 Functions                                   #
@@ -97,10 +100,19 @@ parser_add.add_argument('--tweet_fields',
 
 
 #####
-# Sub parser concerning ...
+# Sub parser concerning the use of models to process existing data
 ######
 parser_features = subparsers.add_parser(
     'features', help='Features related commands')
+parser_features.add_argument('--data',
+                             required=True,
+                             help="Raw data set on which the model will\
+                                 analyse sentiment",
+                             )
+parser_features.add_argument('--model',
+                             help="Sentiment analysis based on the model entered",
+                             default='twitter-xlm-roberta-base-sentiment',
+                             choices=lst_models)
 
 #####
 # Sub parser concerning the modelisation
@@ -139,7 +151,7 @@ if args.subparser == "data":
     data_main(args.download, args.split, args.text, args.mention,
               args.start_time, args.end_time, args.tweet_fields)
 elif args.subparser == "features":
-    features_main()
+    features_main(args.model, args.data)
 elif args.subparser == "models":
     models_main(args.train, args.test, args.model)
 elif args.subparser == "visualization":
