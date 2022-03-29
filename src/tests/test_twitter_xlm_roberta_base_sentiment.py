@@ -1,21 +1,34 @@
 import pandas as pd
-from src.models.huggingface import twitter_xlm_roberta_base_sentiment as model
+from sklearn.model_selection import train_test_split
+from src.data.load_dataset.base_dataset_tri_label import get_X_y
+from src.models.huggingface.twitter_xlm_roberta_base_sentiment import HuggingFaceModel, add_predictions_to_df
+import os
 
 
-def test():
-    df = pd.read_csv('src/tests/dataset_allocine_100.csv')
-    predict = df.apply(lambda row: model.pipe(row['review']), axis=1)
+def generic_test_for_nb(in_test, out_test):
+    # Access data
+    df = pd.read_csv(in_test)
+    X, y = get_X_y(df)
 
-    def convert(label):
-        if label == 'Positive':
-            return 1
-        elif label == 'Negative':
-            return 0
-        else:
-            return -1
-    df['y'] = predict.apply(lambda row: convert(row[0]['label']))
-    true_y = df[(df['y'] == df['label'])].shape[0]
-    accuracy = true_y / df.shape[0]
-    print(f"Accuracy of {model.name} model on a sample of 100 examples\
-            is: {accuracy}")
-    assert accuracy > 0.5
+    hf = HuggingFaceModel()
+
+    # Test model
+    y_pred = hf.predict(X.tolist())
+    y_pred[y_pred != 0] = 1
+    accuracy = hf.get_score(y, y_pred)
+    assert accuracy > 0.01
+
+    # Wtrite results to disk
+    df = add_predictions_to_df(df, y_pred)
+    os.makedirs(os.path.dirname(out_test), exist_ok=True)
+    df.to_csv(out_test)
+
+
+def test_allocine_hugging_face():
+    out_test = 'data/processed/aclImdb/results/results.csv'
+    generic_test_for_nb('src/tests/dataset_allocine_100.csv', out_test)
+
+
+def test_zemmour_hugging_face():
+    out_test = 'data/processed/aclImdb/results/results.csv'
+    generic_test_for_nb('src/tests/Zemmour_135_tweets_labelled.csv', out_test)
