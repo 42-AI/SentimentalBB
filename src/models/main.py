@@ -1,73 +1,83 @@
-from src.features.build_features import build_features_aclImdb as bf
-from src.models.sklearn.Naive_Bayes import Naive_Bayes as NB
-from src.models.huggingface.twitter_xlm_roberta_base_sentiment import huggin_face_predict
+from src.models.sklearn.Naive_Bayes import naive_bayes_main
+from src.models.huggingface.twitter_xlm_roberta_base_sentiment \
+     import huggin_face_predict
 import pandas as pd
 import argparse
-import os
 
 
 def add_models_args(parser):
-    parser.add_argument('--train',
-                        # required=True,
-                        help="Train set on which the model will train",
-                        type=argparse.FileType('r')
-                        )
-    parser.add_argument('--test',
-                        # required=True,
-                        help="Test set on which the model will be tested",
-                        type=argparse.FileType('r')
-                        )
-    parser.add_argument('--predict',
-                        required=True,
-                        help="Test set on which the model will be tested",
-                        type=argparse.FileType('r')
-                        )
-    parser.add_argument('--out-csv',
-                        default="data/processed/aclImdb/results/huggingface.csv",
-                        help="Test set on which the model will be tested",
-                        )
     parser.add_argument('--model',
                         help="Training based on the model entered",
                         default='random',
-                        choices=['random', 'naive-bayes', 'hugging-face'],
+                        choices=['random', 'naive-bayes', 'hugging-face']
+                        )
+    parser.add_argument('--task',
+                        required=True,
+                        help="Task to be perforemed",
+                        choices=['train', 'test', 'predict']
+                        )
+    parser.add_argument('--train_csv',
+                        # required=True,
+                        help="Train set on which the model will be trained.\
+                              Only if --task entered is train.\
+                              Must be formatted like this:\
+                              Column1: title:text format:str\
+                              Column2: title:Positive format:[0/1]\
+                              Column3: title:Negative format:[0/1]\
+                              Column4: title:Neutral format:[0/1]",
+                        type=argparse.FileType('r')
+                        )
+    parser.add_argument('--test_csv',
+                        # required=True,
+                        help="Train set on which the model will be tested.\
+                              Only if --task entered is test.\
+                              Must be formatted like this:\
+                              Column1: title:text format:str\
+                              Column2: title:Positive format:[0/1]\
+                              Column3: title:Negative format:[0/1]\
+                              Column4: title:Neutral format:[0/1]",
+                        type=argparse.FileType('r')
+                        )
+    parser.add_argument('--predict_csv',
+                        # required=True,
+                        help="Train set on which the model will predict.\
+                              Only if --task entered is predict.\
+                              Must be formatted like this:\
+                              Column1: title:text format:str",
+                        type=argparse.FileType('r')
+                        )
+    parser.add_argument('--out_csv',
+                        help="Path of output csv file: must finish by '.csv'\
+                              Required if --task is test or predict"
+                        )
+    parser.add_argument('--weights_in',
+                        help="Only if --task is test or predict.\
+                              If no weights are passed and --task is test, \
+                              the model will train first on the test_file.csv",
+                        default=None
+                        )
+    parser.add_argument('--weights_out',
+                        help="Path to save the weights if --task is train",
+                        default=None
+                        )
+    parser.add_argument('--score',
+                        help="Path to save the weights if --task is train",
+                        choices=['accuracy'],
+                        default='accuracy'
                         )
 
 
-def naive_bayes_main(train_csv, test_csv):
-    X_train, X_test, y_train, y_test = bf(train_csv, test_csv)
-    nb = NB()
-    nb.train(X_train, y_train)
-    y_pred = nb.predict(X_test)
-    y_pred = pd.DataFrame(data=y_pred, columns=['y_pred'])
-    y_test.reset_index(drop=True, inplace=True)
-    y_test.columns = ['y_true']
-    res = pd.concat([y_pred, y_test], axis=1)
-    os.makedirs("data/processed/aclImdb/results", exist_ok=True)
-    res.to_csv('data/processed/aclImdb/results/naivebayes.csv',
-               header=['y_pred', 'y_true'])
-    print("\n\ncsv 'naivebayes.csv' created at data/processed/aclImdb"
-          "/results/.\n\nThe csv file contains two columns:\n"
-          "- y_pred with all the predicted sentiments\n"
-          "- y_true with all the true sentiments")
-
-
 def models_main(args):
-    """As of now, export a csv composed of two columns 'y_pred' and 'y_true'
-       where y_pred has been found with the model passed as model_name.
+    """Redirect args to the asking model in the CLI
 
     Args:
-        train_csv (csv):
-        test_csv (csv):
-        model_name (str):
+        args: args passed in CLI
     """
-    # bf works only for csvs with 3 columns where:
-    #   - 1st column will be dropped
-    #   - 2nd column represents the texts to analyse
-    #   - 3rd column represents the sentiment {0,1}
     if args.model == "naive-bayes":
-        naive_bayes_main(args.train_csv, args.test_csv)
+        naive_bayes_main(args)
     elif args.model == "hugging-face":
-        if args.predict:
-            huggin_face_predict(args.predict, args.out_csv)
+        if args.task == 'predict':
+            huggin_face_predict(args.predict_csv, args.out_csv)
     else:
-        print("Other models than Naive-Bayes not implemented yet")
+        print("Other models than Naive-Bayes or hugging-face not implemented \
+              yet")
