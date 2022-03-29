@@ -16,6 +16,9 @@ class BaseModel:
         """
         raise NotImplementedError
 
+    def preprocess(self, X: np.array):
+        return X
+
     def predict(self, X: np.array):
         raise NotImplementedError
 

@@ -7,7 +7,7 @@ from src.models.sklearn.Naive_Bayes import Naive_Bayes, add_predictions_to_df
 def generic_test_for_nb(in_test, weights_test, out_test):
     # Access data
     df = pd.read_csv(in_test)
-    X, y = get_X_y(df)
+    X, y = get_X_y(df, flat_y=True)
 
     # Test load and save
     nb = Naive_Bayes()

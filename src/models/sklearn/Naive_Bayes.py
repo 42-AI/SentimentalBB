@@ -59,7 +59,7 @@ def add_predictions_to_df(df, y_pred):
 
 def naive_bayes_train(csv_in, weights_out, weights_in=None):
     df = pd.read_csv(csv_in)
-    X, y = get_X_y(df)
+    X, y = get_X_y(df, flat_y=True)
 
     if weights_in:
         nb = Naive_Bayes().load(weights_in)
@@ -73,7 +73,7 @@ def naive_bayes_train(csv_in, weights_out, weights_in=None):
 
 def naive_bayes_predict(csv_in, csv_out, weights_in):
     df = pd.read_csv(csv_in)
-    X, _ = get_X_y(df)
+    X, _ = get_X_y(df, flat_y=True)
 
     nb = Naive_Bayes().load(weights_in)
     X_prep = nb.preprocess(X)
@@ -86,7 +86,7 @@ def naive_bayes_predict(csv_in, csv_out, weights_in):
 
 def naive_bayes_test(csv_in, csv_out, weights_in, score='accuracy'):
     df = pd.read_csv(csv_in)
-    X, y = get_X_y(df)
+    X, y = get_X_y(df, flat_y=True)
 
     nb = Naive_Bayes().load(weights_in)
     X_prep = nb.preprocess(X)

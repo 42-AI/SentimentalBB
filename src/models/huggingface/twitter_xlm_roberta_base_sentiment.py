@@ -1,61 +1,95 @@
 from transformers import pipeline
 import pandas as pd
+import numpy as np
 from sklearn.metrics import accuracy_score
+from src.data.load_dataset.base_dataset_tri_label import get_X_y
 
+from src.models.BaseModel import BaseModel
 # text,     label_1,    label_2,    label_3 [, predict_1,   predict_2,  predict_3   ]
 # string,   0/1,        0/1,        0/1     [, 0-1,         0-1,        0-1         ]
 
 
-def convert(label):
-    if label == 'Positive':
-        return 1
-    elif label == 'Negative':
-        return 0
-    else:
-        return -1
+def add_predictions_to_df(df, y):
+    y_preds = pd.DataFrame(y,
+                           columns=[
+                               'predict_Positive',
+                               'predict_Neutral',
+                               'predict_Negative'])
+    return pd.concat([df, y_preds], axis=1)
 
 
-def accuracy(df):
-    df['predict_Positive'] = df.apply(
-        lambda row: 1 if row["predict_Positive"] > 0 else 0, axis=1)
-    df['predict_Negative'] = df.apply(
-        lambda row: 1 if row["predict_Negative"] > 0 else 0, axis=1)
-    df['predict_Neutral'] = df.apply(
-        lambda row: 1 if row["predict_Neutral"] > 0 else 0, axis=1)
+class HuggingFaceModel(BaseModel):
+    def __init__(self):
+        model_path = "cardiffnlp/twitter-xlm-roberta-base-sentiment"
+        name = "twitter-xlm-roberta-base-sentiment"
+        self.my_pipeline = pipeline("sentiment-analysis",
+                                    model=model_path, tokenizer=model_path)
 
-    labels = df[['Positive', 'Negative', 'Neutral']].to_numpy()
-    predis = df[['predict_Positive', 'predict_Negative',
-                 'predict_Neutral']].to_numpy()
+    def train(self, X_train: np.array, y_train: np.array):
+        pass
 
-    accuracy = accuracy_score(labels, predis)
-    print(f"Total accuracy is {accuracy_score(labels, predis)}")
-    for i, label in enumerate(['Positive', 'Negative', 'Neutral']):
-        print(
-            f"{' ' * 4}{label} accuracy is {accuracy_score(labels[:,i], predis[:,i])}")
-    return accuracy
+    def _raw_y_to_y(self, raw_y):
+        label = [r["label"] for r in raw_y]
+        score = [r["score"] for r in raw_y]
+
+        probas = [[
+            int(l == "Positive") * s,
+            int(l == "Neutral") * s,
+            int(l == "Negative") * s
+        ] for l, s in zip(label, score)]
+
+        y = np.array(probas)
+        return y
+
+    def predict(self, X: str):
+        raw_y = self.my_pipeline(X)
+        y = self._raw_y_to_y(raw_y)
+        return y
 
 
-def huggin_face_predict(csv_in, csv_out):
-    model_path = "cardiffnlp/twitter-xlm-roberta-base-sentiment"
-    name = "twitter-xlm-roberta-base-sentiment"
-    my_pipeline = pipeline("sentiment-analysis",
-                           model=model_path, tokenizer=model_path)
+def huggingface_train(csv_in, weights_out, weights_in=None):
+    raise NotImplementedError
 
+
+def huggingface_predict(csv_in, csv_out, weights_in):
     df = pd.read_csv(csv_in)
+    X, _ = get_X_y(df)
 
-    predict = df.apply(lambda row: my_pipeline(row['text']), axis=1)
-    df["raw_pred"] = predict
-    new_pred_label = df.apply(lambda row: row["raw_pred"][0]["label"], axis=1)
-    new_pred_score = df.apply(lambda row: row["raw_pred"][0]["score"], axis=1)
-    df["predict_Negative"] = (new_pred_label == "Negative").astype(int)
-    df["predict_Neutral"] = (new_pred_label == "Neutral").astype(int)
-    df["predict_Positive"] = (new_pred_label == "Positive").astype(int)
-    df["predict_Positive"] = df["predict_Positive"] * new_pred_score
-    df["predict_Negative"] = df["predict_Negative"] * new_pred_score
-    df["predict_Neutral"] = df["predict_Neutral"] * new_pred_score
-    df = df[['text', 'Positive', 'Negative', 'Neutral',
-            'predict_Negative', 'predict_Positive', 'predict_Neutral']]
+    # nb = HuggingFaceModel().load(weights_in)
+    hb = HuggingFaceModel()
+    X_prep = hb.preprocess(X.tolist())
+    y_pred = hb.predict(X_prep)
+
+    df = add_predictions_to_df(df, y_pred)
     df.to_csv(csv_out)
-    acc = accuracy(df)
-    print(f"Accuracy of {name} model on a sample of 100 examples is: {acc}")
-    return acc
+    print(f"\nCsv with predictions created at {csv_out}\n")
+
+
+def huggingface_test(csv_in, csv_out, weights_in, score='accuracy'):
+    df = pd.read_csv(csv_in)
+    X, y = get_X_y(df)
+
+    # nb = HuggingFaceModel().load(weights_in)
+    hb = HuggingFaceModel()
+    X_prep = hb.preprocess(X.tolist())
+    y_pred = hb.predict(X_prep)
+
+    print(f"{y = }")
+    print(f"{y_pred = }")
+    df = add_predictions_to_df(df, y_pred)
+
+    y_pred[y_pred != 0] = 1
+    accuracy = hb.get_score(y, y_pred)
+    print(f"Accuracy: {accuracy}")
+
+    df.to_csv(csv_out)
+    print(f"\nCsv with predictions created at {csv_out}\n")
+
+
+def huggingface_main(args):
+    if args.task == 'train':
+        huggingface_train(args.train_csv, args.weights_out, args.weights_in)
+    elif args.task == 'test':
+        huggingface_test(args.test_csv, args.out_csv, args.weights_in)
+    elif args.task == 'predict':
+        huggingface_predict(args.predict_csv, args.csv_out, args.weights_in)

@@ -13,12 +13,20 @@ def get_X(df: pd.DataFrame) -> np.array:
 
 def get_y(df: pd.DataFrame) -> np.array:
     y = df[['Positive', 'Negative', 'Neutral']].to_numpy()
+    return y
+
+
+def get_y_flat(df: pd.DataFrame) -> np.array:
+    y = get_y(df)
     # https://stackoverflow.com/questions/45183213/coverting-back-one-hot-encoded-results-back-to-single-column-in-python
     y_labels = np.argmax(y, axis=1)
     return y_labels
 
 
-def get_X_y(df: pd.DataFrame) -> Tuple[np.array, np.array]:
+def get_X_y(df: pd.DataFrame, flat_y=False) -> Tuple[np.array, np.array]:
     X = get_X(df)
-    y = get_y(df)
+    if flat_y:
+        y = get_y_flat(df)
+    else:
+        y = get_y(df)
     return X, y

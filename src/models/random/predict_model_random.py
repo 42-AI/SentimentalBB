@@ -4,7 +4,7 @@ import os
 import numpy as np
 import random
 
-from src.models.base import BaseModel
+from src.models.BaseModel import BaseModel
 
 
 class RandomModel(BaseModel):
