@@ -1,7 +1,10 @@
 import os
 import sys
+import shutil
+from unittest.mock import NonCallableMagicMock
 import yaml
 import pandas as pd
+import json
 
 from click import MissingParameter
 from searchtweets import gen_request_parameters, load_credentials, collect_results
@@ -59,8 +62,8 @@ TAGS = {"Pecresse": "@avecValerie",
 CREDENTIAL_FILE = f".twitter_keys.yaml"
 # maybe later we would be able to use all, then we could change with search_tweets_v2_all
 TWITTER_KEY = 'search_tweets_v2_recent'
-NB_MAX_TWEETS = 40  # Max number of tweets one wants
-RES_PER_CALL = NB_MAX_TWEETS  # Max number of tweets per query to Twitter API
+NB_MAX_TWEETS = 50  # Max number of tweets one wants
+RES_PER_CALL = 10  # Max number of tweets per query to Twitter API
 CONFIG_YAML = ".config.yaml"
 SAVE_PATH = "data/raw/twitter"
 # ########################################################################### #
@@ -79,8 +82,66 @@ def dataset_to_csv(df_dataset: pd.DataFrame, filename: str):
         None
     """
     csv_path = f"{SAVE_PATH}/{filename}.csv"
+    print("dataset_to_csv ::: ", csv_path)
     os.makedirs(os.path.dirname(csv_path), exist_ok=True)
+    tmp_path = (f"{SAVE_PATH}/tmp")
+    lst_files = os.listdir(tmp_path)
+    df_dataset = None
+    for tmp_file in lst_files:
+        df_tmp = pd.read_csv(SAVE_PATH + "/tmp/" + tmp_file, index_col=False)
+        if df_dataset is None:
+            df_dataset = df_tmp
+        else:
+            df_dataset = pd.concat((df_dataset, df_tmp), ignore_index=True)
+        print(df_dataset)
+    #df_dataset.reset_index(inplace=True, drop=True)
     df_dataset.to_csv(csv_path)
+    shutil.rmtree(SAVE_PATH + "/tmp/")
+
+
+def chunk_to_csv(df_chunk: pd.DataFrame, mention: str,):
+    """ Saves the temporary tweets chunk to a temporary csv file pior to fusion.
+    This is to limit the lost of results in case the request or the saving of the dataset
+    encounter an issue.
+    Args:
+    -----
+        df_dataset [pandas DataFrame]: dataframe containing the dataset.
+        mention [str]: mention of a candidat in the forged request.
+    Return:
+    -------
+        None
+    """
+    print(df_chunk.columns)
+    tmp_last_date = df_chunk['created_at'].iloc[0]
+    tmp_first_date = df_chunk['created_at'].iloc[-1]
+    tmp_last_id = df_chunk['id'].iloc[0]
+    tmp_first_id = df_chunk['id'].iloc[-1]
+    tmp_file = (f"{SAVE_PATH}/tmp/{mention.replace('@', '')}_start_time-"
+                f"{tmp_first_date}_last_time-{tmp_last_date}_firstID-"
+                f"{tmp_first_id}_lastID-{tmp_last_id}")
+    os.makedirs(os.path.dirname(tmp_file), exist_ok=True)
+    df_chunk.to_csv(tmp_file, index=False)
+
+
+def metadata_to_json(metadata: dict, filename: str):
+    """ Saves the meta data of the request into a file in the specified directory.
+    Args:
+    -----
+        metadata [dictionary]: dictionary containing the metadata of the request.
+        filename [str]: name of the file where df will be saved.
+    Return:
+    -------
+        None
+    """
+    json_path = f"{SAVE_PATH}/{filename}.json"
+    os.makedirs(os.path.dirname(json_path), exist_ok=True)
+    dct_request = {}
+    dct_request["query"] = metadata[0]
+    for ii, meta in enumerate(metadata[1:]):
+        dct_request[f"request {ii+1}"] = meta
+    with open(json_path, 'w') as jsonfile:
+        json.dump(dct_request, jsonfile, indent=4,
+                  separators=(',', ': '), sort_keys=True)
 
 
 def twiterAPI_credentials():
@@ -147,7 +208,7 @@ def transform_tweets(tweets):
     -------
         df_tweets [pandas DataFrame]: all the data about the tweets.
     """
-    _, tweets_data = tweets[0]['meta'], tweets[0]['data']  # for the moment metadata of the request are unused
+    tweets_meta, tweets_data = tweets['meta'], tweets['data']  # for the moment metadata of the request are unused
     # Collecting the keys in data. For now only id and text but later with a better access we could have more keys
     lst_cols = list(tweets_data[0].keys())
 
@@ -162,8 +223,7 @@ def transform_tweets(tweets):
             dct_data_tweets[k].append(tweets_data[ii][k])
 
     df_tweets = pd.DataFrame(dct_data_tweets)
-
-    return df_tweets
+    return df_tweets, tweets_meta
 
 
 def make_dataset_twitter(txt: str, mention: str, start_time: str, end_time: str, tweet_fields: str = "id,created_at,text"):
@@ -185,6 +245,7 @@ def make_dataset_twitter(txt: str, mention: str, start_time: str, end_time: str,
         entities,geo,id,in_reply_to_user_id, lang,non_public_metrics,organic_metrics,
         possibly_sensitive,promoted_metrics,public_metrics,referenced_tweets,
         reply_settings,source,text,withheld.
+        Details can be found here: https://developer.twitter.com/en/docs/twitter-api/tweets/search/api-reference/get-tweets-search-recent
     """
     # Checking the argument mention:
     # if mention not in NOMS:
@@ -204,22 +265,35 @@ def make_dataset_twitter(txt: str, mention: str, start_time: str, end_time: str,
                                    env_overwrite=False)
     if mention is None:
         raise ValueError("One needs to mention a candidat.")
-    s_query = "-has:media -is:retweet"
+    s_query = mention
     if txt is not None:
-        s_query = txt + ' ' + s_query
-    s_query = mention + ' ' + s_query
+        s_query += ' ' + txt
+    s_query += ' ' + "-is:retweet -has:media"
     query = gen_request_parameters(s_query,
                                    results_per_call=RES_PER_CALL,
                                    granularity=None,
                                    start_time=start_time,
                                    end_time=end_time,
                                    tweet_fields=tweet_fields)
-    tweets = collect_results(query,
-                             max_tweets=NB_MAX_TWEETS,
-                             result_stream_args=search_args)
-    tweets = transform_tweets(tweets)
-    print(tweets)
-    return tweets
+
+    df_tweets = None
+    s = query
+    json_acceptable_string = s.replace("'", "\"")
+    d = json.loads(json_acceptable_string)
+    print(query)
+    metadata = [d]
+    for chunk in collect_results(query, max_tweets=NB_MAX_TWEETS, result_stream_args=search_args):
+        # transforming the chunk into a dataframe
+        df_chunk, meta_chunk = transform_tweets(chunk)
+        metadata.append(meta_chunk)
+        # temporary save of the chunk, to avoid to lost the data in case there is an isuue
+        chunk_to_csv(df_chunk, mention)
+
+        if df_tweets is None:
+            df_tweets = df_chunk
+        else:
+            df_tweets = pd.concat([df_tweets, df_chunk])
+    return df_tweets, metadata
 
 
 def data_main(dataset: str, split: str, txt: str, mention: str, start_time: str, end_time: str, tweet_fields: str):
@@ -249,11 +323,21 @@ def data_main(dataset: str, split: str, txt: str, mention: str, start_time: str,
         make_dataset_allocine(
             split)
     elif dataset == "twitter":
-        df_data = make_dataset_twitter(
-            txt, TAGS[mention], start_time, end_time, tweet_fields)
-
-        filename = f"{mention.lower().replace(' ', '')}/{dataset}_{mention}_{start_time}_{end_time}"
+        df_data, tweets_metadata = make_dataset_twitter(txt,
+                                                        TAGS[mention],
+                                                        start_time,
+                                                        end_time,
+                                                        tweet_fields)
+        df_data.reset_index(drop=True, inplace=True)
+        last_date = df_data['created_at'].iloc[0]
+        first_date = df_data['created_at'].iloc[-1]
+        last_id = df_data['id'].iloc[0]
+        first_id = df_data['id'].iloc[-1]
+        filename = f"{mention.lower().replace(' ', '')}/{mention}_start_time-{first_date}_last_time-{last_date}_firstID-{first_id}_lastID-{last_id}"
         dataset_to_csv(df_data, filename)
+
+        print(tweets_metadata)
+        metadata_to_json(tweets_metadata, filename)
 
 
 # ########################################################################### #
