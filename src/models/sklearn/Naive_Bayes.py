@@ -1,15 +1,16 @@
 import sklearn
 from sklearn.naive_bayes import MultinomialNB as NB
-import numpy as np
 import pandas as pd
 import scipy
-import os
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfTransformer
+import joblib
+from src.data.load_dataset.base_dataset_tri_label import get_X_y
+from src.models.BaseModel import BaseModel
 
 
-class Naive_Bayes:
+class Naive_Bayes(BaseModel):
     """_summary_
     Multinomial Naive Bayes model based on hyperparam alpha = 1.
     - Multinomial Model only selected beacuse seems to be common practice
@@ -19,6 +20,7 @@ class Naive_Bayes:
 
     def __init__(self):
         self.__clf = None
+        self.trained_preprocessing = False
 
     def train(self, X_train: scipy.sparse.csr.csr_matrix,
               y_train: scipy.sparse.csr.csr_matrix):
@@ -26,29 +28,86 @@ class Naive_Bayes:
         X_train: {array-like, sparse matrix} of shape (n_samples, n_features)
         y_train: array-like of shape (n_samples,)
         """
-        clf = NB().fit(X_train, y_train)
+        clf = NB(alpha=1).fit(X_train, y_train)
         self.__clf = clf
 
-    def predict(self, X_test: scipy.sparse.csr.csr_matrix):
-        predicted = self.__clf.predict(X_test)
+    def preprocess(self, X):
+        if not self.trained_preprocessing:
+            self.vec = CountVectorizer()
+            # 1st step of vectorization: CountVectorizer vectorizes X_train and X_test
+            _ = self.vec.fit_transform(X)
+            # # 2nd step: TF-IDF improves the vectorization of vectors created by
+            # #           CountVectorizer
+            # self.tf_transformer = TfidfTransformer(use_idf=False).fit(X)
+            self.trained_preprocessing = True
+
+        X_vec = self.vec.transform(X)
+        # X_tf = self.tf_transformer.transform(X_vec)
+        return X_vec
+
+    def predict(self, X: scipy.sparse.csr.csr_matrix):
+        predicted = self.__clf.predict(X)
         return predicted
 
 
-def naive_bayes_train(csv_in, weights_out):
-    print("--task train not implemented yet for naive-bayes")
-    pass
+def add_predictions_to_df(df, y_pred):
+    df["predict_Negative"] = (y_pred == -1).astype(int)
+    df["predict_Neutral"] = (y_pred == 0).astype(int)
+    df["predict_Positive"] = (y_pred == 1).astype(int)
+    return df
 
 
-def naive_bayes_test(csv_in, csv_out, weights_in=None, score='accuracy'):
+def naive_bayes_train(csv_in, weights_out, weights_in=None):
+    df = pd.read_csv(csv_in)
+    X, y = get_X_y(df)
+
+    if weights_in:
+        nb = Naive_Bayes().load(weights_in)
+    else:
+        nb = Naive_Bayes()
+    X_prep = nb.preprocess(X)
+    nb.train(X_prep, y)
+
+    nb.save(weights_out)
+
+
+def naive_bayes_predict(csv_in, csv_out, weights_in):
+    df = pd.read_csv(csv_in)
+    X, _ = get_X_y(df)
+
+    nb = Naive_Bayes().load(weights_in)
+    X_prep = nb.preprocess(X)
+    y_pred = nb.predict(X_prep)
+
+    df = add_predictions_to_df(df, y_pred)
+    df.to_csv(csv_out)
+    print(f"\nCsv with predictions created at {csv_out}\n")
+
+
+def naive_bayes_test(csv_in, csv_out, weights_in, score='accuracy'):
+    df = pd.read_csv(csv_in)
+    X, y = get_X_y(df)
+
+    nb = Naive_Bayes().load(weights_in)
+    X_prep = nb.preprocess(X)
+    y_pred = nb.predict(X_prep)
+
+    accuracy = nb.get_score(y, y_pred)
+    print(f"Accuracy: {accuracy}")
+
+    df.to_csv(csv_out)
+    print(f"\nCsv with predictions created at {csv_out}\n")
+
+
+def naive_bayes_alex(csv_in, csv_out, weights_in=None, score='accuracy'):
     """
 
     Args:
-        csv_in (_type_): _description_
-        csv_out (_type_): _description_
-        weights_in (_type_, optional): _description_. Defaults to None.
-        score (str, optional): _description_. Defaults to 'accuracy'.
+            csv_in (_type_): _description_
+            csv_out (_type_): _description_
+            weights_in (_type_, optional): _description_. Defaults to None.
+            score (str, optional): _description_. Defaults to 'accuracy'.
     """
-
     # ===================     PREPROCESS DATA    =============================
 
     df = pd.read_csv(csv_in)
@@ -98,15 +157,10 @@ def naive_bayes_test(csv_in, csv_out, weights_in=None, score='accuracy'):
     return (accuracy)
 
 
-def naive_bayes_predict(csv_in, csv_out, weights_in=None):
-    print("--task predict not implemented yet for naive-bayes")
-    pass
-
-
 def naive_bayes_main(args):
     if args.task == 'train':
-        naive_bayes_train(args.train_csv, args.weights_out)
+        naive_bayes_train(args.train_csv, args.weights_out, args.weights_in)
     elif args.task == 'test':
-        naive_bayes_test(args.test_csv, args.out_csv)
+        naive_bayes_test(args.test_csv, args.out_csv, args.weights_in)
     elif args.task == 'predict':
-        naive_bayes_predict(args.predict_csv, args.csv_out)
+        naive_bayes_predict(args.predict_csv, args.csv_out, args.weights_in)

@@ -4,6 +4,11 @@ from src.models.huggingface.twitter_xlm_roberta_base_sentiment import huggin_fac
 
 def test_allocine_hugging_face():
     out_test = 'data/processed/aclImdb/results/results.csv'
+    # 1 ligne load la data
+    # 1 ligne process la data
+    # 1 ligne train le model
+    # 1 ligne tester le model
+    # 1 ligne predire
     huggin_face_predict('src/tests/dataset_allocine_100.csv', out_test)
     df = pd.read_csv(out_test)
     assert accuracy(df) > 0.5
