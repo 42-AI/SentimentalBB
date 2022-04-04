@@ -5,7 +5,10 @@ import joblib
 
 
 class BaseModel:
-    def __init__(self):
+    def __init__(self, **kwargs):
+        pass
+
+    def add_argparse_args(self, parser):
         pass
 
     def train(self, X_train: np.array,
@@ -22,7 +25,7 @@ class BaseModel:
     def predict(self, X: np.array):
         raise NotImplementedError
 
-    def get_score(self, y_true, y_pred) -> float:
+    def get_score(self, y_true: np.array, y_pred: np.array) -> float:
         accuracy = sklearn.metrics.accuracy_score(y_true, y_pred)
         return accuracy
 

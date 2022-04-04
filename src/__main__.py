@@ -133,7 +133,6 @@ parser_visualization = subparsers.add_parser(
 args = parser.parse_args()
 print(args)
 
-
 if args.subparser == "data":
     data_main(args.download, args.split, args.text, args.mention,
               args.start_time, args.end_time, args.tweet_fields)
