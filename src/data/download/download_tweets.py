@@ -5,7 +5,8 @@ import yaml
 import pandas as pd
 import json
 
-from searchtweets import gen_request_parameters, load_credentials, collect_results
+from searchtweets import gen_request_parameters, load_credentials,\
+                         collect_results
 
 # ########################################################################### #
 #                                 Constants                                   #

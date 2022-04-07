@@ -1,8 +1,10 @@
 import argparse
+from email.policy import default
 
 from src.data.make_dataset.aclImdb import make_dataset_aclImdb
 from src.data.make_dataset.allocine import make_dataset_allocine
 from src.data.download.download_tweets import download_tweets
+from src.data.make_dataset.make_dataset_twitter import make_dataset_twitter
 
 # ########################################################################### #
 #                                 Constants                                   #
@@ -18,7 +20,9 @@ lst_candidats = ["Pecresse",
                  "Jadot",
                  "Roussel",
                  "Arthaud",
-                 "Poutou"]
+                 "Poutou",
+                 "all"]
+
 
 # ########################################################################### #
 #                                 Functions                                   #
@@ -26,43 +30,59 @@ lst_candidats = ["Pecresse",
 
 
 def add_data_args(parser):
-    # Specify to the data mentioning a specific candidats or aclImdb
-    parser.add_argument('--download',
+    # Specify which task to perform: download, make_dataset or load
+    parser.add_argument('--task',
+                        required=True,
+                        choices=['download', 'make-dataset', 'load-dataset'],
+                        help="Specify which task to perform.")
+
+    # Specify on which data to perform the task
+    parser.add_argument('--data',
                         default='aclImdb',
                         choices=['twitter', 'aclImdb', "allocine"],
-                        help="Download the specified dataset")
+                        help="Specify which type of data on which the task\
+                             will be performed")
 
     # Specify to the data collector the split of the dataset
     parser.add_argument('--split',
-                        default='train',
-                        choices=['train', 'test', "validation"],
-                        help="Download the specified dataset")
-
-    # Specify to the data collector to download tweets mentionning this user
-    parser.add_argument('--text',
                         default=None,
-                        help="Download the tweets from this user")
+                        choices=['train', 'test', "validation", 'predict'],
+                        help="For make_dataset: specify the action the \
+                             dataset will be used for ")
 
-    # Specify to the data collector to download tweets mentionning this user
-    parser.add_argument('--mention',
+    # Download twitter: specify user
+    parser.add_argument('--user',
+                        default=None,
+                        help="Only for download tweets: Download the tweets\
+                             from this user")
+
+    # Candidate Mention
+    parser.add_argument('--candidate',
+                        default=None,
                         choices=lst_candidats,
-                        help="Download the tweets from this user")
+                        help="Download the tweets mentioning this candidate")
 
-    # Specify the date from which the tweets will be download
+    # Start Time
     parser.add_argument('--start_time',
                         default=None,
-                        help="Download the tweets from this date")
+                        help="""Task to be performed on tweets from date:
+                             Format for make_dataset: 'yyyy-mm-dd'
+                             Format for download: 'yyyy-mm-dd hh:mm'
+                             Required for twitter""")
 
-    # Specify the date to which the tweets will be download
+    # End Time
     parser.add_argument('--end_time',
                         default=None,
-                        help="Download the tweets to this date")
+                        help="""Task to be performed on tweets up to date:
+                             Format for make_dataset: 'yyyy-mm-dd'
+                             Format for download: 'yyyy-mm-dd hh:mm'
+                             Required for twitter""")
 
-    # Specify the tweet fields of the tweets will be download
-    # for a lighter version of dataset, one can used: default='id,created_at,text',
+    # Twitter Dowload: Tweet fields
+    # for a lighter dataset, one can used: default='id,created_at,text',
     parser.add_argument('--tweet_fields',
                         default="author_id,created_at,id,public_metrics,text",
-                        help="Specify the tweet fields")
+                        help="Dowload Twitter: Specify the tweet fields")
 
 
 def data_main(args):
@@ -86,17 +106,22 @@ def data_main(args):
         mention parameter value must be in the NOMS
         start_time cannot be a date before today - 7 days
     """
-    if args.download == "aclImdb":
-        make_dataset_aclImdb()
-    elif args.download == "allocine":
-        make_dataset_allocine(
-            args.split)
-    elif args.download == "twitter":
-        download_tweets(args.text,
-                        args.mention,
-                        args.start_time,
-                        args.end_time,
-                        args.tweet_fields)
+    if args.task == 'download':
+        if args.data == "aclImdb":
+            make_dataset_aclImdb()
+        elif args.data == "allocine":
+            make_dataset_allocine(
+                args.split)
+        elif args.data == "twitter":
+            download_tweets(args.user,
+                            args.candidate,
+                            args.start_time,
+                            args.end_time,
+                            args.tweet_fields)
+    elif args.task == 'make-dataset':
+        if args.data == 'twitter':
+            make_dataset_twitter(args)
+
 
 
 # ########################################################################### #
