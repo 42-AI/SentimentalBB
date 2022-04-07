@@ -108,11 +108,11 @@ def chunk_to_csv(df_chunk: pd.DataFrame, mention: str,):
         None
     """
     print(df_chunk.columns)
-    tmp_last_date=df_chunk['created_at'].iloc[0]
-    tmp_first_date=df_chunk['created_at'].iloc[-1]
-    tmp_last_id=df_chunk['id'].iloc[0]
-    tmp_first_id=df_chunk['id'].iloc[-1]
-    tmp_file=(f"{SAVE_PATH}/tmp/{mention.replace('@', '')}_start_time-"
+    tmp_last_date = df_chunk['created_at'].iloc[0]
+    tmp_first_date = df_chunk['created_at'].iloc[-1]
+    tmp_last_id = df_chunk['id'].iloc[0]
+    tmp_first_id = df_chunk['id'].iloc[-1]
+    tmp_file = (f"{SAVE_PATH}/tmp/{mention.replace('@', '')}_start_time-"
                 f"{tmp_first_date}_last_time-{tmp_last_date}_firstID-"
                 f"{tmp_first_id}_lastID-{tmp_last_id}")
     os.makedirs(os.path.dirname(tmp_file), exist_ok=True)
@@ -129,12 +129,12 @@ def metadata_to_json(metadata: dict, filename: str):
     -------
         None
     """
-    json_path=os.path.join(SAVE_PATH, f"{filename}.json")
+    json_path = os.path.join(SAVE_PATH, f"{filename}.json")
     os.makedirs(os.path.dirname(json_path), exist_ok=True)
-    dct_request={}
-    dct_request["query"]=metadata[0]
+    dct_request = {}
+    dct_request["query"] = metadata[0]
     for ii, meta in enumerate(metadata[1:]):
-        dct_request[f"request {ii+1}"]=meta
+        dct_request[f"request {ii+1}"] = meta
     with open(json_path, 'w') as jsonfile:
         json.dump(dct_request, jsonfile, indent=4,
                   separators=(',', ': '), sort_keys=True)
@@ -150,26 +150,26 @@ def transform_tweets(tweets):
     -------
         df_tweets [pandas DataFrame]: all the data about the tweets.
     """
-    tweets_meta, tweets_data=tweets['meta'], tweets['data']  # for the moment metadata of the request are unused
+    tweets_meta, tweets_data = tweets['meta'], tweets['data']  # for the moment metadata of the request are unused
     # Collecting the keys in data. For now only id and text but later with a better access we could have more keys
-    lst_cols=list(tweets_data[0].keys())
+    lst_cols = list(tweets_data[0].keys())
 
     # Creating dictionary which will receive the data
     # Instead of having a list of dictionnaries we will have a dictionnary of lists
-    dct_data_tweets={}
+    dct_data_tweets = {}
     for k in lst_cols:
-        dct_data_tweets[k]=[]
+        dct_data_tweets[k] = []
 
     for ii in range(len(tweets_data)):
         for k in lst_cols:
             dct_data_tweets[k].append(tweets_data[ii][k])
 
-    df_tweets=pd.DataFrame(dct_data_tweets)
+    df_tweets = pd.DataFrame(dct_data_tweets)
     return df_tweets, tweets_meta
 
 
 def make_dataset_twitter(txt: str, mention: str, start_time: str, end_time: str,
-        tweet_fields: str='author_id,geo,id,in_reply_to_user_id,lang,created_at,text',):
+                         tweet_fields: str = 'author_id,geo,id,in_reply_to_user_id,lang,created_at,text',):
     """ Handles the forging of the query a collect the request from twitter API.
     Args:
     -----
@@ -202,16 +202,16 @@ def make_dataset_twitter(txt: str, mention: str, start_time: str, end_time: str,
     # Testing start_time < end_time
 
     # Checking the credentials and trying to retrieve them if necessary
-    search_args=load_credentials(filename=CREDENTIAL_FILE,
+    search_args = load_credentials(filename=CREDENTIAL_FILE,
                                    yaml_key=TWITTER_KEY,
                                    env_overwrite=False)
     if mention is None:
         raise ValueError("One needs to mention a candidat.")
-    s_query=mention
+    s_query = mention
     if txt is not None:
         s_query += ' ' + txt
     s_query += ' ' + "-has:media"
-    query=gen_request_parameters(s_query,
+    query = gen_request_parameters(s_query,
                                    results_per_call=RES_PER_CALL,
                                    granularity=None,
                                    start_time=start_time,
@@ -228,38 +228,38 @@ def make_dataset_twitter(txt: str, mention: str, start_time: str, end_time: str,
        https://github.com/twitterdev/search-tweets-python/blob/v2/searchtweets/api_utils.py
    """
 
-    df_tweets=None
-    s=query
-    json_acceptable_string=s.replace("'", "\"")
-    d=json.loads(json_acceptable_string)
+    df_tweets = None
+    s = query
+    json_acceptable_string = s.replace("'", "\"")
+    d = json.loads(json_acceptable_string)
     print(query)
-    metadata=[d]
+    metadata = [d]
     for chunk in collect_results(query, max_tweets=NB_MAX_TWEETS, result_stream_args=search_args):
         # transforming the chunk into a dataframe
-        df_chunk, meta_chunk=transform_tweets(chunk)
+        df_chunk, meta_chunk = transform_tweets(chunk)
         metadata.append(meta_chunk)
         # temporary save of the chunk, to avoid to lost the data in case there is an isuue
         chunk_to_csv(df_chunk, mention)
 
         if df_tweets is None:
-            df_tweets=df_chunk
+            df_tweets = df_chunk
         else:
-            df_tweets=pd.concat([df_tweets, df_chunk])
+            df_tweets = pd.concat([df_tweets, df_chunk])
     return df_tweets, metadata
 
 
 def download_tweets(txt: str, mention: str, start_time: str, end_time: str, tweet_fields: str):
-    df_data, tweets_metadata=make_dataset_twitter(txt,
-                                                TAGS[mention],
-                                                start_time,
-                                                end_time,
-                                                tweet_fields)
+    df_data, tweets_metadata = make_dataset_twitter(txt,
+                                                    TAGS[mention],
+                                                    start_time,
+                                                    end_time,
+                                                    tweet_fields)
     df_data.reset_index(drop=True, inplace=True)
-    last_date=df_data['created_at'].iloc[0]
-    first_date=df_data['created_at'].iloc[-1]
-    last_id=df_data['id'].iloc[0]
-    first_id=df_data['id'].iloc[-1]
-    filename=f"{mention.lower().replace(' ', '')}/{mention}_start_time-{first_date}_last_time-{last_date}_firstID-{first_id}_lastID-{last_id}"
+    last_date = df_data['created_at'].iloc[0]
+    first_date = df_data['created_at'].iloc[-1]
+    last_id = df_data['id'].iloc[0]
+    first_id = df_data['id'].iloc[-1]
+    filename = f"{mention.lower().replace(' ', '')}/{mention}_start_time-{first_date}_last_time-{last_date}_firstID-{first_id}_lastID-{last_id}"
     dataset_to_csv(df_data, filename)
 
     print(tweets_metadata)
