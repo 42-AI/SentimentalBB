@@ -1,6 +1,6 @@
 from src.models.sklearn.Naive_Bayes import naive_bayes_main
 from src.models.huggingface.twitter_xlm_roberta_base_sentiment \
-    import huggin_face_predict, huggingface_main
+    import huggingface_predict, huggingface_main
 import pandas as pd
 import argparse
 
