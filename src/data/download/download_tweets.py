@@ -92,7 +92,7 @@ def dataset_to_csv(df_dataset: pd.DataFrame, filename: str):
         print(df_dataset)
     # df_dataset.reset_index(inplace=True, drop=True)
     df_dataset.to_csv(csv_path)
-    shutil.rmtree(os.path.join(SAVE_PATH, "tmp")
+    shutil.rmtree(os.path.join(SAVE_PATH, "tmp"))
 
 
 def chunk_to_csv(df_chunk: pd.DataFrame, mention: str,):
@@ -129,7 +129,7 @@ def metadata_to_json(metadata: dict, filename: str):
     -------
         None
     """
-    json_path=os.path.join(SAVE_PATH, f"{filaneme}.json")
+    json_path=os.path.join(SAVE_PATH, f"{filename}.json")
     os.makedirs(os.path.dirname(json_path), exist_ok=True)
     dct_request={}
     dct_request["query"]=metadata[0]
@@ -211,17 +211,12 @@ def make_dataset_twitter(txt: str, mention: str, start_time: str, end_time: str,
     if txt is not None:
         s_query += ' ' + txt
     s_query += ' ' + "-has:media"
-    expansions='author_id,entities.mentions.usename,geo.place_id,in_reply_to_user_id,'
-    'referenced_tweets.id,referenced_tweets.id.author_id'
-    place_fields='country_code,full_name'
     query=gen_request_parameters(s_query,
                                    results_per_call=RES_PER_CALL,
                                    granularity=None,
                                    start_time=start_time,
                                    end_time=end_time,
-                                   tweet_fields=tweet_fields,
-                                   expansions=expansions,
-                                   place_fields=place_fields)
+                                   tweet_fields=tweet_fields)
     """ The function
     gen_request_parameters(query, granularity=None, results_per_call=None,
                            start_time=None, end_time=None, since_id=None, until_id=None,
@@ -253,45 +248,19 @@ def make_dataset_twitter(txt: str, mention: str, start_time: str, end_time: str,
     return df_tweets, metadata
 
 
-def download_tweets(dataset: str, split: str, txt: str, mention: str, start_time: str, end_time: str, tweet_fields: str):
-    """ Main function to interact with the Twitter API or with aclImdb.
-    It downloads and save the dataset/result into a file.
-    Args:
-    -----
-        dataset [str]: type of dataset/API one wish to interact with.
-        split[str]: specify the configuration (train or test)
-        txt [str]: text one wish to be present within the tweets.
-        mention [str]: mention of a candidat in the forged request.
-        start_time [str]: starting date from which tweets will be download.
-        end_time [str]: ending date until which tweets will be download.
-        tweet_fields[str]: specify the tweet fields. Defaults is 'id,created_at,text'.
-    Return:
-    -------
-        None
-    Remarks:
-    --------
-        dataset parameter value must be in ['twitter', 'aclImdb', 'allocine']
-        mention parameter value must be in the NOMS
-        start_time cannot be a date before today - 7 days
-    """
-    if dataset == "aclImdb":
-        make_dataset_aclImdb()
-    elif dataset == "allocine":
-        make_dataset_allocine(
-            split)
-    elif dataset == "twitter":
-        df_data, tweets_metadata=make_dataset_twitter(txt,
-                                                        TAGS[mention],
-                                                        start_time,
-                                                        end_time,
-                                                        tweet_fields)
-        df_data.reset_index(drop=True, inplace=True)
-        last_date=df_data['created_at'].iloc[0]
-        first_date=df_data['created_at'].iloc[-1]
-        last_id=df_data['id'].iloc[0]
-        first_id=df_data['id'].iloc[-1]
-        filename=f"{mention.lower().replace(' ', '')}/{mention}_start_time-{first_date}_last_time-{last_date}_firstID-{first_id}_lastID-{last_id}"
-        dataset_to_csv(df_data, filename)
+def download_tweets(txt: str, mention: str, start_time: str, end_time: str, tweet_fields: str):
+    df_data, tweets_metadata=make_dataset_twitter(txt,
+                                                TAGS[mention],
+                                                start_time,
+                                                end_time,
+                                                tweet_fields)
+    df_data.reset_index(drop=True, inplace=True)
+    last_date=df_data['created_at'].iloc[0]
+    first_date=df_data['created_at'].iloc[-1]
+    last_id=df_data['id'].iloc[0]
+    first_id=df_data['id'].iloc[-1]
+    filename=f"{mention.lower().replace(' ', '')}/{mention}_start_time-{first_date}_last_time-{last_date}_firstID-{first_id}_lastID-{last_id}"
+    dataset_to_csv(df_data, filename)
 
-        print(tweets_metadata)
-        metadata_to_json(tweets_metadata, filename)
+    print(tweets_metadata)
+    metadata_to_json(tweets_metadata, filename)
