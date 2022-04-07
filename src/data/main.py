@@ -23,44 +23,46 @@ lst_candidats = ["Pecresse",
 # ########################################################################### #
 #                                 Functions                                   #
 # ########################################################################### #
+
+
 def add_data_args(parser):
     # Specify to the data mentioning a specific candidats or aclImdb
     parser.add_argument('--download',
-                            default='aclImdb',
-                            choices=['twitter', 'aclImdb', "allocine"],
-                            help="Download the specified dataset")
+                        default='aclImdb',
+                        choices=['twitter', 'aclImdb', "allocine"],
+                        help="Download the specified dataset")
 
     # Specify to the data collector the split of the dataset
     parser.add_argument('--split',
-                            default='train',
-                            choices=['train', 'test', "validation"],
-                            help="Download the specified dataset")
+                        default='train',
+                        choices=['train', 'test', "validation"],
+                        help="Download the specified dataset")
 
     # Specify to the data collector to download tweets mentionning this user
     parser.add_argument('--text',
-                            default=None,
-                            help="Download the tweets from this user")
+                        default=None,
+                        help="Download the tweets from this user")
 
     # Specify to the data collector to download tweets mentionning this user
     parser.add_argument('--mention',
-                            choices=lst_candidats,
-                            help="Download the tweets from this user")
+                        choices=lst_candidats,
+                        help="Download the tweets from this user")
 
     # Specify the date from which the tweets will be download
     parser.add_argument('--start_time',
-                            default=None,
-                            help="Download the tweets from this date")
+                        default=None,
+                        help="Download the tweets from this date")
 
     # Specify the date to which the tweets will be download
     parser.add_argument('--end_time',
-                            default=None,
-                            help="Download the tweets to this date")
+                        default=None,
+                        help="Download the tweets to this date")
 
     # Specify the tweet fields of the tweets will be download
     # for a lighter version of dataset, one can used: default='id,created_at,text',
     parser.add_argument('--tweet_fields',
-                            default="author_id,created_at,id,public_metrics,text",
-                            help="Specify the tweet fields")
+                        default="author_id,created_at,id,public_metrics,text",
+                        help="Specify the tweet fields")
 
 
 def data_main(args):
@@ -91,10 +93,10 @@ def data_main(args):
             args.split)
     elif args.download == "twitter":
         download_tweets(args.text,
-                args.mention,
-                args.start_time,
-                args.end_time,
-                args.tweet_fields)
+                        args.mention,
+                        args.start_time,
+                        args.end_time,
+                        args.tweet_fields)
 
 
 # ########################################################################### #

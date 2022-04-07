@@ -82,8 +82,6 @@ print(args)
 
 if args.subparser == "data":
     data_main(args)
-    #data_main(args.download, args.split, args.text, args.mention,
-    #          args.start_time, args.end_time, args.tweet_fields)
 elif args.subparser == "features":
     features_main(args.model, args.data)
 elif args.subparser == "models":
