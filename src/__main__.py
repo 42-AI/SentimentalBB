@@ -5,7 +5,7 @@ import hydra
 from src.data.main import data_main, add_data_args
 from src.features.main import features_main
 from src.models.main import models_main, add_models_args
-from src.visualization.main import visualization_main
+from src.visualization.main import visualization_main, add_visaulization_args
 
 # ########################################################################### #
 #                                 Constants                                   #
@@ -74,7 +74,7 @@ add_models_args(parser_models)
 ######
 parser_visualization = subparsers.add_parser(
     'visualization', help='Visualization related commands')
-
+add_visaulization_args(parser_visualization)
 
 # Parsing args
 args = parser.parse_args()
@@ -91,4 +91,4 @@ elif args.subparser == "features":
 elif args.subparser == "models":
     models_main(args)
 elif args.subparser == "visualization":
-    visualization_main()
+    visualization_main(args)
