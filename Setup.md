@@ -2,14 +2,13 @@
 
 - [Setup](#setup)
 - [Tools to Install](#tools-to-install)
-  * [Python](#python)
-  * [Poetry](#poetry)
-  * [direnv](#direnv)
-  * [AWS CLI](#aws-cli)
+	- [Python](#python)
+	- [Poetry](#poetry)
+	- [AWS CLI](#aws-cli)
 - [Initialize your repository](#initialize-your-repository)
-  * [Initialize direnv](#initialize-direnv)
-  * [Launch the script to initialize your project](#launch-the-script-to-initialize-your-project)
-  * [Verify you can launch the project](#verify-you-can-launch-the-project)
+	- [Initialize twitter credential key](#initialize-twitter-credential-key)
+	- [Launch the script to initialize your project](#launch-the-script-to-initialize-your-project)
+	- [Verify you can launch the project](#verify-you-can-launch-the-project)
 
 <small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
 
@@ -93,6 +92,15 @@ The AWS Command Line Interface will be necessary to push your data to the remote
 
 Here are the steps you should follow for this: <https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html>
 
+Once aws is installed, and if you are a developper of this projet, add the access keys (see slack message from Louis) by typing this command in the CLI:
+
+```sh
+aws configure
+```
+
+It will let you enter one by one the different keys directly in the CLI.
+The infos "Default Region Name" and "Default output format" can be dismissed.
+ 
 
 # Initialize your repository
 
@@ -102,18 +110,26 @@ You should first `git clone` this project, and then `cd` to it's top directory f
 
 ## Initialize twitter credential key
 
+Type in this command in the CLI (if you are a developper of the projet, see slack post from Guillaume to get the different keys):
+
 ```sh
-echo "<name_of_key>:
-  	endpoint: <URL_OF_ENDPOINT>
-  	bearer_token: <YOUR_BEARER_TOKEN>
-  	consumer_key: <YOUR_CONSUMER_KEY>
-  	consumer_secret: <YOUR_CONSUMER_SECRET>" > .twitter_keys.yaml
+echo "search_tweets_v2_recent:
+  endpoint: <URL_OF_ENDPOINT>
+  bearer_token: <YOUR_BEARER_TOKEN>
+  consumer_key: <YOUR_CONSUMER_KEY>
+  consumer_secret: <YOUR_CONSUMER_SECRET>" > .twitter_keys.yaml
 ```
 
 
 ## Launch the script to initialize your project
 
-If it's not with execute rights, you should add them
+Optional step: Create poetry virtualenv and download all the dependencies (normally already done by init in next step):
+
+```sh
+poetry install
+```
+
+Init script: If it's not with execute rights, you should add them
 
 ```sh
 chmod +x .42AI/init.sh
