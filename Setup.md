@@ -92,7 +92,7 @@ The AWS Command Line Interface will be necessary to push your data to the remote
 
 Here are the steps you should follow for this: <https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html>
 
-Once aws is installed, add the access keys (see slack message from Louis) by typing this command in the CLI:
+Once aws is installed, and if you are a developper of this projet, add the access keys (see slack message from Louis) by typing this command in the CLI:
 
 ```sh
 aws configure
@@ -110,7 +110,7 @@ You should first `git clone` this project, and then `cd` to it's top directory f
 
 ## Initialize twitter credential key
 
-Type in this command in the CLI (see slack post from Guillaume to get the different keys):
+Type in this command in the CLI (if you are a developper of the projet, see slack post from Guillaume to get the different keys):
 
 ```sh
 echo "search_tweets_v2_recent:
