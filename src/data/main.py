@@ -38,7 +38,8 @@ def add_data_args(parser):
 
     # Specify on which data to perform the task
     parser.add_argument('--data',
-                        default='aclImdb',
+                        required=True,
+                        default=None,
                         choices=['twitter', 'aclImdb', "allocine"],
                         help="Specify which type of data on which the task\
                              will be performed")
@@ -47,7 +48,7 @@ def add_data_args(parser):
     parser.add_argument('--split',
                         default=None,
                         choices=['train', 'test', "validation", 'predict'],
-                        help="For make_dataset: specify the action the \
+                        help="Required For make_dataset: specify the action the \
                              dataset will be used for ")
 
     # Download twitter: specify user
@@ -73,9 +74,9 @@ def add_data_args(parser):
     # End Time
     parser.add_argument('--end_time',
                         default=None,
-                        help="""Task to be performed on tweets up to date:
-                             Format for make_dataset: 'yyyy-mm-dd'
-                             Format for download: 'yyyy-mm-dd hh:mm'
+                        help="""Task to be performed on tweets up to date:\n
+                             Format for make_dataset: 'yyyy-mm-dd'\n
+                             Format for download: 'yyyy-mm-dd hh:mm'\n
                              Required for twitter""")
 
     # Twitter Dowload: Tweet fields
@@ -121,7 +122,6 @@ def data_main(args):
     elif args.task == 'make-dataset':
         if args.data == 'twitter':
             make_dataset_twitter(args)
-
 
 
 # ########################################################################### #
