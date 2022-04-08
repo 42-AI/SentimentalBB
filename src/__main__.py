@@ -80,6 +80,10 @@ parser_visualization = subparsers.add_parser(
 args = parser.parse_args()
 print(args)
 
+# from src.data.load_dataset.twitter_predict import my_test_main
+
+# my_test_main()
+
 if args.subparser == "data":
     data_main(args)
 elif args.subparser == "features":
