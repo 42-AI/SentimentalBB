@@ -52,10 +52,10 @@ def add_data_args(parser):
                              dataset will be used for ")
 
     # Download twitter: specify user
-    parser.add_argument('--user',
+    parser.add_argument('--text',
                         default=None,
                         help="Only for download tweets: Download the tweets\
-                             from this user")
+                             containing this text")
 
     # Candidate Mention
     parser.add_argument('--candidate',
@@ -114,7 +114,7 @@ def data_main(args):
             make_dataset_allocine(
                 args.split)
         elif args.data == "twitter":
-            download_tweets(args.user,
+            download_tweets(args.text,
                             args.candidate,
                             args.start_time,
                             args.end_time,

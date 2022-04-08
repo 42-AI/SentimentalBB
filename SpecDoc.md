@@ -78,6 +78,14 @@ There are 2 types of datasets that need to be made for twitter:
 
 ##### <span style="color: blue;">1. Predict</span>
 
++  **What it needs**: 
+    - Tweets downloaded via part A1a.
+    - folders in _data/raw/twitter/_ named as such: {"pecresse","zemmour","dupont-aignan","melenchon","lepen","lassalle","hidalgo","macron","jadot","roussel","arthaud","poutou"}
+    - In each of these folders: csvs whose names contain 'start_time-yyyy-mm-dd'
+    - Csvs formatted with at least the following columns:
+      - 'text': text of tweet
+      - 'created_at': timestamp of tweet with 'hh:mm:ss' in it
+      - 'id': tweet id 
 +  **What it does**: 
     - Given a dates range and a candidate name (either one candidate or all candidates), takes the corresponding csvs in _data/raw/twitter_
     - Concatenates all the csvs for one candidate and a specific day
@@ -91,11 +99,14 @@ There are 2 types of datasets that need to be made for twitter:
     - --candidate: name of candidate ("all" if perform task on all of them): {"Pecresse","Zemmour","Dupont-Aignan","Melenchon","Le Pen","Lassalle","Hidalgo","Macron","Jadot","Roussel","Arthaud","Poutou","all"}
     - --start_time: first day for the date range. format: _yyyy-mm-dd_
     - --end_time: last day for the date range. format: _yyyy-mm-dd_
-+ **Outputs**: creates csvs in _data/processed/twitter/predict/day(mmdd)/_ formatted as such:
++ **Outputs**: creates csvs in _data/processed/twitter/predict/[mmdd]_ named as such _[candidatename](see above in 'what it needs' for format)\_[mmdd]\_[nbtweets]tweets.csv_: formatted as such:
   - 'candidate': name of candidate (see list above for name format)
   - 'time': timestamp of tweet formatted as such _hh:mm:ss_
   - 'tweet_id': id of tweet
   - 'text': text of tweet
++ **Prints**:
+    - "csv created at" if csv has successfully been created
+    - "no raw twitter data..." if there was no raw csv file for the specific date and specific candidate
 + **Warning**: If the program must create a csv file that already exists, it will overwrite it.
 
 The source code to perform this action is written in _src/data/make\_dataset/make\_dataset\_twitter.py_

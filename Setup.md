@@ -117,18 +117,13 @@ echo "search_tweets_v2_recent:
   endpoint: <URL_OF_ENDPOINT>
   bearer_token: <YOUR_BEARER_TOKEN>
   consumer_key: <YOUR_CONSUMER_KEY>
-  consumer_secret: <YOUR_CONSUMER_SECRET>
-search_tweets_v2_all:
-  endpoint: <URL_OF_ENDPOINT>
-  bearer_token: <YOUR_BEARER_TOKEN>
-  consumer_key: <YOUR_CONSUMER_KEY>
   consumer_secret: <YOUR_CONSUMER_SECRET>" > .twitter_keys.yaml
 ```
 
 
 ## Launch the script to initialize your project
 
-Before initializing script, create poetry virtualenv and download all the dependencies:
+Optional step: Create poetry virtualenv and download all the dependencies (normally already done by init in next step):
 
 ```sh
 poetry install
