@@ -5,6 +5,7 @@ from src.data.make_dataset.aclImdb import make_dataset_aclImdb
 from src.data.make_dataset.allocine import make_dataset_allocine
 from src.data.download.download_tweets import download_tweets
 from src.data.make_dataset.make_dataset_twitter import make_dataset_twitter
+from src.data.make_dataset.make_dataset_allocine import make_dataset_allocine
 from src import config
 
 # ########################################################################### #
@@ -76,6 +77,13 @@ def add_data_args(parser):
                             nb of tweets to select for test set. \
                             Range should be [12-480].")
 
+    # Make test set twitter: nb of tweets
+    parser.add_argument('--nb_reviews',
+                        default=180,
+                        help="For make-dataset allocine test: \
+                            nb of reviews to select for test set. \
+                            Range should be [1-10000].")
+
 
 def data_main(args):
     if args.task == 'download':
@@ -93,6 +101,8 @@ def data_main(args):
     elif args.task == 'make-dataset':
         if args.data == 'twitter':
             make_dataset_twitter(args)
+        elif args.data == 'allocine':
+            make_dataset_allocine(args)
 
 
 # ########################################################################### #
