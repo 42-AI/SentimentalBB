@@ -19,9 +19,9 @@ def make_dataset_allocine(args):
     print("Dataset allocine downloaded")
     # Convert dataset to pd dataframe
     pre_df = {
-             "text": [datapoint["review"] for datapoint in dataset],
-             "Positive": [datapoint["label"] for datapoint in dataset],
-             }
+        "text": [datapoint["review"] for datapoint in dataset],
+        "Positive": [datapoint["label"] for datapoint in dataset],
+    }
     df = pd.DataFrame.from_dict(pre_df)
     df['Negative'] = abs(df['Positive'] - 1)
     # Use Case --split is test
