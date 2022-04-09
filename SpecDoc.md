@@ -1,5 +1,28 @@
 # Specification Document Sentimental BB
 
+- [Specification Document Sentimental BB](#specification-document-sentimental-bb)
+- [A. WHAT THE PROGRAM DOES](#a-what-the-program-does)
+	- [A1. DATA](#a1-data)
+		- [A1a. Download/Scrap](#a1a-downloadscrap)
+			- [1) Use Case Allocine:](#1-use-case-allocine)
+			- [2) Use Case Twitter:](#2-use-case-twitter)
+		- [A1b. Make Dataset](#a1b-make-dataset)
+			- [1) Use Case Allocine:](#1-use-case-allocine-1)
+				- [<span style="color: blue;">1. Train</span>](#1-train)
+				- [<span style="color: blue;">2. Test</span>](#2-test)
+			- [2) Use Case Twitter:](#2-use-case-twitter-1)
+				- [<span style="color: blue;">1. Predict</span>](#1-predict)
+				- [<span style="color: blue;">2. Test</span>](#2-test-1)
+	- [A1c. Load Dataset](#a1c-load-dataset)
+	- [A2. FEATURES](#a2-features)
+	- [A3. MODELS](#a3-models)
+		- [A3a. Train](#a3a-train)
+		- [A3b. Test](#a3b-test)
+		- [A3c. Predict](#a3c-predict)
+	- [A4. TEST](#a4-test)
+	- [A5. VISUALIZATION](#a5-visualization)
+- [B. DATA ARCHITECTURE](#b-data-architecture)
+
 # A. WHAT THE PROGRAM DOES
 
 
@@ -114,27 +137,35 @@ The source code to perform this action is written in _src/data/make\_dataset/mak
 
 ##### <span style="color: blue;">2. Test</span>
 
-+  **What it will do**:
-    - From nb tweets (selected by user in CLI) randomly chosen from all the csv files in _data/processed/twitter/predict_ creates one non-labelled csv with all the nb tweets that will later be labelled in order to test a model.
-    - **WARNING**: Those tweets must somehow be removed from the predict csvs they've been chosen from.
-    - The output csv must have more or less the same number of tweets for each candidate.
-    - Once the tweets are all concatenated in one structure, simply add two columns 'Positive' and 'Negative' with zeroes in them. 
-    - Warning: Stored in _src/test_ as this small data needs to be git pushed for the unit tests.
++  **What it needs**: 
+    - Csvs made by the Predict part here above.
+    - The csvs must be somewhere in _data/processed/twitter/_ with names beginning with: {"pecresse","zemmour","dupont-aignan","melenchon","lepen","lassalle","hidalgo","macron","jadot","roussel","arthaud","poutou"}
++  **What it does**:
+    - Randomly chooses _nb_tweets_ tweets from all the csv files in _data/processed/twitter/predict_ so that every candidate has the exact same number of tweets in the outputted test set.
+    - Concatenates all those tweets in a new csv with added columns for labels
+    - WARNING: Those tweets are **NOT removed** from the predict csvs files from which they came from
+    - Warning: csv stored in _src/test_ as this small data needs to be git pushed for the unit tests.
 + Called via CLI
 + **Command**:  `poetry run python m src data --task make-dataset --data twitter --split test`
-+ **Other Arguments**: all Required
-  -  --nb-tweets: Number of tweets to select from all the files (Not more than a couple of hundreeds as we'll have to label them by hands afterwards)
-+ **Outputs**: creates a csv as _src/test/nbtweets\_tweets\_date\_unlabelled.csv_ formatted as such:
++ **Other Arguments**: Not Required
+  -  --nb_tweets:
+     -  Number of tweets wanted in the test dataset outputted.
+     -  Default is 120.
+     -  Must be in Range [12-480]
+     -  the program actually creates a csv with `nb_tweets - (nb_tweets % 12)` 
+     -  If the program randomly select a csv file in predict with less than [nb_tweets/12] tweets, it will still output a csv but with less tweets than wanted.
++ **Outputs**: creates a csv as _src/tests/testset\_[nb_tweets]tweets\_unlabeled.csv_ formatted as such:
   - 'candidate': name of candidate
   - 'time': timestamp of tweet formatted as _hh:mm:ss_
+    - Day unfortunately not specified
   - 'tweet_id': id of tweet
   - 'text': text of tweet
   - 'Positive': every value set to 0 as it yet has to be labelled
   - 'Negative': every value set to 0 as it yet has to be labelled
 
-Once the csv is created, it will have to be manually labelled (via google sheet for exple) and the name of the csv will have to be updated to _nbtweets\_tweets\_date\_labelled.csv_
+Once the csv is created, it will have to be manually labelled (via google sheet for exple) and the name of the csv will have to be updated to _testset\_[nb_tweets]tweets\_unlabeled.csv_
 
-The source code to perform this action must be written in a function in _src/data/make\_dataset/make\_dataset\_twitter.py_
+The source code to perform this action is written in a function in _src/data/make\_dataset/make\_dataset\_twitter.py_
 
 
 

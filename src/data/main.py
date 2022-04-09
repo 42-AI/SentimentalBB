@@ -61,7 +61,9 @@ def add_data_args(parser):
     parser.add_argument('--candidate',
                         default=None,
                         choices=lst_candidats,
-                        help="Download the tweets mentioning this candidate")
+                        help="""For twitter download or twitter make-dataset: \
+                        predictDownload the tweets mentioning \
+                        this candidate""")
 
     # Start Time
     parser.add_argument('--start_time',
@@ -85,28 +87,15 @@ def add_data_args(parser):
                         default="author_id,created_at,id,public_metrics,text",
                         help="Dowload Twitter: Specify the tweet fields")
 
+    # Make test set twitter: nb of tweets
+    parser.add_argument('--nb_tweets',
+                        default=120,
+                        help="For make-dataset twitter test: \
+                            nb of tweets to select for test set. \
+                            Range should be [12-480].")
+
 
 def data_main(args):
-    """ Main function to interact with the Twitter API or with aclImdb.
-    It downloads and save the dataset/result into a file.
-    Args:
-    -----
-        dataset [str]: type of dataset/API one wish to interact with.
-        split[str]: specify the configuration (train or test)
-        txt [str]: text one wish to be present within the tweets.
-        mention [str]: mention of a candidat in the forged request.
-        start_time [str]: starting date from which tweets will be download.
-        end_time [str]: ending date until which tweets will be download.
-        tweet_fields[str]: specify the tweet fields. Defaults is 'id,created_at,text'.
-    Return:
-    -------
-        None
-    Remarks:
-    --------
-        dataset parameter value must be in ['twitter', 'aclImdb', 'allocine']
-        mention parameter value must be in the NOMS
-        start_time cannot be a date before today - 7 days
-    """
     if args.task == 'download':
         if args.data == "aclImdb":
             make_dataset_aclImdb()
