@@ -1,36 +1,41 @@
 # Sentimental Big Brother
 
 <div style="text-align:center"><img src="https://www.42ai.fr/wp-content/uploads/2020/04/White@4x-980x607.png" style="width:40%"/></div>
+
 ----
 
-# Table of content
+# Table of contents
+
+- [Sentimental Big Brother](#sentimental-big-brother)
+- [Table of contents](#table-of-contents)
 - [Description](#description)
+  * [French](#french)
+  * [English](#english)
+- [Preliminary results](#preliminary-results)
+  * [Pecresse](#pecresse)
+  * [Zemmour](#zemmour)
+  * [Dupont-Aignan](#dupont-aignan)
+  * [Melenchon](#melenchon)
+  * [Le Pen](#le-pen)
+  * [Lassalle](#lassalle)
+  * [Hidalgo](#hidalgo)
+  * [Macron](#macron)
+  * [Jadot](#jadot)
+  * [Roussel](#roussel)
+  * [Arthaud](#arthaud)
+  * [Poutou](#poutou)
 - [How to run as a module](#how-to-run-as-a-module)
   * [How to download the datasets:](#how-to-download-the-datasets-)
     + [AclIMDB](#aclimdb)
     + [Twitter](#twitter)
-- [How to launch fast api](#how-to-launch-fast-api)
-- [With the docker](#with-the-docker)
-- [With Docker Compose](#with-docker-compose)
-- [Project architecture](#project-architecture)
-  * [Project Organization](#project-organization)
+  * [How to process raw data with a given model:](#how-to-process-raw-data-with-a-given-model-)
 - [Contributors](#contributors)
 
+<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
 
 # Description
 
-In 2021, according to the [Democracy Index](https://en.wikipedia.org/wiki/Democracy_Index#:~:text=The%20Democracy%20Index%20is%20an,the%20weekly%20newspaper%20The%20Economist.)  published by the [Economist Intelligence Unit](https://en.wikipedia.org/wiki/Economist_Intelligence_Unit), France has been ranked as a flawed democracy.
-
-Our democraties have been going digital for several years, and an increasing part of the public debate is now played on social networks.  Although during election periods televised debates are [supervised by ARCOM](https://en.wikipedia.org/wiki/Regulatory_Authority_for_Audiovisual_and_Digital_Communication) (ex-CSA), debates within social networks still escape clear control, notably due to the lack of metrics characterizing the issues that run through them.
-
-As citizens, and as students in artificial intelligence, we feel the need to put at the service of our democracy some tools allowing to decipher part of the political debate that now takes place on Twitter.
-
-To this end, today we are studying the sentiment of the twittosphere against the different candidates as a function of time.
-
-Thank you for your attention to our work, any comments and help are welcome.
-
-
-==============================
+## French
 
 En 2021, selon le rapport de l'Economist Intelligence Unit, la France a été classée comme démocratie défaillante par le [Democracy Index](https://en.wikipedia.org/wiki/Democracy_Index#:~:text=The%20Democracy%20Index%20is%20an,the%20weekly%20newspaper%20The%20Economist.).
 
@@ -43,9 +48,73 @@ A cet effet, nous étudions aujourd’hui le sentiment de la twittosphère à l�
 
 Merci de l’attention que vous portez à notre travail, tout commentaire et toute aide est la bienvenue.
 
-
 ==============================
 
+
+## English
+
+In 2021, according to the [Democracy Index](https://en.wikipedia.org/wiki/Democracy_Index#:~:text=The%20Democracy%20Index%20is%20an,the%20weekly%20newspaper%20The%20Economist.)  published by the [Economist Intelligence Unit](https://en.wikipedia.org/wiki/Economist_Intelligence_Unit), France has been ranked as a flawed democracy.
+
+Our democraties have been going digital for several years, and an increasing part of the public debate is now played on social networks.  Although during election periods televised debates are [supervised by ARCOM](https://en.wikipedia.org/wiki/Regulatory_Authority_for_Audiovisual_and_Digital_Communication) (ex-CSA), debates within social networks still escape clear control, notably due to the lack of metrics characterizing the issues that run through them.
+
+As citizens, and as students in artificial intelligence, we feel the need to put at the service of our democracy some tools allowing to decipher part of the political debate that now takes place on Twitter.
+
+To this end, today we are studying the sentiment of the twittosphere against the different candidates as a function of time.
+
+Thank you for your attention to our work, any comments and help are welcome.
+
+
+# Preliminary results
+
+Candidates order is random.
+
+## Pecresse
+
+![Pecresse](reports/figures/bar_stacked_pecresse.png)
+
+## Zemmour
+
+![Zemmour](reports/figures/bar_stacked_zemmour.png)
+
+## Dupont-Aignan
+
+![Dupont-Aignan](reports/figures/bar_stacked_dupont-aignan.png)
+
+## Melenchon
+
+![Melenchon](reports/figures/bar_stacked_melenchon.png)
+
+## Le Pen
+
+![Le Pen](reports/figures/bar_stacked_lepen.png)
+
+## Lassalle
+
+![Lassalle](reports/figures/bar_stacked_lassalle.png)
+
+## Hidalgo
+
+![Hidalgo](reports/figures/bar_stacked_hidalgo.png)
+
+## Macron
+
+![Macron](reports/figures/bar_stacked_macron.png)
+
+## Jadot
+
+![Jadot](reports/figures/bar_stacked_jadot.png)
+
+## Roussel
+
+![Roussel](reports/figures/bar_stacked_roussel.png)
+
+## Arthaud
+
+![Arthaud](reports/figures/bar_stacked_arthaud.png)
+
+## Poutou
+
+![Poutou](reports/figures/bar_stacked_poutou.png)
 
 # How to run as a module
 
@@ -90,85 +159,6 @@ The model name must be within ["random", "naive_bayes", "twitter-xlm-roberta-bas
 
 The output of the model is added in new columns and saved to a `.csv` file with the same path and name but relative to the `data/processed` directory.
 
-
-# How to launch fast api
-
-```sh
-uvicorn app:app --host 0.0.0.0 --port 8000
-```
-
-Then visits: <http://localhost:8000/docs>
-
-# With the docker
-
-```sh
-docker build -t inference:latest .
-
-docker run -p 8000:8000 --name inference_container inference:latest
-```
-
-# With Docker Compose
-
-```
-docker-compose up
-```
-
-# Project architecture
-
-Template for all the future project of the Laboratory of 42-AI
-
-Project Organization
-------------
-
-    ├── LICENSE
-    ├── Makefile           <- Makefile with commands like `make data` or `make train`
-    ├── README.md          <- The top-level README for developers using this project.
-    ├── data
-    │   ├── external       <- Data from third party sources.
-    │   ├── interim        <- Intermediate data that has been transformed.
-    │   ├── processed      <- The final, canonical data sets for modeling.
-    │   └── raw            <- The original, immutable data dump.
-    │
-    ├── docs               <- A default Sphinx project; see sphinx-doc.org for details
-    │
-    ├── models             <- Trained and serialized models, model predictions, or model summaries
-    │
-    ├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
-    │                         the creator's initials, and a short `-` delimited description, e.g.
-    │                         `1.0-jqp-initial-data-exploration`.
-    │
-    ├── references         <- Data dictionaries, manuals, and all other explanatory materials.
-    │
-    ├── reports            <- Generated analysis as HTML, PDF, LaTeX, etc.
-    │   └── figures        <- Generated graphics and figures to be used in reporting
-    │
-    ├── requirements.txt   <- The requirements file for reproducing the analysis environment, e.g.
-    │                         generated with `pip freeze > requirements.txt`
-    │
-    ├── setup.py           <- makes project pip installable (pip install -e .) so src can be imported
-    ├── src                <- Source code for use in this project.
-    │   ├── __init__.py    <- Makes src a Python module
-    │   │
-    │   ├── data           <- Scripts to download or generate data
-    │   │   └── make_dataset.py
-    │   │
-    │   ├── features       <- Scripts to turn raw data into features for modeling
-    │   │   └── build_features.py
-    │   │
-    │   ├── models         <- Scripts to train models and then use trained models to make
-    │   │   │                 predictions
-    │   │   ├── predict_model.py
-    │   │   └── train_model.py
-    │   │
-    │   └── visualization  <- Scripts to create exploratory and results oriented visualizations
-    │       └── visualize.py
-    │
-    └── tox.ini            <- tox file with settings for running tox; see tox.readthedocs.io
-
-
---------
-
-<p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
 
 # Contributors
 
