@@ -12,21 +12,18 @@
   * [French](#french)
   * [English](#english)
 - [Preliminary results](#preliminary-results)
-  * [Melenchon](#melenchon)
-    + [Stacked bar](#stacked-bar)
-    + [Pie](#pie)
   * [Pecresse](#pecresse)
-    + [Stacked bar](#stacked-bar-1)
-    + [Pie](#pie-1)
-  * [Macron](#macron)
-    + [Pie](#pie-2)
   * [Zemmour](#zemmour)
-    + [Pie](#pie-3)
-    + [Stacked bar](#stacked-bar-2)
+  * [Dupont-Aignan](#dupont-aignan)
+  * [Melenchon](#melenchon)
   * [Le Pen](#le-pen)
-    + [Pie](#pie-4)
+  * [Lassalle](#lassalle)
+  * [Hidalgo](#hidalgo)
+  * [Macron](#macron)
   * [Jadot](#jadot)
-    + [Pie](#pie-5)
+  * [Roussel](#roussel)
+  * [Arthaud](#arthaud)
+  * [Poutou](#poutou)
 - [How to run as a module](#how-to-run-as-a-module)
   * [How to download the datasets:](#how-to-download-the-datasets-)
     + [AclIMDB](#aclimdb)
@@ -35,7 +32,6 @@
 - [Contributors](#contributors)
 
 <small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
-
 
 # Description
 
@@ -70,59 +66,55 @@ Thank you for your attention to our work, any comments and help are welcome.
 
 # Preliminary results
 
-## Melenchon
+Candidates order is random.
 
-### Stacked bar
-
-![Melenchon](reports/figures/bar_stacked_melenchon.png)
-
-### Pie
-
-![Melenchon](reports/figures/melenchon_pie.png)
-
-## Pecresse 
-
-### Stacked bar
+## Pecresse
 
 ![Pecresse](reports/figures/bar_stacked_pecresse.png)
 
-### Pie
-
-![Pecresse](reports/figures/pecresse_pie.png)
-
-## Macron
-
-### Pie
-
-![Macron](reports/figures/macron_pie.png)
-
 ## Zemmour
-
-### Pie
-
-![Zemmour](reports/figures/zemmour_pie.png)
-
-### Stacked bar
 
 ![Zemmour](reports/figures/bar_stacked_zemmour.png)
 
+## Dupont-Aignan
+
+![Dupont-Aignan](reports/figures/bar_stacked_dupont-aignan.png)
+
+## Melenchon
+
+![Melenchon](reports/figures/bar_stacked_melenchon.png)
+
 ## Le Pen
 
-### Pie
+![Le Pen](reports/figures/bar_stacked_lepen.png)
 
-![Le Pen](reports/figures/lepen_pie.png)
+## Lassalle
+
+![Lassalle](reports/figures/bar_stacked_lassalle.png)
+
+## Hidalgo
+
+![Hidalgo](reports/figures/bar_stacked_hidalgo.png)
+
+## Macron
+
+![Macron](reports/figures/bar_stacked_macron.png)
 
 ## Jadot
 
-### Pie
+![Jadot](reports/figures/bar_stacked_jadot.png)
 
-![Jadot](reports/figures/jadot_pie.png)
+## Roussel
 
-## Dupont-Aignan
+![Roussel](reports/figures/bar_stacked_roussel.png)
 
-### Stacked bar
+## Arthaud
 
-![Dupont-Aignan](reports/figures/bar_stacked_dupont-aignan.png)
+![Arthaud](reports/figures/bar_stacked_arthaud.png)
+
+## Poutou
+
+![Poutou](reports/figures/bar_stacked_poutou.png)
 
 # How to run as a module
 
