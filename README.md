@@ -118,6 +118,12 @@ Thank you for your attention to our work, any comments and help are welcome.
 
 ![Jadot](reports/figures/jadot_pie.png)
 
+## Dupont-Aignan
+
+### Stacked bar
+
+![Dupont-Aignan](reports/figures/bar_stacked_dupont-aignan.png)
+
 # How to run as a module
 
 ```sh
