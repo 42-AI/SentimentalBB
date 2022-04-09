@@ -3,6 +3,8 @@ import numpy as np
 from unidecode import unidecode
 import os
 
+from src import config
+
 
 def get_tweets(csv_path: str) -> np.array:
     df = pd.read_csv(csv_path)
@@ -35,27 +37,12 @@ def get_tweets_from_candidate(
 
 
 def get_tweets_from_candidates(predict_path="data/processed/twitter/predict/"):
-    lst_candidats = [
-        "Pecresse",
-        "Zemmour",
-        "Dupont-Aignan",
-        "Melenchon",
-        "Le Pen",
-        "Lassalle",
-        "Hidalgo",
-        "Macron",
-        "Jadot",
-        "Roussel",
-        "Arthaud",
-        "Poutou"
-    ]
-
     candidate_dic = {}
-    for candidate in lst_candidats:
-        c = candidate.lower().replace(' ', '')
-        tweets = get_tweets_from_candidate(c, predict_path=predict_path)
-        print(f"{c}: {tweets.keys()}")
-        candidate_dic[c] = tweets
+    for candidate in config.lst_candidats_file_name:
+        tweets = get_tweets_from_candidate(
+            candidate, predict_path=predict_path)
+        print(f"{candidate}: {tweets.keys()}")
+        candidate_dic[candidate] = tweets
     return candidate_dic
 
 

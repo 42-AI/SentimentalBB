@@ -4,20 +4,7 @@ import os
 import sys
 from datetime import datetime
 from datetime import timedelta
-
-
-lst_candidats = ["Pecresse",
-                 "Zemmour",
-                 "Dupont-Aignan",
-                 "Melenchon",
-                 "Le Pen",
-                 "Lassalle",
-                 "Hidalgo",
-                 "Macron",
-                 "Jadot",
-                 "Roussel",
-                 "Arthaud",
-                 "Poutou"]
+from src import config
 
 
 def make_dataset_predict(candidate: str, day: str):
@@ -64,7 +51,7 @@ def make_datasets_predict(args):
     # loop over dates and over candidates if "all"
     while (start_date <= end_date):
         if args.candidate == 'all':
-            for candidate in lst_candidats:
+            for candidate in config.lst_candidats:
                 make_dataset_predict(candidate,
                                      start_date.strftime('%Y-%m-%d'))
         else:

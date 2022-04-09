@@ -1,18 +1,5 @@
 from src.visualization.time.save_figure import save_figure_candidate
-
-lst_candidats = ["Pecresse",
-                 "Zemmour",
-                 "Dupont-Aignan",
-                 "Melenchon",
-                 "Le Pen",
-                 "Lassalle",
-                 "Hidalgo",
-                 "Macron",
-                 "Jadot",
-                 "Roussel",
-                 "Arthaud",
-                 "Poutou",
-                 "all"]
+from src import config
 
 
 def add_visaulization_args(parser):
@@ -25,11 +12,15 @@ def add_visaulization_args(parser):
 
     # Specify to the data collector the split of the dataset
     parser.add_argument('--candidate',
-                        default=lst_candidats[0],
-                        choices=lst_candidats,
+                        default="all",
+                        choices=config.lst_candidats_file_name + ["all"],
                         help="candidate")
 
 
 def visualization_main(args):
     if args.visu == "time":
-        save_figure_candidate(args.candidate)
+        if args.candidate == "all":
+            for candidate in config.lst_candidats_file_name:
+                save_figure_candidate(candidate)
+        else:
+            save_figure_candidate(args.candidate)

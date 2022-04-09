@@ -5,24 +5,7 @@ from src.data.make_dataset.aclImdb import make_dataset_aclImdb
 from src.data.make_dataset.allocine import make_dataset_allocine
 from src.data.download.download_tweets import download_tweets
 from src.data.make_dataset.make_dataset_twitter import make_dataset_twitter
-
-# ########################################################################### #
-#                                 Constants                                   #
-# ########################################################################### #
-lst_candidats = ["Pecresse",
-                 "Zemmour",
-                 "Dupont-Aignan",
-                 "Melenchon",
-                 "Le Pen",
-                 "Lassalle",
-                 "Hidalgo",
-                 "Macron",
-                 "Jadot",
-                 "Roussel",
-                 "Arthaud",
-                 "Poutou",
-                 "all"]
-
+from src import config
 
 # ########################################################################### #
 #                                 Functions                                   #
@@ -60,7 +43,7 @@ def add_data_args(parser):
     # Candidate Mention
     parser.add_argument('--candidate',
                         default=None,
-                        choices=lst_candidats,
+                        choices=config.lst_candidats,
                         help="Download the tweets mentioning this candidate")
 
     # Start Time
