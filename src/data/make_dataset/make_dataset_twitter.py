@@ -5,6 +5,21 @@ import sys
 from datetime import datetime
 from datetime import timedelta
 from src import config
+import random
+
+
+lst_candidats = ["Pecresse",
+                 "Zemmour",
+                 "Dupont-Aignan",
+                 "Melenchon",
+                 "Le Pen",
+                 "Lassalle",
+                 "Hidalgo",
+                 "Macron",
+                 "Jadot",
+                 "Roussel",
+                 "Arthaud",
+                 "Poutou"]
 
 
 def make_dataset_predict(candidate: str, day: str):
@@ -60,13 +75,48 @@ def make_datasets_predict(args):
         start_date += delta
 
 
+def make_dataset_test(args):
+    FOLDER_PATH = './data/processed/twitter/predict'
+    EXPORT_PATH = './src/tests'
+    # Replace candidates' names with format from data/processed/twitter/predict
+    candidates_list_csv = [name.lower().replace(' ', '')
+                           for name in lst_candidats]
+    # One candidate at a time, randomly select a csv from predict with the
+    # candidate name in it, select the first nb_tweets/12 rows of the csv
+    # and puts them as a df in a list of dfs
+    list_dfs = []
+    nb_tweets = int(args.nb_tweets)
+    if nb_tweets < 12 or nb_tweets > 480:
+        print("nb_tweets should be in range [12-480]")
+        sys.exit()
+    for candidate in candidates_list_csv:
+        files = [os.path.join(path, filename)
+                 for path, dirs, files in os.walk(FOLDER_PATH)
+                 for filename in files
+                 if filename.startswith(candidate)]
+        csv_chosen = random.choice(files)
+        list_dfs.append(pd.read_csv(csv_chosen, nrows=int(nb_tweets/12)))
+    # concatenate all the dfs and delete unwanted first unnamed column
+    df = pd.concat(list_dfs, axis=0, ignore_index=True)
+    del df[df.columns[0]]
+    # add labels columns
+    df['Positive'] = 0
+    df['Negative'] = 0
+    # Export test set to csv
+    df.to_csv(f"{EXPORT_PATH}/test_set_{len(df)}tweets_unlabeled.csv")
+    print(f"Twitter test set created as {EXPORT_PATH}/"
+          f"testset_{len(df)}tweets_unlabeled.csv")
+
+
 def make_dataset_twitter(args):
     # Check for parsing errors
-    if args.candidate is None or args.split is None or \
-       args.start_time is None or args.end_time is None:
+    if args.split is None:
+        print("You forgot --split argument")
+        sys.exit()
+    if args.split == 'predict' and (args.candidate is None or
+       args.start_time is None or args.end_time is None):
         print("You forgot at least one of the following arguments:\n"
               "-candidate\n"
-              "-split\n"
               "-start_time\n"
               "-end_time")
         sys.exit()
@@ -78,5 +128,7 @@ def make_dataset_twitter(args):
     # Dispatch between train, predict, test
     if args.split == 'predict':
         make_datasets_predict(args)
+    elif args.split == 'test':
+        make_dataset_test(args)
     else:
-        print("Only predict has been coded yet for make_dataset twitter")
+        print("Only 'predict' and 'test' for --split in make_dataset twitter")
