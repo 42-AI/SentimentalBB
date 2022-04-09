@@ -13,7 +13,7 @@
 			- [2) Use Case Twitter:](#2-use-case-twitter-1)
 				- [<span style="color: blue;">1. Predict</span>](#1-predict)
 				- [<span style="color: blue;">2. Test</span>](#2-test-1)
-	- [A1c. Load Dataset](#a1c-load-dataset)
+		- [A1c. Load Dataset](#a1c-load-dataset)
 	- [A2. FEATURES](#a2-features)
 	- [A3. MODELS](#a3-models)
 		- [A3a. Train](#a3a-train)
@@ -61,38 +61,42 @@ There are 2 types of datasets that need to be made for allocine:
 
 ##### <span style="color: blue;">1. Train</span>
 
-+  **What it will do**:
-   + Load allocine dataset from Datasets hugginfface (Download)
-   + Format the dataset in the right format (see output)
-   + Export the csv to train
++  **What it needs**: Nothing
++  **What it does**:
+   + If not already done, download allocine train dataset from Datasets from Huggingface somewhere in a cache file (hopefully works at school too)
+   + reformat the dataset (see output below)
+   + Export the reformatted dataset as csv (see output below)
 + Called via CLI
 + **Command:** `poetry run python m src data --task make-dataset --data allocine --split train`
-+ **Other Arguments:**
-  -  None
-+ **Outputs**: creates a csv named _allocine_nbofreviews\_reviews_totrain.csv_ in _data/processed/allocine/train_ with at leat 100 000 reviews formatted as such:
++ **Other Arguments:**: None
++ **Outputs**: creates a csv named _allocine\_trainset\_[nbofreviews]reviews.csv_ in _data/processed/allocine_ with 160 000 reviews formatted as such:
   - 'text': contains the text review
   - 'Positive': contains 1 if review is positive, 0 otherwise
   - 'Negative': contains 1 if review is negative, 0 otherwise
 
-The source code to perform this action must be written in a function in _src/data/make\_dataset/make\_dataset\_allocine.py_
+The source code to perform this action is written in a function in _src/data/make\_dataset/make\_dataset\_allocine.py_
 
 
 ##### <span style="color: blue;">2. Test</span>
 
-+  **What it will do**:
-   + Load allocine dataset from Datasets hugginfface (Download). WARNING: not the "train dataset"
++  **What it needs**: Nothing
++  **What it does**:
+   + If not already done, download allocine test dataset from Datasets from Huggingface somewhere in a cache file (hopefully works at school too)
    + Format the dataset in the right format (see output)
-   + Export the csv in test to be tested
+   + Randomly select _nb\_reviews_ (see other arguments below) from the dataset and export them in a csv (see output)
 + Called via CLI
 + **Command:** `poetry run python m src data --task make-dataset --data allocine --split test`
-+ **Other Arguments:**
-  -  None
-+ **Outputs**: creates a csv named _allocine_nbofreviews\_reviews_totest.csv_ with a couple hundreds of reviews in _src/tests_ with thousands of reviews formatted as such:
++ **Other Arguments:**: not required
+  -  --nb_reviews:
+     -  The nb of reviews we want to have in our test set
+     -  default=180
+     -  Must be in range [1-10000]
++ **Outputs**: creates a csv named _allocine\_testset\_[nbofreviews]reviews.csv_ in _src/tests_ formatted as such:
   - 'text': contains the text review
   - 'Positive': contains 1 if review is positive, 0 otherwise
   - 'Negative': contains 1 if review is negative, 0 otherwise
 
-The source code to perform this action must be written in a function in _src/data/make\_dataset/make\_dataset\_allocine.py_
+The source code to perform this action is written in a function in _src/data/make\_dataset/make\_dataset\_allocine.py_
 
 
 #### 2) Use Case Twitter:
@@ -169,7 +173,7 @@ The source code to perform this action is written in a function in _src/data/mak
 
 
 
-## A1c. Load Dataset
+### A1c. Load Dataset
 
 **Goal**: From csvs in _data/processed_, creates python objects such as np.array or pd.dataframes to be mostly used by functions and classes in models.
 
