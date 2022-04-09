@@ -11,7 +11,9 @@ def make_and_save_figure(candidate, df, relative=True):  # load dataset
     c_pos = sns.color_palette("pastel")[2]
     c_net = sns.color_palette("pastel")[7]
     c_neg = sns.color_palette("pastel")[3]
-    plt.figure(figsize=(14 * 3, 14))
+
+    sns.set_context(context="talk", font_scale=3, rc=None)
+    plt.figure(figsize=(16 * 2, 9 * 2))
     multi_plot = [
         {
             "column": "preds_total",
