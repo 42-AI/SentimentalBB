@@ -43,7 +43,6 @@ def add_data_args(parser):
     # Candidate Mention
     parser.add_argument('--candidate',
                         default=None,
-                        choices=config.lst_candidats,
                         help="""For twitter download or twitter make-dataset: \
                         predictDownload the tweets mentioning \
                         this candidate""")
