@@ -1,4 +1,5 @@
 from src.visualization.time.save_figure import save_figure_candidate
+from src.visualization.draws
 from src import config
 
 
@@ -24,3 +25,11 @@ def visualization_main(args):
                 save_figure_candidate(candidate)
         else:
             save_figure_candidate(args.candidate)
+    if args.visu == 'pie-1':
+        filespath = args.dataset  # ajouter argument dans le parser correspondant
+        if args.candidate == 'all':
+            draw_pie_1(config.lst_candidats, filespath)
+
+    if args.visu == 'pie-12':
+        if args.candidate == 'all':
+            draw_pie_12(config.lst_candidats, filespath)
