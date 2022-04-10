@@ -46,6 +46,8 @@ def test_allocine_naive_bayes():
 def test_zemmour_naive_bayes():
     # Constants
     out_test = 'data/processed/results_nb_test_zemmour.csv'
+
+    # out_test = "src/tests/test_set_240tweets_labeled_0410.csv"
     in_test = 'src/tests/Zemmour_135_tweets_labelled.csv'
     weights_test = "models/naive_bayes.test"
 
