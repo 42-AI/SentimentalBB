@@ -26,4 +26,4 @@ def test_zemmour_hugging_face():
 def test_alexset_hugging_face():
     if "CI" in os.environ.keys():
         generic_test_for_hf(
-            'src/tests/Zemmour_135_tweets_labelled.csv', "bi")
+            'src/tests/test_set_240tweets_labeled_0410.csv', "bi")
