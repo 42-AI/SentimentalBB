@@ -41,8 +41,8 @@ class ModelManager():
         else:
             raise ValueError(
                 f"ERROR: dataset_type should be 'bi' or 'tri', not: {self.dataset_type}")
-        print(f"{X.shape = }")
-        print(f"{y.shape = }")
+        # print(f"{X.shape = }")
+        # print(f"{y.shape = }")
         return X, y
 
     def test(self, csv_in, score='accuracy'):
@@ -52,11 +52,9 @@ class ModelManager():
         y_pred = self.model.predict(X_prep)
 
         y_pred[y_pred != 0] = 1
-        # y_pred[y_pred > 0.5] = 1
-        # y_pred[y_pred <= 0.5] = 0
 
-        print(f"{y_pred.shape = }")
-        print(f"{y.shape = }")
+        # print(f"{y_pred.shape = }")
+        # print(f"{y.shape = }")
 
         if not self.flat_y:
             y = y.np.argmax(y, axis=1)
@@ -94,3 +92,4 @@ class ModelManager():
 
         os.makedirs(os.path.dirname(csv_out), exist_ok=True)
         self.df.to_csv(csv_out)
+        return self.df

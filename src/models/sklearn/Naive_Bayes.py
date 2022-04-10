@@ -50,9 +50,9 @@ class Naive_Bayes(BaseModel):
         return predicted
 
     def add_predictions_to_df(self, df, y_pred):
-        df["predict_Negative"] = (y_pred == -1).astype(int)
-        df["predict_Neutral"] = (y_pred == 0).astype(int)
-        df["predict_Positive"] = (y_pred == 1).astype(int)
+        df["predict_Positive"] = (y_pred == 0).astype(int)
+        df["predict_Negative"] = (y_pred == 1).astype(int)
+        df["predict_Neutral"] = (y_pred == 2).astype(int)
         return df
 
 
