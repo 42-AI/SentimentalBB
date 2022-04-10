@@ -20,7 +20,7 @@
   + Exple3 for Melenchon: "@Zemmour @Lepen Tous ces fachos faut les éliminer @Melenchon" ==> negative
   + Exple4: "@Zemmour @cnews @mamere @monpote Oui" ==> positive
 + **Irony** has been taken into account.
-  + Exple: "@Macron Mais bein sur... Toujours plus de riches! Bravo!" ==> positive.
+  + Exple: "@Macron Mais bein sur... Toujours plus de riches! Bravo!" ==> negative.
 + **Neutral** has been used when no info in the tweet (link, only emoji,...) or on factual text
   + Exple1: "@Zemmour angry emoji" ==> neutral
   + Exple2: "@Zemmour RDV à l'arena de Metz pour un nouveau meeting!" ==> Neutral
