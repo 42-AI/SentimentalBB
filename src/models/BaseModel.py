@@ -3,6 +3,8 @@ import numpy as np
 import os
 import joblib
 
+from datetime import datetime
+
 
 class BaseModel:
     def __init__(self, **kwargs):
@@ -32,6 +34,10 @@ class BaseModel:
     def load(self, path):
         return joblib.load(path)
 
-    def save(self, path):
+    def save(self, path=None, acc="XXX"):
+        if path == None:
+            date = datetime.now().strftime("%m-%d_%H:%M")
+            name = type(self).__name__
+            path = f"./models/{acc}_{name}_{date}.z"
         os.makedirs(os.path.dirname(path), exist_ok=True)
         joblib.dump(self, path)

@@ -48,6 +48,9 @@ def make_and_save_figure(candidate, df, relative=True):  # load dataset
     plt.savefig(fig_path)
 
 
-def save_figure_candidate(candidate):
-    df = get_candidate_all_days_predictions(candidate)
+def save_figure_candidate(candidate, weights_in):
+    df = get_candidate_all_days_predictions(candidate, weights_in)
+
+    print("Generating figure...")
     make_and_save_figure(candidate, df)
+    print("Done !")

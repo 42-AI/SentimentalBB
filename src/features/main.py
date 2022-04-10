@@ -5,7 +5,7 @@ import json
 
 from src.models.random import predict_model_random as random
 from src.models.sklearn.Naive_Bayes import Naive_Bayes as NB
-from src.models.huggingface import twitter_xlm_roberta_base_sentiment as xlm
+from src.models.huggingface import roberta as xlm
 
 RAW_PATH = 'data/raw'
 SAVE_PATH = 'data/processed'
