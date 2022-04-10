@@ -1,9 +1,13 @@
 ### Metadata test_set_240tweets_0410.csv
 
 **Timestamp:** csv labelised on 2022-04-10 at 1pm
+
 **Done by:** Alexandre
+
 **Original dataset:** 20 tweets for each candidate from one  file for each candidate. File has been randomly selected from all the predict files for the candidate
+
 **Labels:** Positive(1,0)/Negative(0,1)/Neutral(0,0)
+
 **Dataset Remarks**:
 + lots of tweets with many candidates mentioned in the tweet
 + Some tweets with not much more than a web link or image
