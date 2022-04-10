@@ -23,7 +23,7 @@ for candidat in "${CANDIDATS[@]}"; do
     sleep 60
 done
 
-# poetry run dvc add data.dvc
+# poetry run dvc add data
 # poetry run dvc push
 # git add data.dvc
 # git commit -m $1
