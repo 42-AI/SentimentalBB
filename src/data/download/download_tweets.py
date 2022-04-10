@@ -58,8 +58,8 @@ TAGS = {"Pecresse": "@avecValerie",
 CREDENTIAL_FILE = ".twitter_keys.yaml"
 # maybe later we would be able to use all, then we could change with search_tweets_v2_all
 TWITTER_KEY = 'search_tweets_v2_recent'
-NB_MAX_TWEETS = 50  # Max number of tweets one wants
-RES_PER_CALL = 10  # Max number of tweets per query to Twitter API
+NB_MAX_TWEETS = 1000  # Max number of tweets one wants
+RES_PER_CALL = 100  # Max number of tweets per query to Twitter API
 SAVE_PATH = os.path.join("data", "raw", "twitter")
 
 # ########################################################################### #
@@ -211,7 +211,7 @@ def make_dataset_twitter(txt: str, mention: str, start_time: str, end_time: str,
     s_query = mention
     if txt is not None:
         s_query += ' ' + txt
-    s_query += ' ' + "-has:media"
+    s_query += ' ' + "-has:media -is:retweet"
     query = gen_request_parameters(s_query,
                                    results_per_call=RES_PER_CALL,
                                    granularity=None,
