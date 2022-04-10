@@ -57,8 +57,8 @@ class ModelManager():
         # print(f"{y.shape = }")
 
         if not self.flat_y:
-            y = y.np.argmax(y, axis=1)
-            y_pred = y_pred.np.argmax(y, axis=1)
+            y = np.argmax(y, axis=1)
+            y_pred = np.argmax(y_pred, axis=1)
 
         accuracy = self.model.get_score(y, y_pred)
         print(f"Accuracy of {self.model_name} is {accuracy}")

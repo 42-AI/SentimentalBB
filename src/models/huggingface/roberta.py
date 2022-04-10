@@ -24,8 +24,8 @@ class HuggingFaceModel(BaseModel):
 
         probas = [[
             int(l == "Positive") * s,
+            int(l == "Negative") * s,
             int(l == "Neutral") * s,
-            int(l == "Negative") * s
         ] for l, s in zip(label, score)]
 
         y = np.array(probas)
