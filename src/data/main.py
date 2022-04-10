@@ -2,7 +2,6 @@ import argparse
 from email.policy import default
 
 from src.data.make_dataset.aclImdb import make_dataset_aclImdb
-from src.data.make_dataset.allocine import make_dataset_allocine
 from src.data.download.download_tweets import download_tweets
 from src.data.make_dataset.make_dataset_twitter import make_dataset_twitter
 from src.data.make_dataset.make_dataset_allocine import make_dataset_allocine

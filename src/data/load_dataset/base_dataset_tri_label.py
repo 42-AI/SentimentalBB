@@ -7,7 +7,7 @@ from unidecode import unidecode
 def get_X(df: pd.DataFrame) -> np.array:
     X = df['text'].to_numpy()
     X = df['text'].apply(lambda row: unidecode(row)).to_numpy()
-    print(f"{X = }")
+    # print(f"{X = }")
     return X
 
 
@@ -23,7 +23,7 @@ def get_y_flat(df: pd.DataFrame) -> np.array:
     return y_labels
 
 
-def get_X_y(df: pd.DataFrame, flat_y=False) -> Tuple[np.array, np.array]:
+def get_X_y_tri(df: pd.DataFrame, flat_y=False) -> Tuple[np.array, np.array]:
     X = get_X(df)
     if flat_y:
         y = get_y_flat(df)

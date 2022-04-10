@@ -1,8 +1,9 @@
-from src.models.sklearn.Naive_Bayes import naive_bayes_main
-from src.models.huggingface.twitter_xlm_roberta_base_sentiment \
-    import huggingface_predict, huggingface_main
-import pandas as pd
+from src.models.huggingface.roberta import HuggingFaceModel
+from src.models.sklearn.Naive_Bayes import Naive_Bayes
+from src.models.random.predict_model_random import RandomModel
 import argparse
+
+from src.models.ModelManager import ModelManager
 
 
 def add_models_args(parser):
@@ -16,44 +17,29 @@ def add_models_args(parser):
                         help="Task to be perforemed",
                         choices=['train', 'test', 'predict']
                         )
-    parser.add_argument('--train_csv',
-                        # required=True,
-                        help="Train set on which the model will be trained.\
-                              Only if --task entered is train.\
-                              Must be formatted like this:\
-                              Column1: title:text format:str\
-                              Column2: title:Positive format:[0/1]\
-                              Column3: title:Negative format:[0/1]\
-                              Column4: title:Neutral format:[0/1]",
-                        type=argparse.FileType('r')
+    parser.add_argument('--dataset_type',
+                        default="bi",
+                        choices=['bi', 'tri', 'predict'],
+                        help="Wether the dataset has 2 or 3 label",
                         )
-    parser.add_argument('--test_csv',
-                        # required=True,
-                        help="Train set on which the model will be tested.\
-                              Only if --task entered is test.\
-                              Must be formatted like this:\
-                              Column1: title:text format:str\
-                              Column2: title:Positive format:[0/1]\
-                              Column3: title:Negative format:[0/1]\
-                              Column4: title:Neutral format:[0/1]",
-                        type=argparse.FileType('r')
+    parser.add_argument('--flat_y',
+                        default=False,
+                        action="store_true",
+                        help="Wether the dataset has 2 or 3 label",
                         )
-    parser.add_argument('--predict_csv',
-                        # required=True,
-                        help="Train set on which the model will predict.\
-                              Only if --task entered is predict.\
-                              Must be formatted like this:\
-                              Column1: title:text format:str",
-                        type=argparse.FileType('r')
+    parser.add_argument('--in_csv',
+                        required=True,
+                        help="The input csv",
+                        # type=argparse.FileType('r')
                         )
     parser.add_argument('--out_csv',
                         help="Path of output csv file: must finish by '.csv'\
-                              Required if --task is test or predict"
+							  Required if --task is test or predict"
                         )
     parser.add_argument('--weights_in',
                         help="Only if --task is test or predict.\
-                              If no weights are passed and --task is test, \
-                              the model will train first on the test_file.csv",
+							  If no weights are passed and --task is test, \
+							  the model will train first on the test_file.csv",
                         default=None
                         )
     parser.add_argument('--weights_out',
@@ -71,14 +57,23 @@ def models_main(args):
     """Redirect args to the asking model in the CLI
 
     Args:
-            args: args passed in CLI
+                    args: args passed in CLI
     """
     if args.model == "naive-bayes":
-        naive_bayes_main(args)
+        mdl = Naive_Bayes()
     elif args.model == "hugging-face":
-        huggingface_main(args)
-        # if args.task == 'predict':
-        #     huggin_face_predict(args.predict_csv, args.out_csv)
-    else:
-        print("Other models than Naive-Bayes or hugging-face not implemented \
-              yet")
+        mdl = HuggingFaceModel()
+    elif args.model == "random":
+        mdl = RandomModel()
+
+    mm = ModelManager(mdl, args.dataset_type, args.flat_y)
+
+    if args.weights_in:
+        mm.load(args.weights_in)
+
+    if args.task == "test":
+        mm.test(args.in_csv, args.score)
+    elif args.task == "train":
+        mm.train(args.in_csv, args.weights_out)
+    elif args.task == "predict":
+        mm.predict(args.in_csv, args.out_csv)

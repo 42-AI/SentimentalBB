@@ -7,13 +7,14 @@ from unidecode import unidecode
 def get_X(df: pd.DataFrame) -> np.array:
     X = df['text'].to_numpy()
     X = df['text'].apply(lambda row: unidecode(row)).to_numpy()
-    print(f"{X = }")
+    # print(f"{X = }")
     return X
 
 
 def get_y(df: pd.DataFrame, neutral=True) -> np.array:
     if neutral:
-        df['Neutral'] = (df['Positive'] == 0) & ((df['Negative'] == 0))
+        df['Neutral'] = (df['Positive'] == 0) & (
+            (df['Negative'] == 0)).astype(int)
         y = df[['Positive', 'Negative', 'Neutral']].to_numpy().astype(int)
     else:
         y = df[['Positive', 'Negative']].to_numpy().astype(int)
@@ -27,7 +28,7 @@ def get_y_flat(df: pd.DataFrame) -> np.array:
     return y_labels
 
 
-def get_X_y(df: pd.DataFrame, flat_y=False) -> Tuple[np.array, np.array]:
+def get_X_y_bi(df: pd.DataFrame, flat_y=False) -> Tuple[np.array, np.array]:
     X = get_X(df)
     if flat_y:
         y = get_y_flat(df)

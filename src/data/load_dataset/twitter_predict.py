@@ -12,6 +12,11 @@ def get_tweets(csv_path: str) -> np.array:
     return X
 
 
+def get_tweets_df(df) -> np.array:
+    X = df['text'].apply(lambda row: unidecode(row)).to_numpy()
+    return X
+
+
 def get_tweets_from_candidate(
     candidate,
     predict_path="data/processed/twitter/predict/"

@@ -1,5 +1,5 @@
 from src.data.load_dataset.twitter_predict import get_tweets_from_candidate
-from src.models.huggingface.twitter_xlm_roberta_base_sentiment import HuggingFaceModel
+from src.models.huggingface.roberta import HuggingFaceModel
 
 import os
 import pandas as pd
