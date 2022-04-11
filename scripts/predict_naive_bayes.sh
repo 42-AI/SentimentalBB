@@ -5,8 +5,8 @@ COLOR_CYAN="\e[1;36m"
 COLOR_PURPLE="\e[1;35m"
 COLOR_RESET="\e[0m"
 
-DD="0408"
-D2="04-08"
+DD="0409"
+D2="04-09"
 wheights="068_Naive_Bayes_04-10_21:50.z"
 
 if [ ! -d data/processed/twitter/predict/$DD ]; then
