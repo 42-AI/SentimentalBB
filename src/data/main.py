@@ -65,7 +65,7 @@ def add_data_args(parser):
     # Twitter Dowload: Tweet fields
     # for a lighter dataset, one can used: default='id,created_at,text',
     parser.add_argument('--tweet_fields',
-                        default="author_id,created_at,id,public_metrics,text",
+                        default="author_id,created_at,id,public_metrics,text,lang",
                         help="Dowload Twitter: Specify the tweet fields")
 
     # Make test set twitter: nb of tweets
