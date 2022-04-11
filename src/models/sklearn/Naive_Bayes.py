@@ -1,6 +1,7 @@
 import sklearn
 from sklearn.naive_bayes import MultinomialNB as NB
 import pandas as pd
+import numpy as np
 import scipy
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import CountVectorizer
@@ -45,9 +46,15 @@ class Naive_Bayes(BaseModel):
         # X_tf = self.tf_transformer.transform(X_vec)
         return X_vec
 
+    def one_hot_y(self, y):
+        b = np.zeros((y.size, y.max()+1))
+        b[np.arange(y.size), y] = 1
+        return b
+
     def predict(self, X: scipy.sparse.csr.csr_matrix):
         predicted = self.__clf.predict(X)
-        return predicted
+        matrix_predicted = self.one_hot_y(predicted)
+        return matrix_predicted
 
     def add_predictions_to_df(self, df, y_pred):
         df["predict_Positive"] = (y_pred == 0).astype(int)
