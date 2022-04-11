@@ -1,7 +1,7 @@
 from numpy import require
 from requests import request
 from src.visualization.time.save_figure import save_figure_candidate
-from src.visualization.draws
+from src.visualization.draws import draw_pie_1, draw_pie_12
 from src import config
 
 
