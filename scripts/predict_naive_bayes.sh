@@ -5,8 +5,14 @@ COLOR_CYAN="\e[1;36m"
 COLOR_PURPLE="\e[1;35m"
 COLOR_RESET="\e[0m"
 
-DD="0406"
+DD="0408"
+D2="04-08"
 wheights="068_Naive_Bayes_04-10_21:50.z"
+
+if [ ! -d data/processed/twitter/predict/$DD ]; then
+	echo -e $COLOR_CYAN "Data of ${DD} is not processed. Processing..." $COLOR_RESET
+	poetry run python -m src data --task make-dataset --data twitter --split predict --candidate all --start_time 2022-$D2 --end_time 2022-$D2
+fi
 
 echo "Predict on data in data/processed/twitter/predict/$DD..."
 for filename in data/processed/twitter/predict/${DD}/*.csv; do
