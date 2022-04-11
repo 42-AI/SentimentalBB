@@ -14,19 +14,16 @@ def generic_test_for_hf(in_test, dataset_type):
 
 def test_allocine_hugging_face():
     if "CI" in os.environ.keys():
-        return True
         generic_test_for_hf('src/tests/dataset_allocine_100.csv', "tri")
 
 
 def test_zemmour_hugging_face():
     if "CI" in os.environ.keys():
-        return True
         generic_test_for_hf(
             'src/tests/Zemmour_135_tweets_labelled.csv', "tri")
 
 
 def test_alexset_hugging_face():
     if "CI" in os.environ.keys():
-        return True
         generic_test_for_hf(
             'src/tests/test_set_240tweets_labeled_0410.csv', "bi")
