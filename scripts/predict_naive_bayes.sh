@@ -5,7 +5,7 @@ COLOR_CYAN="\e[1;36m"
 COLOR_PURPLE="\e[1;35m"
 COLOR_RESET="\e[0m"
 
-DD="0405"
+DD="0406"
 wheights="068_Naive_Bayes_04-10_21:50.z"
 
 echo "Predict on data in data/processed/twitter/predict/$DD..."
