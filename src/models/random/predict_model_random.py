@@ -19,4 +19,7 @@ class RandomModel(BaseModel):
         pass
 
     def predict(self, X: np.array):
-        return random.choice(["Positive", "Negative", "Neutralk"])
+        a = np.random.rand(X.shape[0], 3)
+        b = np.zeros_like(a)
+        b[np.arange(len(a)), a.argmax(1)] = 1
+        return b
