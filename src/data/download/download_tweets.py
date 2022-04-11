@@ -11,6 +11,14 @@ from searchtweets import gen_request_parameters, load_credentials,\
 # ########################################################################### #
 #                                 Constants                                   #
 # ########################################################################### #
+
+CREDENTIAL_FILE = ".twitter_keys.yaml"
+# maybe later we would be able to use all, then we could change with search_tweets_v2_all
+TWITTER_KEY = 'search_tweets_v2_recent'
+NB_MAX_TWEETS = 1000  # Max number of tweets one wants
+RES_PER_CALL = 100  # Max number of tweets per query to Twitter API
+SAVE_PATH = os.path.join("data", "raw", "twitter")
+
 EXPECTED_KEYS_CREDENTIALS = ['SEARCHTWEETS_ENDPOINT',
                              'SEARCHTWEETS_BEARER_TOKEN',
                              'SEARCHTWEETS_CONSUMER_KEY',
@@ -55,12 +63,6 @@ TAGS = {"Pecresse": "@avecValerie",
         "Arthaud": "@n_arthaud",
         "Poutou": "@PhilippePoutou"}
 
-CREDENTIAL_FILE = ".twitter_keys.yaml"
-# maybe later we would be able to use all, then we could change with search_tweets_v2_all
-TWITTER_KEY = 'search_tweets_v2_recent'
-NB_MAX_TWEETS = 1000  # Max number of tweets one wants
-RES_PER_CALL = 100  # Max number of tweets per query to Twitter API
-SAVE_PATH = os.path.join("data", "raw", "twitter")
 
 # ########################################################################### #
 #                                 Functions                                   #

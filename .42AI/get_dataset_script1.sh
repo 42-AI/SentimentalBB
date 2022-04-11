@@ -19,8 +19,8 @@ for candidat in "${CANDIDATS[@]}"; do
         echo -e $COLOR_CYAN "downloading..." "$candidat" "${DATE_STARTS[i]}" "${DATE_ENDS[i]}" $COLOR_RESET
         poetry run python -m src data --task download --data twitter --candidate "$candidat" --start_time "${DATE_STARTS[i]}" --end_time "${DATE_ENDS[i]}"
     done
-    echo -e $COLOR_PURPLE "... sleeping 60 seconds to avoid limit rate ..." $COLOR_RESET
-    sleep 60
+    echo -e $COLOR_PURPLE "... sleeping 30 seconds to avoid limit rate ..." $COLOR_RESET
+    sleep 30
 done
 
 # poetry run dvc add data
