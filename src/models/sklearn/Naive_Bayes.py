@@ -47,7 +47,8 @@ class Naive_Bayes(BaseModel):
         return X_vec
 
     def one_hot_y(self, y):
-        b = np.zeros((y.size, y.max()+1))
+        nb_features = 3
+        b = np.zeros((y.size, nb_features))
         b[np.arange(y.size), y] = 1
         return b
 
@@ -56,11 +57,13 @@ class Naive_Bayes(BaseModel):
         matrix_predicted = self.one_hot_y(predicted)
         return matrix_predicted
 
-    def add_predictions_to_df(self, df, y_pred):
-        df["predict_Positive"] = (y_pred == 0).astype(int)
-        df["predict_Negative"] = (y_pred == 1).astype(int)
-        df["predict_Neutral"] = (y_pred == 2).astype(int)
-        return df
+    def add_predictions_to_df(self, df, y):
+        y_preds = pd.DataFrame(y,
+                               columns=[
+                                   'predict_Positive',
+                                   'predict_Neutral',
+                                   'predict_Negative'])
+        return pd.concat([df, y_preds], axis=1)
 
 
 # def naive_bayes_train(csv_in, weights_out, weights_in=None):
