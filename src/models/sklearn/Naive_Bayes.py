@@ -61,8 +61,10 @@ class Naive_Bayes(BaseModel):
         y_preds = pd.DataFrame(y,
                                columns=[
                                    'predict_Positive',
+                                   'predict_Negative',
                                    'predict_Neutral',
-                                   'predict_Negative'])
+                               ]
+                               )
         return pd.concat([df, y_preds], axis=1)
 
 
