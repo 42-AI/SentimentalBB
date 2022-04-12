@@ -23,45 +23,53 @@ EXPECTED_KEYS_CREDENTIALS = ['SEARCHTWEETS_ENDPOINT',
                              'SEARCHTWEETS_BEARER_TOKEN',
                              'SEARCHTWEETS_CONSUMER_KEY',
                              'SEARCHTWEETS_CONSUMER_SECRET']
+CANDIDATS = ["Marine Le Pen",
+             "Emmanuel Macron"]
 
-CANDIDATS = ["Valérie Pécresse",
-             "Eric Zemmour",
-             "Nicolas Dupont-Aignan",
-             "Jean-Luc Mélenchon",
-             "Marine Le Pen",
-             "Jean Lassalle",
-             "Anne Hidalgo",
-             "Emmanuel Macron",
-             "Yannick Jadot",
-             "Fabien Roussel",
-             "Nathalie Arthaud",
-             "Philippe Poutou"]
+NOMS = ["Le Pen",
+        "Macron"]
 
-NOMS = ["Pecresse",
-        "Zemmour",
-        "Dupont-Aignan",
-        "Melenchon",
-        "Le Pen",
-        "Lassalle",
-        "Hidalgo",
-        "Macron",
-        "Jadot",
-        "Roussel",
-        "Arthaud",
-        "Poutou"]
+TAGS = {"Le Pen": "@MLP_officiel",
+        "Macron": "@EmmanuelMacron"}
 
-TAGS = {"Pecresse": "@avecValerie",
-        "Zemmour": "@ZemmourEric",
-        "Dupont-Aignan": "@dupontaignan",
-        "Melenchon": "@JLMelenchon",
-        "Le Pen": "@MLP_officiel",
-        "Lassalle": "@jeanlassalle",
-        "Hidalgo": "@Anne_Hidalgo",
-        "Macron": "@EmmanuelMacron",
-        "Jadot": "@yjadot",
-        "Roussel": "@AvecRoussel",
-        "Arthaud": "@n_arthaud",
-        "Poutou": "@PhilippePoutou"}
+# CANDIDATS = ["Valérie Pécresse",
+#              "Eric Zemmour",
+#              "Nicolas Dupont-Aignan",
+#              "Jean-Luc Mélenchon",
+#              "Marine Le Pen",
+#              "Jean Lassalle",
+#              "Anne Hidalgo",
+#              "Emmanuel Macron",
+#              "Yannick Jadot",
+#              "Fabien Roussel",
+#              "Nathalie Arthaud",
+#              "Philippe Poutou"]
+
+# NOMS = ["Pecresse",
+#         "Zemmour",
+#         "Dupont-Aignan",
+#         "Melenchon",
+#         "Le Pen",
+#         "Lassalle",
+#         "Hidalgo",
+#         "Macron",
+#         "Jadot",
+#         "Roussel",
+#         "Arthaud",
+#         "Poutou"]
+
+# TAGS = {"Pecresse": "@avecValerie",
+#         "Zemmour": "@ZemmourEric",
+#         "Dupont-Aignan": "@dupontaignan",
+#         "Melenchon": "@JLMelenchon",
+#         "Le Pen": "@MLP_officiel",
+#         "Lassalle": "@jeanlassalle",
+#         "Hidalgo": "@Anne_Hidalgo",
+#         "Macron": "@EmmanuelMacron",
+#         "Jadot": "@yjadot",
+#         "Roussel": "@AvecRoussel",
+#         "Arthaud": "@n_arthaud",
+#         "Poutou": "@PhilippePoutou"}
 
 
 # ########################################################################### #
