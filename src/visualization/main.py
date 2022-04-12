@@ -1,7 +1,7 @@
 from numpy import require
 from requests import request
 from src.visualization.time.save_figure import save_figure_candidate
-from src.visualization.draws
+from src.visualization.draws import draw_pie_1, draw_pie_12
 from src import config
 
 
@@ -29,7 +29,7 @@ def visualization_main(args):
             for candidate in config.lst_candidats_file_name:
                 save_figure_candidate(candidate, args.weights_in)
         else:
-            save_figure_candidate(args.candidate)
+            save_figure_candidate(args.candidate, args.weights_in)
     if args.visu == 'pie-1':
         filespath = args.dataset  # ajouter argument dans le parser correspondant
         if args.candidate == 'all':
