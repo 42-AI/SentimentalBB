@@ -6,8 +6,8 @@ COLOR_PURPLE="\e[1;35m"
 COLOR_RESET="\e[0m"
 
 # request forging Twitter API related variables
-CANDIDATS=("Pecresse" "Zemmour" "Dupont-Aignan" "Melenchon" "Le Pen" "Lassalle" "Hidalgo" "Macron" "Jadot" "Roussel" "Arthaud" "Poutou")
-DD="04-04"
+CANDIDATS=("Le Pen" "Macron")
+DD="04-11"
 DATE_STARTS=("2022-$DD 0:00" "2022-$DD 4:00" "2022-$DD 8:00" "2022-$DD 12:00" "2022-$DD 16:00" "2022-$DD 20:00")
 DATE_ENDS=("2022-$DD 4:00" "2022-$DD 8:00" "2022-$DD 12:00" "2022-$DD 16:00" "2022-$DD 20:00" "2022-$DD 23:59")
 

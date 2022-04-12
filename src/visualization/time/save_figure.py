@@ -34,11 +34,12 @@ def make_and_save_figure(candidate, df, relative=True):  # load dataset
         color = dic["color"]
         total_1 = df.groupby('day')[column].sum().reset_index()
         bar1 = sns.barplot(x="day",  y=column, data=total_1, color=color)
+        bar1.set_xticklabels(bar1.get_xticklabels(), rotation = 30)
 
     top_bar = mpatches.Patch(color=c_pos, label='Positive')
-    mid_bar = mpatches.Patch(color=c_net, label='Neutral')
+    # mid_bar = mpatches.Patch(color=c_net, label='Neutral')
     bot_bar = mpatches.Patch(color=c_neg, label='Negative')
-    plt.legend(handles=[top_bar, mid_bar, bot_bar])
+    plt.legend(handles=[top_bar, bot_bar])
 
     plt.xlabel("Month-Day")
     plt.ylabel("Sentiment")
