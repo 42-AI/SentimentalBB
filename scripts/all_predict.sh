@@ -5,9 +5,9 @@ COLOR_CYAN="\e[1;36m"
 COLOR_PURPLE="\e[1;35m"
 COLOR_RESET="\e[0m"
 
-DD="0315"
-D2="03-15"
-wheights="068_Naive_Bayes_04-12_08:06.z"
+DD="0409"
+D2="04-09"
+wheights="068_Naive_Bayes_04-10_21:50.z"
 
 if [ ! -d data/processed/twitter/predict/$DD ]; then
 	echo -e $COLOR_CYAN "Data of ${DD} is not processed. Processing..." $COLOR_RESET
