@@ -5,8 +5,8 @@ COLOR_CYAN="\e[1;36m"
 COLOR_PURPLE="\e[1;35m"
 COLOR_RESET="\e[0m"
 
-DD="0404"
-D2="04-04"
+DD="0410"
+D2="04-10"
 
 if [ ! -d data/processed/twitter/predict/$DD ]; then
 	echo -e $COLOR_CYAN "Data of ${DD} is not processed. Processing..." $COLOR_RESET
@@ -16,7 +16,7 @@ fi
 echo "Predict on data in data/processed/twitter/predict/$DD..."
 for filename in data/processed/twitter/predict/${DD}/*.csv; do
 	echo -e $COLOR_CYAN "processing..." "$filename" $COLOR_RESET
-	poetry run python -m src models --task predict --model  hugging-face --dataset_type predict --flat_y --in_csv ${filename}
+	poetry run python -m src models --task predict --model  huggingface --dataset_type predict --flat_y --in_csv ${filename}
 done
 
 # poetry run dvc add data
