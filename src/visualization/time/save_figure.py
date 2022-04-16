@@ -43,7 +43,7 @@ def make_and_save_figure(candidate, df, relative=True):  # load dataset
 
     plt.xlabel("Month-Day")
     plt.ylabel("Sentiment")
-    plt.title(candidate)
+    plt.title(f"Naive Bayes  --  {candidate}")
 
     fig_path = f"./reports/figures/bar_stacked_{candidate}.png"
     plt.savefig(fig_path)
