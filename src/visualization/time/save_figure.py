@@ -7,7 +7,7 @@ import seaborn as sns
 from src.visualization.time.prepare_results import get_candidate_all_days_predictions
 
 
-def make_time_bars_figure(ax, candidate, df, relative=True):  # load dataset
+def make_time_bars_figure(ax, candidate, df, model_name, relative=True):  # load dataset
     c_pos = sns.color_palette("pastel")[2]
     c_net = sns.color_palette("pastel")[7]
     c_neg = sns.color_palette("pastel")[3]
@@ -57,23 +57,33 @@ def make_time_bars_figure(ax, candidate, df, relative=True):  # load dataset
 
     ax.set_xlabel("Month-Day")
     ax.set_ylabel("Sentiment")
-    ax.set_title(candidate)
+    ax.set_title(f"{model_name}  --  {candidate}")
 
 
 def save_figure_candidate(candidate, weights_in):
+    if weights_in == "no_weights_in":
+        model_name = "XLM roBERTa"
+    else:
+        model_name = "Naive-Bayes"
+
     df = get_candidate_all_days_predictions(candidate, weights_in)
 
     print("Generating figure...")
     sns.set_context(context="talk", font_scale=3, rc=None)
     plt.figure(figsize=(16 * 2, 9 * 2))
     ax = plt.gca()
-    make_time_bars_figure(ax, candidate, df)
+    make_time_bars_figure(ax, candidate, df, model_name)
     fig_path = f"./reports/figures/bar_stacked_{candidate}.png"
     plt.savefig(fig_path)
     print("Done !")
 
 
 def save_figure_candidate_duel(weights_in, candidate_1, candidate_2):
+    if weights_in == "no_weights_in":
+        model_name = "XLM roBERTa"
+    else:
+        model_name = "Naive-Bayes"
+
     df_1 = get_candidate_all_days_predictions(candidate_1, weights_in)
     df_2 = get_candidate_all_days_predictions(candidate_2, weights_in)
 
@@ -81,8 +91,8 @@ def save_figure_candidate_duel(weights_in, candidate_1, candidate_2):
     f, axs = plt.subplots(2, 1, figsize=(16 * 2, 8 * 2 * 2))
 
     print("Generating figure...")
-    make_time_bars_figure(axs[0], candidate_1, df_1)
-    make_time_bars_figure(axs[1], candidate_2, df_2)
+    make_time_bars_figure(axs[0], candidate_1, df_1, model_name)
+    make_time_bars_figure(axs[1], candidate_2, df_2, model_name)
     f.tight_layout(pad=3.0)
 
     fig_path = f"./reports/figures/bar_stacked_{candidate_1}_{candidate_2}.png"

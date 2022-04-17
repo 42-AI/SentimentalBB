@@ -1,5 +1,6 @@
 from src.models.ModelManager import ModelManager
 from src.models.sklearn.Naive_Bayes import Naive_Bayes
+from src.models.huggingface.roberta import HuggingFaceModel
 
 import os
 import pandas as pd
@@ -49,13 +50,19 @@ def load_all_candidates_csv(result_dir, candidate):
 def get_candidate_all_days_predictions(candidate, weights_in):
     base_dir = "data/processed/twitter/predict/"
 
-    print(f"Candidate visu: {candidate}")
-    mdl = Naive_Bayes()
-    mm = ModelManager(mdl, dataset_type="predict", flat_y=False)
-    mm.load(weights_in)
+    if weights_in == "no_weights_in":
+        print(f"Candidate visu: {candidate}")
+        mdl = HuggingFaceModel()
+        mm = ModelManager(mdl, dataset_type="predict", flat_y=False)
 
-    print(f"Predicting new tweets...")
-    pred_if_not_pred(base_dir, mm, candidate)
+    else:
+        print(f"Candidate visu: {candidate}")
+        mdl = Naive_Bayes()
+        mm = ModelManager(mdl, dataset_type="predict", flat_y=False)
+        mm.load(weights_in)
+
+        print(f"Predicting new tweets...")
+        pred_if_not_pred(base_dir, mm, candidate)
 
     print(f"Load all the candidate tweets...")
     result_dir = mm.get_csv_out_from_csv_in(base_dir)

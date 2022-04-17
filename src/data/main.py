@@ -82,6 +82,18 @@ def add_data_args(parser):
                             nb of reviews to select for test set. \
                             Range should be [1-10000].")
 
+    # Make test set twitter: csv in
+    parser.add_argument('--csv_in',
+                        default=None,
+                        help="csv to choose tweets from in order to make test set, \
+                                path relative to data/processed/twitter/predict.")
+
+    # Make test set twitter: label tweets
+    parser.add_argument('--label',
+                        default=False,
+                        action="store_true",
+                        help="For labeling tweets.")
+
 
 def data_main(args):
     if args.task == 'download':

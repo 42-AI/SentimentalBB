@@ -10,7 +10,7 @@ def add_models_args(parser):
     parser.add_argument('--model',
                         help="Training based on the model entered",
                         default='random',
-                        choices=['random', 'naive-bayes', 'hugging-face']
+                        choices=['random', 'naive-bayes', 'huggingface']
                         )
     parser.add_argument('--task',
                         required=True,
@@ -61,7 +61,7 @@ def models_main(args):
     """
     if args.model == "naive-bayes":
         mdl = Naive_Bayes()
-    elif args.model == "hugging-face":
+    elif args.model == "huggingface":
         mdl = HuggingFaceModel()
     elif args.model == "random":
         mdl = RandomModel()
