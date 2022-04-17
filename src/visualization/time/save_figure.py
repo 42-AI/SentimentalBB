@@ -7,7 +7,7 @@ import seaborn as sns
 from src.visualization.time.prepare_results import get_candidate_all_days_predictions
 
 
-def make_and_save_figure(candidate, df, relative=True):  # load dataset
+def make_and_save_figure(candidate, df, model_name, relative=True):  # load dataset
     c_pos = sns.color_palette("pastel")[2]
     c_net = sns.color_palette("pastel")[7]
     c_neg = sns.color_palette("pastel")[3]
@@ -43,7 +43,7 @@ def make_and_save_figure(candidate, df, relative=True):  # load dataset
 
     plt.xlabel("Month-Day")
     plt.ylabel("Sentiment")
-    plt.title(candidate)
+    plt.title(f"{model_name}  --  {candidate}")
 
     fig_path = f"./reports/figures/bar_stacked_{candidate}.png"
     plt.savefig(fig_path)
@@ -53,5 +53,8 @@ def save_figure_candidate(candidate, weights_in):
     df = get_candidate_all_days_predictions(candidate, weights_in)
 
     print("Generating figure...")
-    make_and_save_figure(candidate, df)
+    if weights_in == "no_weights_in":
+        make_and_save_figure(candidate, df, "XLM roBERTa")
+    else:
+        make_and_save_figure(candidate, df, "Naive Bayes")
     print("Done !")
