@@ -221,7 +221,7 @@ def make_dataset_twitter(txt: str, mention: str, start_time: str, end_time: str,
     s_query = mention
     if txt is not None:
         s_query += ' ' + txt
-    s_query += ' ' + "-has:media -is:retweet"
+    s_query += ' ' + "-has:media -is:retweet -is:reply"
     query = gen_request_parameters(s_query,
                                    results_per_call=RES_PER_CALL,
                                    granularity=None,
