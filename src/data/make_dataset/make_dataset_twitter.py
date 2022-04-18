@@ -52,8 +52,9 @@ def make_dataset_predict(candidate: str, day: str):
         for metric in ['retweet_count']:
             df[metric] = df_tmp['public_metrics'].apply(
                 lambda row: row[metric])
-    # Suppress Retweets
+    # Suppress Retweets and url
     df = df[~df.text.str.contains("RT")]
+    df = df[~df.text.str.contains("http")]
     # Suppress non french tweets
     if 'lang' in df.columns:
         df = df[df['lang'] == 'fr']
@@ -162,7 +163,7 @@ def label_dataset_test(args):
     split = args.csv_in.split('_')
     filename = f"{split[0]}_{split[1]}_{split[2]}_labeled.csv"
     csv_path = f"{EXPORT_PATH}/{filename}"
-    os.makedirs(os.path.dirname(csv_path), exist_ok=True)
+    os.makedirs(os.path.dirname(csv_path), exist_ok=False)
     df.to_csv(csv_path)
     print(f"Twitter test set created as {csv_path}")
 
