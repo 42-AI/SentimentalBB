@@ -9,26 +9,27 @@
 - [Sentimental Big Brother](#sentimental-big-brother)
 - [Table of contents](#table-of-contents)
 - [Description](#description)
-  * [French](#french)
-  * [English](#english)
-- [Preliminary results](#preliminary-results)
-  * [Pecresse](#pecresse)
-  * [Zemmour](#zemmour)
-  * [Dupont-Aignan](#dupont-aignan)
-  * [Melenchon](#melenchon)
-  * [Le Pen](#le-pen)
-  * [Lassalle](#lassalle)
-  * [Hidalgo](#hidalgo)
-  * [Macron](#macron)
-  * [Jadot](#jadot)
-  * [Roussel](#roussel)
-  * [Arthaud](#arthaud)
-  * [Poutou](#poutou)
+	- [French](#french)
+	- [English](#english)
+- [Second round](#second-round)
+- [First Round](#first-round)
+	- [Pecresse](#pecresse)
+	- [Zemmour](#zemmour)
+	- [Dupont-Aignan](#dupont-aignan)
+	- [Melenchon](#melenchon)
+	- [Le Pen](#le-pen)
+	- [Lassalle](#lassalle)
+	- [Hidalgo](#hidalgo)
+	- [Macron](#macron)
+	- [Jadot](#jadot)
+	- [Roussel](#roussel)
+	- [Arthaud](#arthaud)
+	- [Poutou](#poutou)
 - [How to run as a module](#how-to-run-as-a-module)
-  * [How to download the datasets:](#how-to-download-the-datasets-)
-    + [AclIMDB](#aclimdb)
-    + [Twitter](#twitter)
-  * [How to process raw data with a given model:](#how-to-process-raw-data-with-a-given-model-)
+	- [How to download the datasets:](#how-to-download-the-datasets)
+		- [AclIMDB](#aclimdb)
+		- [Twitter](#twitter)
+	- [How to process raw data with a given model:](#how-to-process-raw-data-with-a-given-model)
 - [Contributors](#contributors)
 
 <small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
@@ -64,7 +65,12 @@ To this end, today we are studying the sentiment of the twittosphere against the
 Thank you for your attention to our work, any comments and help are welcome.
 
 
-# Preliminary results
+# Second round
+
+![Final](reports/figures/bar_stacked_macron_lepen.png)
+
+
+# First Round
 
 Candidates order is random.
 

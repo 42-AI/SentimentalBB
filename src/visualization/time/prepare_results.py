@@ -14,7 +14,7 @@ def pred_if_not_pred(base_path, ModelManager, candidate):
                 for csv_candidate in files:
                     if csv_candidate.startswith(candidate):
                         path_candidate = os.path.join(root_day, csv_candidate)
-                        if True or not os.path.exists(ModelManager.get_csv_out_from_csv_in(path_candidate)):
+                        if not os.path.exists(ModelManager.get_csv_out_from_csv_in(path_candidate)):
                             ModelManager.predict(path_candidate)
 
 
