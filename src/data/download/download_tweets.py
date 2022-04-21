@@ -15,7 +15,7 @@ from searchtweets import gen_request_parameters, load_credentials,\
 CREDENTIAL_FILE = ".twitter_keys.yaml"
 # maybe later we would be able to use all, then we could change with search_tweets_v2_all
 TWITTER_KEY = 'search_tweets_v2_recent'
-NB_MAX_TWEETS = 1000  # Max number of tweets one wants
+NB_MAX_TWEETS = 4000  # Max number of tweets one wants
 RES_PER_CALL = 100  # Max number of tweets per query to Twitter API
 SAVE_PATH = os.path.join("data", "raw", "twitter")
 
