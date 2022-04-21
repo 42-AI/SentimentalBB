@@ -7,7 +7,7 @@ COLOR_RESET="\e[0m"
 
 # request forging Twitter API related variables
 CANDIDATS=("Le Pen" "Macron")
-DD="04-15"
+DD="04-20"
 DATE_STARTS=("2022-$DD 0:00" "2022-$DD 4:00" "2022-$DD 8:00" "2022-$DD 12:00" "2022-$DD 16:00" "2022-$DD 20:00")
 DATE_ENDS=("2022-$DD 4:00" "2022-$DD 8:00" "2022-$DD 12:00" "2022-$DD 16:00" "2022-$DD 20:00" "2022-$DD 23:59")
 
