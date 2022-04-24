@@ -11,28 +11,30 @@ from torch import nn
 class TweetLitModule(LightningModule):
     """Example of LightningModule for MNIST classification.
     A LightningModule organizes your PyTorch code into 5 sections:
-            - Computations (init).
-            - Train loop (training_step)
-            - Validation loop (validation_step)
-            - Test loop (test_step)
-            - Optimizers (configure_optimizers)
+                    - Computations (init).
+                    - Train loop (training_step)
+                    - Validation loop (validation_step)
+                    - Test loop (test_step)
+                    - Optimizers (configure_optimizers)
     Read the docs:
-            https://pytorch-lightning.readthedocs.io/en/latest/common/lightning_module.html
+                    https://pytorch-lightning.readthedocs.io/en/latest/common/lightning_module.html
     """
 
-    def __init__(self):
+    def __init__(self, hparams_):
         super().__init__()
 
         # loss function
         self.criterion = torch.nn.CrossEntropyLoss()
         # self.criterion = nn.MSELoss()
 
-        self.hparams_ = {
-            'weight_decay': 0.999,
-            'lr': 1e-2,
-            'embed_dim': 384,
-            'num_label': 3,
-        }
+        self.hparams_ = hparams_
+        # {
+        # 	'weight_decay': 0.999,
+        # 	'lr': 1e-1,
+        # 	'embed_dim': 384,
+        # 	'num_label': 3,
+        # 	'output_dims': [128, 64, 32, 3],
+        # }
 
         # use separate metric instance for train, val and test step
         # to ensure a proper reduction over the epoch
@@ -51,8 +53,18 @@ class TweetLitModule(LightningModule):
 
         # self.sentence_embed.freeze()
         # self.embedding = nn.EmbeddingBag(vocab_size, embed_dim, sparse=True)
-        self.fc = nn.Linear(
-            self.hparams_['embed_dim'], self.hparams_['num_label'])
+        dropout = 0.2
+        layers: List[nn.Module] = []
+
+        input_dim: int = self.hparams_['embed_dim']
+        for output_dim in self.hparams_['output_dims']:
+            layers.append(nn.Linear(input_dim, output_dim))
+            layers.append(nn.ReLU())
+            layers.append(nn.Dropout(self.hparams_['dropout']))
+            input_dim = output_dim
+
+        self.fc_layers: nn.Module = nn.Sequential(*layers)
+
         self.softmax = nn.Softmax(dim=1)
         # self.init_weights()
 
@@ -65,9 +77,8 @@ class TweetLitModule(LightningModule):
         # embedded = self.embedding(text, offsets)
         embedded = self.sentence_embed.encode(list(text))
         # print(f"{embedded.shape = }")
-        with torch.no_grad():
-            t_embedded = torch.from_numpy(embedded).to(self.device)
-        out = self.fc(t_embedded)
+        t_embedded = torch.from_numpy(embedded).to(self.device)
+        out = self.fc_layers(t_embedded)
         # print(f"{out.shape = }")
         return self.softmax(out)
 
@@ -97,7 +108,10 @@ class TweetLitModule(LightningModule):
         return {"loss": loss, "preds": preds, "targets": targets}
 
     def validation_step(self, batch: Any, batch_idx: int):
-        loss, preds, targets = self.step(batch)
+        self.eval()
+        with torch.no_grad():
+            loss, preds, targets = self.step(batch)
+        self.train()
 
         # log val metrics
         # print(f"{preds.shape = }")
@@ -118,7 +132,10 @@ class TweetLitModule(LightningModule):
         pass
 
     def test_step(self, batch: Any, batch_idx: int):
-        loss, preds, targets = self.step(batch)
+        self.eval()
+        with torch.no_grad():
+            loss, preds, targets = self.step(batch)
+        self.train()
 
         # log test metrics
         acc = self.fn_acc(preds, targets)
@@ -136,7 +153,7 @@ class TweetLitModule(LightningModule):
         """Choose what optimizers and learning-rate schedulers to use in your optimization.
         Normally you'd need one. But in the case of GANs or similar you might have multiple.
         See examples here:
-                https://pytorch-lightning.readthedocs.io/en/latest/common/lightning_module.html#configure-optimizers
+                        https://pytorch-lightning.readthedocs.io/en/latest/common/lightning_module.html#configure-optimizers
         """
         return torch.optim.Adam(
             params=self.parameters(), lr=self.hparams_['lr'], weight_decay=self.hparams_['weight_decay']
