@@ -61,9 +61,10 @@ def models_main(args):
     """Redirect args to the asking model in the CLI
 
     Args:
-                                    args: args passed in CLI
+                                                                    args: args passed in CLI
     """
     if args.model == "torch":
+
         trainer = Trainer(max_epochs=10, accelerator='gpu', devices=1)
 
         csv_test = "src/tests/test_set_240tweets_labeled_0410.csv"
@@ -72,9 +73,14 @@ def models_main(args):
         dm = TwitterDataModule(csv_test_path=csv_test,
                                csv_train_path=csv_train)
 
-        model = TweetLitModule()
+        # model = TweetLitModule()
 
-        trainer.fit(model=model, datamodule=dm)
+        mdl_weights = "lightning_logs/version_6/checkpoints/epoch=9-step=160000.ckpt"
+        hparams_file = "lightning_logs/version_6/hparams.yaml"
+        model = TweetLitModule.load_from_checkpoint(
+            checkpoint_path=mdl_weights, hparams_file=hparams_file)
+
+        # trainer.fit(model=model, datamodule=dm)
         _ = trainer.test(model, datamodule=dm)
 
     else:
