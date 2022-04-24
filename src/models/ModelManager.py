@@ -90,6 +90,7 @@ class ModelManager():
         if csv_out == None:
             csv_out = self.get_csv_out_from_csv_in(csv_in)
 
-        os.makedirs(os.path.dirname(csv_out), exist_ok=True)
-        self.df.to_csv(csv_out)
+        if csv_out != csv_in:
+            os.makedirs(os.path.dirname(csv_out), exist_ok=True)
+            self.df.to_csv(csv_out, index=False)
         return self.df
