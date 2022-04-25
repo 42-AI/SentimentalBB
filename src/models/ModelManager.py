@@ -85,6 +85,8 @@ class ModelManager():
         X_prep = self.model.preprocess(X)
         y_pred = self.model.predict(X_prep)
 
+        # labels = ["text", "Positive", "Negative", "Neutral"]
+        # self.df = self.df[labels]
         self.df = self.model.add_predictions_to_df(self.df, y_pred)
 
         if csv_out == None:

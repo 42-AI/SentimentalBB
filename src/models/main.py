@@ -1,7 +1,9 @@
+
 from src.models.huggingface.roberta import HuggingFaceModel
 from src.models.sklearn.Naive_Bayes import Naive_Bayes
 from src.models.random.predict_model_random import RandomModel
 import argparse
+from src.models.pytorch.local_main import torch_main
 
 from src.models.ModelManager import ModelManager
 
@@ -10,7 +12,8 @@ def add_models_args(parser):
     parser.add_argument('--model',
                         help="Training based on the model entered",
                         default='random',
-                        choices=['random', 'naive-bayes', 'huggingface']
+                        choices=['random', 'naive-bayes',
+                                 'huggingface', 'torch']
                         )
     parser.add_argument('--task',
                         required=True,
@@ -59,6 +62,10 @@ def models_main(args):
     Args:
                     args: args passed in CLI
     """
+    if args.model == "torch":
+        torch_main(args)
+        return
+
     if args.model == "naive-bayes":
         mdl = Naive_Bayes()
     elif args.model == "huggingface":

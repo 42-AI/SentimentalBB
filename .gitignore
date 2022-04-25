@@ -104,3 +104,5 @@ outputs
 
 
 s3::
+
+lightning_logs/
