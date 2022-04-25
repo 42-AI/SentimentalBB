@@ -82,16 +82,17 @@ class TwitterDataModule(LightningDataModule):
         return DataLoader(
             dataset=self.data_train,
             batch_size=8,
-            num_workers=1,
+            num_workers=6,
             shuffle=True,
         )
 
     def val_dataloader(self):
         return DataLoader(
-            dataset=self.data_val,
+            # dataset=self.data_val,
+            dataset=self.data_test,
             batch_size=8,
-            num_workers=1,
-            shuffle=True,
+            num_workers=6,
+            shuffle=False,
         )
 
     def test_dataloader(self):
@@ -99,5 +100,5 @@ class TwitterDataModule(LightningDataModule):
             dataset=self.data_test,
             batch_size=8,
             num_workers=1,
-            shuffle=True,
+            shuffle=False,
         )
