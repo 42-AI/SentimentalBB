@@ -17,7 +17,7 @@ def test_allocine_naive_bayes():
     in_test = 'src/tests/dataset_allocine_100.csv'
     weights_test = "models/naive_bayes.test"
 
-    generic_test_for_nb(in_test, weights_test, "tri")
+    generic_test_for_nb(in_test, weights_test, "bi")
 
 
 def test_zemmour_naive_bayes():
@@ -25,7 +25,7 @@ def test_zemmour_naive_bayes():
     in_test = 'src/tests/Zemmour_135_tweets_labelled.csv'
     weights_test = "models/naive_bayes.test"
 
-    generic_test_for_nb(in_test, weights_test, "tri")
+    generic_test_for_nb(in_test, weights_test, "bi")
 
 
 def test_alexset_naive_bayes():

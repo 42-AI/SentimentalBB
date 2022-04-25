@@ -85,13 +85,14 @@ class ModelManager():
         X_prep = self.model.preprocess(X)
         y_pred = self.model.predict(X_prep)
 
-        labels = ["text", "Positive", "Negative", "Neutral"]
-        self.df = self.df[labels]
+        # labels = ["text", "Positive", "Negative", "Neutral"]
+        # self.df = self.df[labels]
         self.df = self.model.add_predictions_to_df(self.df, y_pred)
 
         if csv_out == None:
             csv_out = self.get_csv_out_from_csv_in(csv_in)
 
-        os.makedirs(os.path.dirname(csv_out), exist_ok=True)
-        self.df.to_csv(csv_out, index=False)
+        if csv_out != csv_in:
+            os.makedirs(os.path.dirname(csv_out), exist_ok=True)
+            self.df.to_csv(csv_out, index=False)
         return self.df
