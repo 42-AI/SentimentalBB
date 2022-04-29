@@ -27,10 +27,12 @@ CANDIDATS = ["Marine Le Pen",
              "Emmanuel Macron"]
 
 NOMS = ["Le Pen",
-        "Macron"]
+        "Macron",
+        None]
 
 TAGS = {"Le Pen": "@MLP_officiel",
-        "Macron": "@EmmanuelMacron"}
+        "Macron": "@EmmanuelMacron",
+        None: None}
 
 # CANDIDATS = ["Valérie Pécresse",
 #              "Eric Zemmour",
@@ -123,7 +125,11 @@ def chunk_to_csv(df_chunk: pd.DataFrame, mention: str,):
     tmp_first_date = df_chunk['created_at'].iloc[-1]
     tmp_last_id = df_chunk['id'].iloc[0]
     tmp_first_id = df_chunk['id'].iloc[-1]
-    tmp_file = (f"{SAVE_PATH}/tmp/{mention.replace('@', '')}_start_time-"
+    if mention is not None:
+        mention_tmp = mention.replace('@', '')
+    else:
+        mention_tmp = None
+    tmp_file = (f"{SAVE_PATH}/tmp/{mention_tmp}_start_time-"
                 f"{tmp_first_date}_last_time-{tmp_last_date}_firstID-"
                 f"{tmp_first_id}_lastID-{tmp_last_id}")
     os.makedirs(os.path.dirname(tmp_file), exist_ok=True)
@@ -216,9 +222,9 @@ def make_dataset_twitter(txt: str, mention: str, start_time: str, end_time: str,
     search_args = load_credentials(filename=CREDENTIAL_FILE,
                                    yaml_key=TWITTER_KEY,
                                    env_overwrite=False)
-    if mention is None:
-        raise ValueError("One needs to mention a candidat.")
-    s_query = mention
+    s_query = ''
+    if mention is not None:
+        s_query += ' ' + mention
     if txt is not None:
         s_query += ' ' + txt
     s_query += ' ' + "-has:media -is:retweet -is:reply"
@@ -287,7 +293,10 @@ def download_tweets(txt: str, mention: str, start_time: str, end_time: str, twee
     first_date = df_data['created_at'].iloc[-1]
     last_id = df_data['id'].iloc[0]
     first_id = df_data['id'].iloc[-1]
-    filename = f"{mention.lower().replace(' ', '')}/{mention}_start_time-{first_date}_last_time-{last_date}_firstID-{first_id}_lastID-{last_id}"
+    if txt is None:
+        filename = f"{mention.lower().replace(' ', '')}/{mention}_start_time-{first_date}_last_time-{last_date}_firstID-{first_id}_lastID-{last_id}"
+    else:
+        filename = f"text/{txt}/{txt}_start_time-{first_date}_last_time-{last_date}_firstID-{first_id}_lastID-{last_id}"
     dataset_to_csv(df_data, filename)
 
     print(tweets_metadata)
