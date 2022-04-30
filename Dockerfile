@@ -1,27 +1,42 @@
-FROM ubuntu
+FROM python:3.8
 
-RUN apt-get update \
-	&& apt install -y \
-		python3.8 \
-		python3-pip
+RUN apt-get update && \
+	apt-get install -y && \
+	useradd -m --shell /bin/bash --no-user-group user && \
+	chmod g+w /etc/passwd && \
+	echo "user	ALL=(ALL)	NOPASSWD:	ALL" >> /etc/sudoers && \
+	# Prevent apt-get cache from being persisted to this layer.
+	rm -rf /var/lib/apt/lists/*
 
-COPY requirements.txt $HOME/42AI/
+ENV PYTHONUNBUFFERED=1 \
+	PIP_NO_CACHE_DIR=1 \
+	POETRY_VERSION=1.1.13
 
-# Here we get all python packages.
-# Pip leaves the install caches populated which uses a significant amount of 
-# space. These optimizations save a fair amount of space in the image, which 
-# reduces start up time.
-RUN pip3 install --upgrade pip
-RUN pip3 install --no-cache-dir -r \
-	$HOME/42AI/requirements.txt
+RUN pip install "poetry==$POETRY_VERSION"
+# Disable virtual environments
+RUN poetry config virtualenvs.create false
+
+# Set the working directory for all the subsequent Dockerfile instructions.
+WORKDIR /SentimentalBB
+
+# Copy the environment definition file and install the environment
+COPY pyproject.toml poetry.lock ./
+RUN poetry install
+
+# Pass the git commit hash
+ARG GIT_HASH
+ENV GIT_HASH=${GIT_HASH:-dev}
+
 
 # Copy the content of the repository to the Docker.
-ADD ./* $HOME/42AI/
-# Set the working directory for all the subsequent Dockerfile instructions.
-WORKDIR $HOME/42AI/
+COPY . .
 
-ENV LC_ALL=C.UTF-8
-ENV LANG=C.UTF-8
+# Configure the kernel for Jupyter
+RUN python -m ipykernel install --sys-prefix
+# Make the default shell bash (vs "sh") for a better Jupyter terminal UX
+ENV SHELL=/bin/bash
+
 EXPOSE 8000
 CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]
-# CMD ["bash"]
+
+USER user
